@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Presupuesto del Canil Piloto de Puerto Varas</title>
+<link rel="stylesheet" href="estilos.css">
+<style>
+  table.presupuesto { font-size: 7.9pt; }
+  table.presupuesto td { padding: 3pt 4pt; }
+  tbody tr.aporte td { background: #e4efe7 !important; }
+  table.flujo { font-size: 7.2pt; }
+  table.flujo td, table.flujo th { padding: 2.6pt 2pt; }
+  table.flujo td.et { text-align: left; }
+</style>
+</head>
+<body>
+
+<div class="portada">
+  <div class="decoracion"></div>
+  <div class="decoracion dos"></div>
+  <div class="banda-superior">
+    <div class="escudo">Comuna de Puerto Varas · Región de Los Lagos</div>
+  </div>
+  <div class="cuerpo">
+    <div class="documento">Propuesta base de proyecto · Documento 2 de 2</div>
+    <h1>Presupuesto del canil piloto</h1>
+    <div class="linea"></div>
+    <p class="bajada">Desglose por partida e ítem, explicación de cada cantidad, tiempos de ejecución,
+      flujo mensual de gastos, operación anual, proyección de los tres caniles y verificación del tope
+      PMU.</p>
+  </div>
+  <div class="pie">
+    <div class="datos">
+      <strong>Presenta:</strong> Lukas Matías Muñoz Miranda<br>
+      Gestión y Logística LM SpA<br>
+      Septiembre de 2026
+    </div>
+    <div class="sello">
+      Valores en pesos chilenos con IVA incluido, a septiembre de 2026. Los ítems marcados como
+      referenciales deben cotizarse antes de postular.
+    </div>
+  </div>
+</div>
+<!--FIN-PORTADA-->
+
+<section class="seccion indice">
+  <h2>Índice</h2>
+
+  <div class="grupo">Marco del presupuesto</div>
+  <ol>
+    <li><span class="num">1</span><span class="txt">Cómo leer este presupuesto</span><span class="puntos"></span><span class="pag" data-ref="c1">—</span></li>
+    <li><span class="num">2</span><span class="txt">Supuestos y parámetros de cálculo</span><span class="puntos"></span><span class="pag" data-ref="c2">—</span></li>
+    <li><span class="num">3</span><span class="txt">Resumen general del canil piloto</span><span class="puntos"></span><span class="pag" data-ref="c3">—</span></li>
+  </ol>
+
+  <div class="grupo">Desglose por partida</div>
+  <ol>
+<li><span class="num">A</span><span class="txt">Estudios y trámites</span><span class="puntos"></span><span class="pag" data-ref="pa">—</span></li>
+<li><span class="num">B</span><span class="txt">Instalación de faena y herramientas</span><span class="puntos"></span><span class="pag" data-ref="pb">—</span></li>
+<li><span class="num">C</span><span class="txt">Cerco, esclusas y puertas</span><span class="puntos"></span><span class="pag" data-ref="pc">—</span></li>
+<li><span class="num">D</span><span class="txt">Zona de acceso</span><span class="puntos"></span><span class="pag" data-ref="pd">—</span></li>
+<li><span class="num">E</span><span class="txt">Agua y sistemas de refresco</span><span class="puntos"></span><span class="pag" data-ref="pe">—</span></li>
+<li><span class="num">F</span><span class="txt">Energía, seguridad y automatización</span><span class="puntos"></span><span class="pag" data-ref="pf">—</span></li>
+<li><span class="num">G</span><span class="txt">Mobiliario, juegos y señalética</span><span class="puntos"></span><span class="pag" data-ref="pg">—</span></li>
+<li><span class="num">H</span><span class="txt">Paisajismo</span><span class="puntos"></span><span class="pag" data-ref="ph">—</span></li>
+<li><span class="num">I</span><span class="txt">Mano de obra y servicios</span><span class="puntos"></span><span class="pag" data-ref="pi">—</span></li>
+</ol>
+
+  <div class="grupo">Programación del gasto</div>
+  <ol>
+    <li><span class="num">4</span><span class="txt">Tiempos de ejecución por partida</span><span class="puntos"></span><span class="pag" data-ref="c4">—</span></li>
+    <li><span class="num">5</span><span class="txt">Flujo de caja mensual</span><span class="puntos"></span><span class="pag" data-ref="c5">—</span></li>
+  </ol>
+
+  <div class="grupo">Resultados</div>
+  <ol>
+    <li><span class="num">6</span><span class="txt">Qué gastos se ahorran y cuáles no</span><span class="puntos"></span><span class="pag" data-ref="c6">—</span></li>
+    <li><span class="num">7</span><span class="txt">Operación anual</span><span class="puntos"></span><span class="pag" data-ref="c7">—</span></li>
+    <li><span class="num">8</span><span class="txt">Proyección de los tres caniles y tope PMU</span><span class="puntos"></span><span class="pag" data-ref="c8">—</span></li>
+    <li><span class="num">9</span><span class="txt">Evaluación económica</span><span class="puntos"></span><span class="pag" data-ref="c9">—</span></li>
+    <li><span class="num">10</span><span class="txt">Metas proyectadas</span><span class="puntos"></span><span class="pag" data-ref="c10">—</span></li>
+    <li><span class="num">11</span><span class="txt">Ahorros adicionales identificados</span><span class="puntos"></span><span class="pag" data-ref="c11">—</span></li>
+  </ol>
+
+  <div class="grupo">Cierre</div>
+  <ol>
+    <li><span class="num">12</span><span class="txt">Fuentes de precios y advertencias</span><span class="puntos"></span><span class="pag" data-ref="c12">—</span></li>
+  </ol>
+</section>
+
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 1<span class="marcador">@@c1@@</span></span>Cómo leer este presupuesto</h2>
+
+  <p class="entradilla">Este documento acompaña al plan y contiene el cálculo completo de lo que cuesta
+    construir y operar un canil de una hectárea en Puerto Varas. Está ordenado para que cualquier
+    profesional municipal pueda revisarlo ítem por ítem y reemplazar lo que corresponda.</p>
+
+  <h3>Qué significa cada columna</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th style="width:18%">Columna</th><th>Qué contiene</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Código</strong></td><td>Identificador del ítem dentro de su partida, por ejemplo C.9. Se usa igual en el flujo de caja y en el cronograma.</td></tr>
+      <tr><td><strong>Cantidad y unidad</strong></td><td>La medida con que se compra o se contrata: rollos, unidades, metros, metros cuadrados, metros cúbicos, meses o global (gl) cuando es un encargo completo.</td></tr>
+      <tr><td><strong>Precio unitario</strong></td><td>Precio con IVA incluido. En los equipos importados incorpora tipo de cambio y factor de internación.</td></tr>
+      <tr><td><strong>Subtotal</strong></td><td>Cantidad por precio unitario. En los ítems calculados desde UF, euros o dólares, el subtotal se obtiene de la cifra sin redondear, por lo que puede diferir en algunos pesos del producto de las columnas anteriores.</td></tr>
+      <tr><td><strong>Origen</strong></td><td><em>Compra/contrato</em> es lo que se paga con el fondo. <em>Aporte municipal</em>, <em>Cuadrilla municipal</em>, <em>Liceo técnico</em> y <em>CONAF</em> son aportes valorizados: tienen valor de mercado, se contabilizan, pero no se desembolsan.</td></tr>
+      <tr><td><strong>Tipo</strong></td><td><em>Verificado</em>: precio publicado en 2025 o 2026, con la fuente indicada. <em>Referencial</em>: estimación fundada que debe cotizarse antes de postular.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Tres cifras distintas, que no hay que confundir</h3>
+  <ul class="marcas">
+    <li><strong>Costo valorizado:</strong> lo que vale todo el proyecto, incluidos los aportes. Es la
+      cifra que muestra el tamaño real de la obra.</li>
+    <li><strong>Costo a financiar:</strong> lo que efectivamente hay que pagar con el fondo. Es la
+      cifra que se postula.</li>
+    <li><strong>Aporte valorizado:</strong> la diferencia entre ambas. Es lo que ponen el municipio, el
+      liceo técnico y CONAF en trabajo y materiales.</li>
+  </ul>
+
+  <h3>Estado de los precios</h3>
+  <p>De los 115 ítems de inversión, <strong>30 tienen precio verificado</strong> contra
+    un valor publicado y el resto son referenciales. Ningún presupuesto de esta etapa puede tener el
+    100% de precios cotizados: lo que corresponde es que la mesa técnica del proyecto reemplace los
+    referenciales por cotizaciones formales antes de postular, empezando por los de mayor monto —tótem
+    SOS, luminarias de grado público, cerraduras, cañerías, honorarios profesionales, retroexcavadora y
+    camión—.</p>
+
+  <div class="destacado">
+    <div class="titulo">Cómo se compra lo que aquí se presupuesta</div>
+    <p>El orden de revisión al momento de ejecutar es: primero la <strong>Plataforma de Economía
+      Circular</strong> de Mercado Público, donde los servicios públicos ceden gratuitamente bienes
+      dados de baja —de ahí sale el contenedor bodega y pueden salir basureros y mobiliario—; después
+      <strong>Convenio Marco</strong>, que permite comprar con precios ya licitados y sin proceso
+      adicional; y solo lo que no esté disponible por esas vías se licita o se cotiza en el mercado
+      local. Ese mismo orden es el que permite verificar en la ejecución que los precios de este
+      presupuesto se cumplan.</p>
+  </div>
+
+  <div class="aviso">
+    <div class="titulo">Redondeo</div>
+    <p>Los precios unitarios y las cantidades se muestran redondeados, pero los totales se calculan con
+      las cifras completas. Por eso algunas multiplicaciones pueden diferir en unos pocos pesos del
+      subtotal impreso. Todos los subtotales, totales y porcentajes de este documento están calculados
+      automáticamente a partir de la misma planilla de datos.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 2<span class="marcador">@@c2@@</span></span>Supuestos y parámetros de cálculo</h2>
+
+  <p class="entradilla">Todos los valores del presupuesto dependen de estos parámetros. Si cambia
+    alguno —el valor de la UTM, la profundidad del pozo, el plazo de obra— cambia el resultado, y por eso
+    están declarados por separado.</p>
+
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th style="width:26%">Parámetro</th><th style="width:26%">Valor</th><th>Detalle</th></tr></thead>
+    <tbody><tr><td><strong>UF</strong></td><td>$40.885,63</td><td>Valor al 9 de septiembre de 2026</td></tr><tr><td><strong>UTM</strong></td><td>$71.721</td><td>Valor de septiembre de 2026 (SII)</td></tr><tr><td><strong>IVA</strong></td><td>19%</td><td>Todos los montos se presentan con IVA incluido</td></tr><tr><td><strong>Ingreso mínimo mensual</strong></td><td>$539.000</td><td>Vigente en 2026</td></tr><tr><td><strong>Euro</strong></td><td>$1.048</td><td>Tipo de cambio usado para equipos importados</td></tr><tr><td><strong>Dólar</strong></td><td>$922</td><td>Tipo de cambio usado para equipos importados</td></tr><tr><td><strong>Factor de importación</strong></td><td>1,25</td><td>Flete, seguro e internación sobre el precio de origen</td></tr><tr><td><strong>Factor de flete de áridos</strong></td><td>1,35</td><td>Sobrecosto de traslado de áridos a Puerto Varas</td></tr><tr><td><strong>Factor de costo empleador</strong></td><td>1,25</td><td>Cotizaciones y cargas sobre el sueldo líquido</td></tr><tr><td><strong>Gastos generales</strong></td><td>8%</td><td>Sobre el costo directo a financiar</td></tr><tr><td><strong>Imprevistos</strong></td><td>10%</td><td>Sobre costo directo más gastos generales</td></tr><tr><td><strong>Superficie del baño</strong></td><td>16 m² a 30 UF/m²</td><td>Terminación media; rango de mercado 22 a 42 UF/m²</td></tr><tr><td><strong>Profundidad del pozo</strong></td><td>40 m a $230.000/m</td><td>Más 15% por desarrollo y prueba de bombeo</td></tr><tr><td><strong>Plazo de obra</strong></td><td>4 meses</td><td>16 semanas con frentes de trabajo traslapados</td></tr><tr><td><strong>Tope PMU</strong></td><td>2.500 UTM = $179.302.500</td><td>Máximo por proyecto del Programa de Mejoramiento Urbano</td></tr><tr><td><strong>IPC 12 meses</strong></td><td>3,5%</td><td>Reajuste aplicado a los caniles 2 y 3</td></tr><tr><td><strong>Población de Chile</strong></td><td>18.480.432</td><td>Base para llevar cifras nacionales a la comuna</td></tr><tr><td><strong>Uso proyectado</strong></td><td>10% de los perros del sector por semana</td><td>Supuesto de demanda del canil piloto</td></tr><tr><td><strong>Uso de bolsas</strong></td><td>20% de las visitas</td><td>Supuesto de consumo de bolsas compostables</td></tr><tr><td><strong>Costo de la bolsa compostable</strong></td><td>$40</td><td>Precio unitario supuesto</td></tr></tbody>
+  </table>
+  </div>
+
+  <h3>Los tres supuestos que más pesan</h3>
+  <ol>
+    <li><strong>Profundidad del pozo.</strong> Se presupuestaron 40 metros. Cada 10 metros adicionales
+      suman $2.300.000 al costo directo, más gastos generales e imprevistos. El estudio hidrogeológico
+      de la partida A existe justamente para acotar esta incertidumbre antes de postular.</li>
+    <li><strong>Costo del baño público.</strong> Se calculó a 30 UF/m² sobre 16 m², dentro de un rango
+      de mercado de 22 a 42 UF/m². En el extremo inferior del rango el baño costaría unos $14,4
+      millones y en el superior unos $27,5 millones.</li>
+    <li><strong>Plazo de obra.</strong> Cuatro meses. Cada mes adicional suma aproximadamente $5,2
+      millones en mano de obra y arriendos, porque el equipo permanente se mantiene.</li>
+  </ol>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 3<span class="marcador">@@c3@@</span></span>Resumen general del canil piloto</h2>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$124.413.925</span><span class="glosa">Total a financiar, equivalente a 1.735 UTM</span></div>
+    <div class="cifra"><span class="dato">$26.845.853</span><span class="glosa">Aporte valorizado del municipio, el liceo y CONAF</span></div>
+    <div class="cifra"><span class="dato">$151.259.778</span><span class="glosa">Valor total del proyecto, incluidos aportes</span></div>
+    <div class="cifra"><span class="dato">$54.888.575</span><span class="glosa">Margen disponible bajo el tope PMU</span></div>
+  </div>
+
+  <h3>Costo directo por partida</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th class="cen" style="width:7%">Partida</th><th>Nombre</th><th class="num">Valorizado</th>
+      <th class="num">A financiar</th><th class="num">Aporte</th><th class="num">% del gasto</th></tr></thead>
+    <tbody>
+      <tr><td class="cen"><strong>A</strong></td><td>Estudios y trámites</td><td class="num">$12.855.900</td><td class="num">$12.555.900</td><td class="num">$300.000</td><td class="num">12,0%</td></tr><tr><td class="cen"><strong>B</strong></td><td>Instalación de faena y herramientas</td><td class="num">$8.130.290</td><td class="num">$5.630.290</td><td class="num">$2.500.000</td><td class="num">5,4%</td></tr><tr><td class="cen"><strong>C</strong></td><td>Cerco, esclusas y puertas</td><td class="num">$11.695.468</td><td class="num">$6.622.920</td><td class="num">$5.072.548</td><td class="num">6,3%</td></tr><tr><td class="cen"><strong>D</strong></td><td>Zona de acceso</td><td class="num">$25.709.626</td><td class="num">$25.409.626</td><td class="num">$300.000</td><td class="num">24,3%</td></tr><tr><td class="cen"><strong>E</strong></td><td>Agua y sistemas de refresco</td><td class="num">$20.970.940</td><td class="num">$17.570.940</td><td class="num">$3.400.000</td><td class="num">16,8%</td></tr><tr><td class="cen"><strong>F</strong></td><td>Energía, seguridad y automatización</td><td class="num">$11.712.910</td><td class="num">$11.563.210</td><td class="num">$149.700</td><td class="num">11,0%</td></tr><tr><td class="cen"><strong>G</strong></td><td>Mobiliario, juegos y señalética</td><td class="num">$4.182.980</td><td class="num">$1.752.980</td><td class="num">$2.430.000</td><td class="num">1,7%</td></tr><tr><td class="cen"><strong>H</strong></td><td>Paisajismo</td><td class="num">$1.193.605</td><td class="num">$80.000</td><td class="num">$1.113.605</td><td class="num">0,1%</td></tr><tr><td class="cen"><strong>I</strong></td><td>Mano de obra y servicios</td><td class="num">$35.119.660</td><td class="num">$23.539.660</td><td class="num">$11.580.000</td><td class="num">22,5%</td></tr>
+      <tr class="total"><td class="cen">—</td><td>Costo directo total</td><td class="num">$131.571.379</td>
+        <td class="num">$104.725.526</td><td class="num">$26.845.853</td><td class="num">100,0%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Del costo directo al total del proyecto</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th>Concepto</th><th class="num" style="width:22%">Monto</th><th style="width:34%">Cómo se calcula</th></tr></thead>
+    <tbody>
+      <tr><td>Costo directo valorizado</td><td class="num">$131.571.379</td><td>Suma de las nueve partidas.</td></tr>
+      <tr><td>Aportes valorizados</td><td class="num">−$26.845.853</td><td>Municipio, cuadrilla municipal, liceo técnico y CONAF.</td></tr>
+      <tr><td>Costo directo a financiar</td><td class="num">$104.725.526</td><td>Lo que se paga con el fondo.</td></tr>
+      <tr><td>Gastos generales (8%)</td><td class="num">$8.378.042</td><td>Sobre el costo directo a financiar.</td></tr>
+      <tr><td>Imprevistos (10%)</td><td class="num">$11.310.357</td><td>Sobre costo directo más gastos generales.</td></tr>
+      <tr class="total"><td>Total a financiar</td><td class="num">$124.413.925</td><td>1.735 UTM</td></tr>
+      <tr><td>Tope PMU por proyecto</td><td class="num">$179.302.500</td><td>2.500 UTM de septiembre de 2026.</td></tr>
+      <tr><td>Margen bajo el tope</td><td class="num">$54.888.575</td><td>765 UTM disponibles.</td></tr>
+      <tr><td>Valor total del proyecto</td><td class="num">$151.259.778</td><td>Incluye los aportes valorizados, que son el 17,7% del total.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="destacado">
+    <div class="titulo">Las cuatro partidas que concentran el gasto</div>
+    <p>La zona de acceso, el agua, la mano de obra y la energía y seguridad concentran la mayor parte
+      de lo que hay que pagar. Dentro de ellas, tres ítems explican por sí solos una parte importante
+      del presupuesto: el baño público, la perforación del pozo y el tótem SOS. Son también los tres
+      ítems donde una buena cotización produce el mayor ahorro.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida A<span class="marcador">@@pa@@</span></span>Estudios y trámites</h2>
+  <p class="entradilla">Todo lo que hay que estudiar, diseñar y tramitar antes de que llegue la primera cuadrilla al terreno.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$12.855.900</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$12.555.900</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$300.000</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Meses 3 a 9</span><span class="glosa">Antes de la obra: estudios, proyectos y trámites.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>Esta partida financia el expediente técnico completo del canil: el levantamiento del terreno, el diseño, los proyectos de especialidad que exige la normativa y los trámites ante los servicios públicos. Se ejecuta entre los meses 3 y 9, antes de la obra.</p><p>Las cantidades son globales porque se trata de servicios profesionales contratados por encargo completo y no por unidad de medida. El monto de la autorización sanitaria es el único arancel con valor publicado: se usó el tope del rango de la Seremi de Salud ($56.200 a $905.900) para no subestimar. El estudio hidrogeológico también se calculó en el máximo de su rango de mercado ($150.000 a $400.000).</p><p>El permiso de edificación se valoriza como aporte municipal porque es una gestión interna de la Dirección de Obras. El diseño de arquitectura y especialidades es el ítem más grande de la partida y es también el que más puede bajar: si Secplan y la Dirección de Obras asumen el diseño con profesionales municipales, se ahorran hasta $6.000.000.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr><td>A.1</td><td>Levantamiento topográfico y planos del terreno (≈1,1 ha)</td><td class="num">1</td><td>gl</td><td class="num">$1.500.000</td><td class="num">$1.500.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>A.2</td><td>Diseño de arquitectura y especialidades, incluido cálculo estructural de la torre y paisajismo</td><td class="num">1</td><td>gl</td><td class="num">$6.000.000</td><td class="num">$6.000.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>A.3</td><td>Proyecto sanitario firmado por proyectista inscrito</td><td class="num">1</td><td>gl</td><td class="num">$1.200.000</td><td class="num">$1.200.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>A.4</td><td>Autorización sanitaria Seremi de Salud</td><td class="num">1</td><td>gl</td><td class="num">$905.900</td><td class="num">$905.900</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>A.5</td><td>Proyecto eléctrico fotovoltaico</td><td class="num">1</td><td>gl</td><td class="num">$800.000</td><td class="num">$800.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>A.6</td><td>Estudio hidrogeológico previo al pozo</td><td class="num">1</td><td>gl</td><td class="num">$400.000</td><td class="num">$400.000</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>A.7</td><td>Derechos de agua DGA: publicaciones, radio, visita e inscripción en el Conservador</td><td class="num">1</td><td>gl</td><td class="num">$1.000.000</td><td class="num">$1.000.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>A.8</td><td>Permiso de edificación DOM</td><td class="num">1</td><td>gl</td><td class="num">$300.000</td><td class="num">$300.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>A.9</td><td>Participación ciudadana: talleres y difusión en los tres sectores</td><td class="num">1</td><td>gl</td><td class="num">$600.000</td><td class="num">$600.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>A.10</td><td>Análisis de laboratorio del agua del pozo (línea base)</td><td class="num">1</td><td>gl</td><td class="num">$150.000</td><td class="num">$150.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida A</td><td class="num">$12.855.900</td><td colspan="2">A financiar $12.555.900 · aporte $300.000</td></tr></tbody></table></div>
+  <p class="nota-tabla">2 de 10 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>A.1</td><td>Cotizar con topógrafos de la zona</td></tr><tr><td>A.2</td><td>Estimación; puede reducirse con profesionales municipales (Secplan y DOM)</td></tr><tr><td>A.3</td><td>Cotizar</td></tr><tr><td>A.4</td><td>Arancel Seremi: $56.200 a $905.900 según trámite; se usa el máximo</td></tr><tr><td>A.5</td><td>Cotizar con instalador autorizado SEC</td></tr><tr><td>A.6</td><td>Club del Agua 2026: $150.000 a $400.000; se usa el máximo</td></tr><tr><td>A.7</td><td>Costos de publicación e inscripción a cargo del solicitante; cotizar</td></tr><tr><td>A.8</td><td>Gestión interna municipal</td></tr><tr><td>A.9</td><td>Materiales, arriendo de local y difusión</td></tr><tr><td>A.10</td><td>Laboratorio acreditado; cotizar</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida B<span class="marcador">@@pb@@</span></span>Instalación de faena y herramientas</h2>
+  <p class="entradilla">La obra se monta una vez y sirve para los tres caniles.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$8.130.290</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$5.630.290</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$2.500.000</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Semanas 1 a 2</span><span class="glosa">Instalación de faena; el baño químico se mantiene las 16 semanas.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>Incluye la instalación de faena —bodega, baño químico, cierre provisorio y letrero de obra— y todas las herramientas y equipos necesarios para trabajar la madera en terreno, plantar postes y compactar áridos.</p><p>La particularidad de esta partida es que <strong>no se repite</strong>: las herramientas y equipos de los ítems B.4 a B.11 se compran una sola vez y se reutilizan en los caniles 2 y 3, lo que descuenta $4.750.290 del costo directo de cada canil siguiente. El contenedor bodega se solicita sin costo a la Plataforma de Economía Circular de Mercado Público, donde los servicios públicos ceden bienes dados de baja; por eso se valoriza como aporte y no como compra.</p><p>El aserradero portátil para motosierra es la pieza clave del enfoque de materiales: permite convertir en terreno los árboles que el municipio retira en postes, tablas y listones, sin pagar aserradero externo ni flete de ida y vuelta.</p><p>El equipo de protección personal se calcula para 12 personas, que es el tamaño máximo del equipo en obra considerando profesionales, carpinteros, jornales y especialistas.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr class="aporte"><td>B.1</td><td>Contenedor bodega</td><td class="num">1</td><td>u</td><td class="num">$2.500.000</td><td class="num">$2.500.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>B.2</td><td>Baño químico para trabajadores</td><td class="num">4</td><td>mes</td><td class="num">$120.000</td><td class="num">$480.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>B.3</td><td>Cierre provisorio y letrero de obra</td><td class="num">1</td><td>gl</td><td class="num">$400.000</td><td class="num">$400.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>B.4</td><td>Generador 5 kVA</td><td class="num">1</td><td>u</td><td class="num">$600.000</td><td class="num">$600.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>B.5</td><td>Motosierra profesional</td><td class="num">2</td><td>u</td><td class="num">$450.000</td><td class="num">$900.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>B.6</td><td>Aserradero portátil para motosierra 36"</td><td class="num">1</td><td>u</td><td class="num">$90.290</td><td class="num">$90.290</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>B.7</td><td>Ahoyadora a motor</td><td class="num">1</td><td>u</td><td class="num">$250.000</td><td class="num">$250.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>B.8</td><td>Placa compactadora (arriendo)</td><td class="num">1</td><td>mes</td><td class="num">$350.000</td><td class="num">$350.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>B.9</td><td>Herramientas eléctricas: 2 sierras circulares y 4 taladros</td><td class="num">1</td><td>gl</td><td class="num">$900.000</td><td class="num">$900.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>B.10</td><td>Herramientas de mano: carretillas, palas, chuzos, escaleras, niveles y tensor</td><td class="num">1</td><td>gl</td><td class="num">$700.000</td><td class="num">$700.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>B.11</td><td>Equipo de protección personal</td><td class="num">12</td><td>persona</td><td class="num">$80.000</td><td class="num">$960.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida B</td><td class="num">$8.130.290</td><td colspan="2">A financiar $5.630.290 · aporte $2.500.000</td></tr></tbody></table></div>
+  <p class="nota-tabla">1 de 11 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>B.1</td><td>Solicitar vía Plataforma de Economía Circular (Mercado Público)</td></tr><tr><td>B.2</td><td>Arriendo mensual; cotizar</td></tr><tr><td>B.3</td><td>Letrero según formato del fondo</td></tr><tr><td>B.4</td><td>Cotizar</td></tr><tr><td>B.5</td><td>Cotizar</td></tr><tr><td>B.6</td><td>Falabella.cl, 2026</td></tr><tr><td>B.7</td><td>Cotizar</td></tr><tr><td>B.8</td><td>Cotizar</td></tr><tr><td>B.9</td><td>Cotizar</td></tr><tr><td>B.10</td><td>Cotizar</td></tr><tr><td>B.11</td><td>Casco, guantes, lentes, zapatos de seguridad y protección auditiva</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida C<span class="marcador">@@pc@@</span></span>Cerco, esclusas y puertas</h2>
+  <p class="entradilla">El perímetro, las divisiones internas, las siete puertas de esclusa y las tablas con mensajes.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$11.695.468</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$6.622.920</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$5.072.548</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Semanas 3 a 8</span><span class="glosa">Postes, malla, barrera enterrada, esclusas y portón.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>El cerco es lo que define el canil: unos 575 metros lineales de cerco de 1,8 m en los sectores de perros grandes, de entrenamiento y en la división entre grandes y pequeños; unos 125 metros de 1,2 m en el perímetro del sector de pequeños; y unos 70 metros de cerco móvil interior para rotar el pasto en invierno.</p><p>Las cantidades de malla se calcularon por rollos comerciales completos, que es como se compra: 25 rollos de 2,0 × 25 m para el cerco alto —incluidos los 20 cm que quedan enterrados—, 9 rollos de 1,5 × 25 m para el cerco bajo y el cerco móvil, y 9 rollos de 1,0 × 25 m que se cortan en franjas para armar la barrera enterrada en L de unos 400 metros de perímetro. Los postes van cada 2,5 metros aproximadamente: 230 de 2,7 m para los cercos altos y 50 de 2,0 m para el bajo.</p><p>Los postes, el listón superior y los paneles opacos se valorizan al precio de mercado de la madera equivalente, pero <strong>no se compran</strong>: salen de los árboles que el municipio retira por temporal, riesgo o poda, aserrados en terreno. Por eso figuran como aporte municipal. Se agregan anclajes galvanizados para el 30% de los postes, que es la proporción estimada en que no habrá madera de especie durable disponible.</p><p>Las tablas grabadas con los 20 mensajes de la cerca las fabrica el liceo técnico; lo único que se compra es la pintura para rellenar las letras en bajo relieve.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr><td>C.1</td><td>Malla galvanizada 5014, 2,0 × 25 m (cerco de 1,8 m más 20 cm enterrados)</td><td class="num">25</td><td>rollo</td><td class="num">$97.210</td><td class="num">$2.430.250</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>C.2</td><td>Malla galvanizada 5014, 1,5 × 25 m (cerco de 1,2 m y cerco móvil)</td><td class="num">9</td><td>rollo</td><td class="num">$73.090</td><td class="num">$657.810</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>C.3</td><td>Malla galvanizada 5014, 1,0 × 25 m, cortada en franjas para la barrera enterrada en L</td><td class="num">9</td><td>rollo</td><td class="num">$48.970</td><td class="num">$440.730</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>C.4</td><td>Alambre galvanizado 2,11 mm, rollo de 25 kg (tres líneas tensoras)</td><td class="num">3</td><td>rollo</td><td class="num">$85.990</td><td class="num">$257.970</td><td>Compra/contrato</td><td>Verificado</td></tr><tr class="aporte"><td>C.5</td><td>Postes de madera de 2,7 m (árboles municipales)</td><td class="num">230</td><td>u</td><td class="num">$4.990</td><td class="num">$1.147.700</td><td>Aporte municipal</td><td>Verificado</td></tr><tr class="aporte"><td>C.6</td><td>Postes de madera de 2,0 m (árboles municipales)</td><td class="num">50</td><td>u</td><td class="num">$4.990</td><td class="num">$249.500</td><td>Aporte municipal</td><td>Verificado</td></tr><tr class="aporte"><td>C.7</td><td>Postes removibles del cerco móvil</td><td class="num">28</td><td>u</td><td class="num">$4.990</td><td class="num">$139.720</td><td>Aporte municipal</td><td>Verificado</td></tr><tr class="aporte"><td>C.8</td><td>Listón superior 2×4 (≈650 m, soporte de las tablas grabadas)</td><td class="num">204</td><td>pieza 3,2 m</td><td class="num">$6.057</td><td class="num">$1.235.628</td><td>Aporte municipal</td><td>Verificado</td></tr><tr><td>C.9</td><td>Anclaje galvanizado de base de poste (30% de los postes)</td><td class="num">84</td><td>u</td><td class="num">$18.490</td><td class="num">$1.553.160</td><td>Compra/contrato</td><td>Verificado</td></tr><tr class="aporte"><td>C.10</td><td>Paneles opacos entre sectores de entrenamiento y sectores libres</td><td class="num">250</td><td>m²</td><td class="num">$8.000</td><td class="num">$2.000.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>C.11</td><td>Bisagras reforzadas para puertas de esclusa</td><td class="num">21</td><td>u</td><td class="num">$8.000</td><td class="num">$168.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>C.12</td><td>Cierres automáticos de resorte</td><td class="num">7</td><td>u</td><td class="num">$25.000</td><td class="num">$175.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>C.13</td><td>Pestillos</td><td class="num">7</td><td>u</td><td class="num">$10.000</td><td class="num">$70.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>C.14</td><td>Portón de mantención: herrajes y candado</td><td class="num">1</td><td>gl</td><td class="num">$120.000</td><td class="num">$120.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>C.15</td><td>Tornillería galvanizada, grapas, tensores y abrazaderas</td><td class="num">1</td><td>gl</td><td class="num">$600.000</td><td class="num">$600.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>C.16</td><td>Tablas grabadas de doble cara: madera y mano de obra del liceo</td><td class="num">20</td><td>u</td><td class="num">$15.000</td><td class="num">$300.000</td><td>Liceo técnico</td><td>Referencial</td></tr><tr><td>C.17</td><td>Pintura exterior para relleno de letras en bajo relieve</td><td class="num">1</td><td>gl</td><td class="num">$150.000</td><td class="num">$150.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida C</td><td class="num">$11.695.468</td><td colspan="2">A financiar $6.622.920 · aporte $5.072.548</td></tr></tbody></table></div>
+  <p class="nota-tabla">9 de 17 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>C.1</td><td>Sodimac.cl, Inchalam 2,0 × 25 m 5014; ≈575 m lineales más traslapes</td></tr><tr><td>C.2</td><td>Sodimac.cl, Inchalam 1,50 × 25 m 5014; ≈125 m más 70 m de cerco móvil</td></tr><tr><td>C.3</td><td>Sodimac.cl, Inchalam 1 × 25 m 5014; ≈400 m perimetrales</td></tr><tr><td>C.4</td><td>Easy.cl, rollo 25 kg 2,11 mm</td></tr><tr><td>C.5</td><td>Valor de referencia: polín 7,5–10 cm de 2,44 m, Sodimac.cl $4.990</td></tr><tr><td>C.6</td><td>Valor de referencia Sodimac.cl</td></tr><tr><td>C.7</td><td>Valor de referencia Sodimac.cl</td></tr><tr><td>C.8</td><td>Valor de referencia: pino 2×4 de 3,2 m, Sodimac.cl $6.057</td></tr><tr><td>C.9</td><td>Sodimac.cl, base de anclaje para pilar IDAF; donde no haya madera durable</td></tr><tr><td>C.10</td><td>Madera municipal aserrada; valor referencial</td></tr><tr><td>C.11</td><td>Cotizar</td></tr><tr><td>C.12</td><td>Cotizar</td></tr><tr><td>C.13</td><td>Cotizar</td></tr><tr><td>C.14</td><td>Cotizar</td></tr><tr><td>C.15</td><td>Cotizar</td></tr><tr><td>C.16</td><td>Valor referencial del aporte</td></tr><tr><td>C.17</td><td>Cotizar</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida D<span class="marcador">@@pd@@</span></span>Zona de acceso</h2>
+  <p class="entradilla">Baño público, zona de amarre techada, estacionamiento y senderos.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$25.709.626</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$25.409.626</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$300.000</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Semanas 4 a 10</span><span class="glosa">Baño, amarre, estacionamiento y senderos.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>El baño público es el ítem más caro de todo el proyecto y es también el que hace que el canil funcione de verdad: sin baño, la gente no se queda. Son 16 m² con dos recintos universales, pensados para entrar con el perro, con inodoro, lavamanos, grifería temporizada, jabón, portarrollos, toallas, barras de apoyo, gancho para la correa y basurero.</p><p>El costo se calculó con el estándar de terminación media de 30 UF/m², dentro de un rango de mercado de 22 a 42 UF/m² para construcción en 2026, e incluye artefactos básicos. Es un precio verificado contra referencias de costo por metro cuadrado, no una cotización: corresponde cotizarlo llave en mano con constructoras locales.</p><p>El sistema sanitario es fosa séptica horizontal de 3.500 litros con kit completo —desgrasador, cámara de inspección, distribuidor, 25 m de dren y geotextil—, ambos con precio publicado. Si el terreno elegido tiene alcantarillado cercano, esta solución se reemplaza por el empalme correspondiente.</p><p>La grava es el único árido que se compra: 125 m³ para el estacionamiento de unos 375 m² con 15 cm de espesor, los senderos de unos 250 m² con 10 cm, las bases de bebederos y pozas, y las zanjas de infiltración. El precio unitario incluye un factor de flete de 1,35 sobre el valor de referencia por metro cúbico. Si el propio terreno tiene material utilizable, esta partida puede bajar hasta $3.594.544.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr><td>D.1</td><td>Baño público de dos recintos universales, estructura de madera, llave en mano</td><td class="num">16</td><td>m²</td><td class="num">$1.226.569</td><td class="num">$19.625.102</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>D.2</td><td>Grifería temporizada antivandálica</td><td class="num">2</td><td>u</td><td class="num">$90.000</td><td class="num">$180.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>D.3</td><td>Barras de apoyo de accesibilidad</td><td class="num">4</td><td>u</td><td class="num">$35.000</td><td class="num">$140.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>D.4</td><td>Dispensadores, portarrollos, ganchos para correa y basureros</td><td class="num">1</td><td>gl</td><td class="num">$150.000</td><td class="num">$150.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>D.5</td><td>Fosa séptica horizontal 3.500 L</td><td class="num">1</td><td>u</td><td class="num">$669.990</td><td class="num">$669.990</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>D.6</td><td>Kit de fosa: desgrasador, cámara de inspección, distribuidor, 25 m de dren y geotextil</td><td class="num">1</td><td>u</td><td class="num">$319.990</td><td class="num">$319.990</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>D.7</td><td>Filtro y clorador para el agua del lavamanos</td><td class="num">1</td><td>gl</td><td class="num">$250.000</td><td class="num">$250.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>D.8</td><td>Zona de amarre techada 12 × 3 m: techumbre zincalum y canaleta</td><td class="num">1</td><td>gl</td><td class="num">$450.000</td><td class="num">$450.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>D.9</td><td>Zona de amarre techada: estructura de madera</td><td class="num">1</td><td>gl</td><td class="num">$300.000</td><td class="num">$300.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>D.10</td><td>Argollas galvanizadas de amarre</td><td class="num">5</td><td>u</td><td class="num">$6.000</td><td class="num">$30.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>D.11</td><td>Grava 1½": estacionamiento, senderos, sendero accesible, bases de agua y zanjas</td><td class="num">125</td><td>m³</td><td class="num">$28.756</td><td class="num">$3.594.544</td><td>Compra/contrato</td><td>Verificado</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida D</td><td class="num">$25.709.626</td><td colspan="2">A financiar $25.409.626 · aporte $300.000</td></tr></tbody></table></div>
+  <p class="nota-tabla">4 de 11 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>D.1</td><td>30 UF/m² de terminación media (rango 22–42 UF/m², 2026); incluye artefactos básicos</td></tr><tr><td>D.2</td><td>Cotizar</td></tr><tr><td>D.3</td><td>Cotizar</td></tr><tr><td>D.4</td><td>Cotizar</td></tr><tr><td>D.5</td><td>Sodimac.cl, Amerplast 3.500 L</td></tr><tr><td>D.6</td><td>Sodimac.cl, kit completo Amerplast</td></tr><tr><td>D.7</td><td>Cotizar</td></tr><tr><td>D.8</td><td>Cotizar</td></tr><tr><td>D.9</td><td>Madera municipal; valor referencial</td></tr><tr><td>D.10</td><td>Cotizar</td></tr><tr><td>D.11</td><td>Full Áridos 2026: $17.900 + IVA por m³ (camión de 13 m³) × factor de flete. Puede reducirse con material del terreno</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida E<span class="marcador">@@pe@@</span></span>Agua y sistemas de refresco</h2>
+  <p class="entradilla">Pozo con bomba solar, torre y estanques, captación de lluvia, redes y los cinco sistemas de refresco.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$20.970.940</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$17.570.940</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$3.400.000</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Semanas 4 a 12</span><span class="glosa">Pozo y torre primero; redes y sistemas de refresco después.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>El agua del canil sale de un pozo propio y se acumula en dos estanques de 5.500 litros sobre una torre de madera de unos 4 metros, desde donde se distribuye por gravedad. El agua lluvia de los techos del baño, el amarre y las pérgolas complementa el llenado y reduce el bombeo.</p><p>La perforación se presupuestó en 40 metros a $230.000 por metro, con un precio de mercado verificado, más un 15% por desarrollo del pozo y prueba de bombeo. <strong>Esta es la variable que más mueve el total</strong>: cada 10 metros adicionales de profundidad significan $2,3 millones más. Por eso el estudio hidrogeológico de la partida A se hace antes y no después.</p><p>La bomba es solar sumergible de 1,1 kW con cuatro paneles propios de 550 W, independientes del sistema solar central, dimensionados para la demanda de verano. Ambos precios se calcularon desde catálogos internacionales con tipo de cambio, IVA y factor de importación de 1,25.</p><p>Los cinco sistemas de refresco —bebedero de canoa, poza para chapotear, pérgola con aspersores, arco rociador y canaleta tipo riachuelo— se instalan en los sectores de perros grandes y de pequeños. Los dos sectores de entrenamiento llevan solo bebedero de flujo continuo, que es el criterio de seguridad explicado en el plan. La estructura de madera de la torre, las pérgolas y las canaletas es aporte municipal; los bebederos y los arcos rociadores los fabrica el liceo técnico. Lo que se compra son estanques, bomba, paneles, cañerías, válvulas, láminas impermeables y boquillas.</p><p>Las seis zanjas de infiltración con grava, tubo perforado y geotextil son las que evitan que el rebalse del sistema de refresco genere barro: es un detalle menor en costo y decisivo en el funcionamiento diario del recinto.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr><td>E.1</td><td>Estanque vertical 5.500 L (dos unidades: 11.000 L)</td><td class="num">2</td><td>u</td><td class="num">$649.990</td><td class="num">$1.299.980</td><td>Compra/contrato</td><td>Verificado</td></tr><tr class="aporte"><td>E.2</td><td>Torre de madera de ≈4 m: estructura</td><td class="num">1</td><td>gl</td><td class="num">$1.500.000</td><td class="num">$1.500.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>E.3</td><td>Torre: pernos, placas y herrajes estructurales</td><td class="num">1</td><td>gl</td><td class="num">$400.000</td><td class="num">$400.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.4</td><td>Perforación de pozo de 6" entubado</td><td class="num">40</td><td>m</td><td class="num">$230.000</td><td class="num">$9.200.000</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>E.5</td><td>Desarrollo del pozo y prueba de bombeo (15% de la perforación)</td><td class="num">1</td><td>gl</td><td class="num">$1.380.000</td><td class="num">$1.380.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.6</td><td>Bomba solar sumergible 1,1 kW con controlador</td><td class="num">1</td><td>u</td><td class="num">$547.548</td><td class="num">$547.548</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>E.7</td><td>Paneles solares de 550 W para la bomba (independientes del sistema central)</td><td class="num">4</td><td>u</td><td class="num">$212.853</td><td class="num">$851.412</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>E.8</td><td>Estructura de paneles, protecciones y cable de bomba</td><td class="num">1</td><td>gl</td><td class="num">$350.000</td><td class="num">$350.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.9</td><td>Caseta de protección del pozo: herrajes</td><td class="num">1</td><td>gl</td><td class="num">$150.000</td><td class="num">$150.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.10</td><td>Captación de lluvia: ≈40 m de canaleta, 4 bajadas y filtro de primeras aguas</td><td class="num">1</td><td>gl</td><td class="num">$400.000</td><td class="num">$400.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.11</td><td>Bomba de presión pequeña para aspersores y arcos</td><td class="num">1</td><td>u</td><td class="num">$180.000</td><td class="num">$180.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.12</td><td>Cañería enterrada ≈300 m y fittings</td><td class="num">1</td><td>gl</td><td class="num">$1.200.000</td><td class="num">$1.200.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.13</td><td>Llaves de paso</td><td class="num">10</td><td>u</td><td class="num">$12.000</td><td class="num">$120.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.14</td><td>Electroválvulas 24 V</td><td class="num">14</td><td>u</td><td class="num">$35.000</td><td class="num">$490.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.15</td><td>Programador de riego multizona</td><td class="num">1</td><td>u</td><td class="num">$180.000</td><td class="num">$180.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.16</td><td>Grifos reductores de caudal para bebederos</td><td class="num">5</td><td>u</td><td class="num">$15.000</td><td class="num">$75.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>E.17</td><td>Bebederos de flujo continuo en madera</td><td class="num">5</td><td>u</td><td class="num">$80.000</td><td class="num">$400.000</td><td>Liceo técnico</td><td>Referencial</td></tr><tr><td>E.18</td><td>Lámina impermeable para dos pozas y dos canaletas (≈34 m²)</td><td class="num">34</td><td>m²</td><td class="num">$12.000</td><td class="num">$408.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.19</td><td>Válvulas de vaciado de pozas</td><td class="num">2</td><td>u</td><td class="num">$25.000</td><td class="num">$50.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>E.20</td><td>Pérgolas de 4 × 4 m en madera</td><td class="num">2</td><td>u</td><td class="num">$400.000</td><td class="num">$800.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>E.21</td><td>Aspersores de gota gruesa</td><td class="num">8</td><td>u</td><td class="num">$8.000</td><td class="num">$64.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>E.22</td><td>Arcos rociadores en madera</td><td class="num">2</td><td>u</td><td class="num">$150.000</td><td class="num">$300.000</td><td>Liceo técnico</td><td>Referencial</td></tr><tr><td>E.23</td><td>Boquillas para arcos</td><td class="num">12</td><td>u</td><td class="num">$5.000</td><td class="num">$60.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>E.24</td><td>Canaletas tipo riachuelo de 10 m en madera</td><td class="num">2</td><td>u</td><td class="num">$200.000</td><td class="num">$400.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>E.25</td><td>Tubo dren perforado para zanjas</td><td class="num">30</td><td>m</td><td class="num">$3.500</td><td class="num">$105.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>E.26</td><td>Geotextil para zanjas</td><td class="num">40</td><td>m²</td><td class="num">$1.500</td><td class="num">$60.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida E</td><td class="num">$20.970.940</td><td colspan="2">A financiar $17.570.940 · aporte $3.400.000</td></tr></tbody></table></div>
+  <p class="nota-tabla">4 de 26 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>E.1</td><td>Sodimac.cl, Amerplast Estándar 5.500 L</td></tr><tr><td>E.2</td><td>Madera municipal; requiere cálculo estructural (11 t de agua)</td></tr><tr><td>E.3</td><td>Cotizar</td></tr><tr><td>E.4</td><td>Cruzat Ingeniería 2026; profundidad por confirmar con el estudio hidrogeológico</td></tr><tr><td>E.5</td><td>Supuesto de 15% sobre el valor de la perforación</td></tr><tr><td>E.6</td><td>Obramat (España) €351,24 sin IVA × tipo de cambio × IVA × factor de importación</td></tr><tr><td>E.7</td><td>Sungold Power: pallet de 32 paneles de 550 W a US$6.210 (≈US$194 c/u) × tipo de cambio × IVA</td></tr><tr><td>E.8</td><td>Cotizar</td></tr><tr><td>E.9</td><td>Madera municipal más herrajes</td></tr><tr><td>E.10</td><td>Cotizar</td></tr><tr><td>E.11</td><td>Cotizar</td></tr><tr><td>E.12</td><td>Cotizar</td></tr><tr><td>E.13</td><td>Cotizar</td></tr><tr><td>E.14</td><td>Cotizar</td></tr><tr><td>E.15</td><td>Cotizar</td></tr><tr><td>E.16</td><td>Cotizar</td></tr><tr><td>E.17</td><td>Fabricación del liceo técnico; valor referencial</td></tr><tr><td>E.18</td><td>Cotizar geomembrana o EPDM</td></tr><tr><td>E.19</td><td>Cotizar</td></tr><tr><td>E.20</td><td>Madera municipal; valor referencial</td></tr><tr><td>E.21</td><td>Cotizar</td></tr><tr><td>E.22</td><td>Fabricación del liceo técnico; valor referencial</td></tr><tr><td>E.23</td><td>Cotizar</td></tr><tr><td>E.24</td><td>Madera municipal; valor referencial</td></tr><tr><td>E.25</td><td>Cotizar</td></tr><tr><td>E.26</td><td>Cotizar</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida F<span class="marcador">@@pf@@</span></span>Energía, seguridad y automatización</h2>
+  <p class="entradilla">El sistema que permite operar de 6:00 a 21:00 sin personal en terreno.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$11.712.910</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$11.563.210</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$149.700</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Semanas 8 a 12</span><span class="glosa">Sistema solar, cámaras, cerraduras, luminarias y tótem SOS.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>Esta partida es la que reemplaza a un portero. El sistema solar central de unos 2 kWp con batería de litio de 5 kWh alimenta cámaras, parlantes, cerraduras temporizadas, router y contadores; está dimensionado para invierno, que es la condición crítica en Puerto Varas, y admite respaldo de red eléctrica si el terreno tiene conexión cercana.</p><p>Las siete cámaras cubren acceso y estacionamiento, esclusa común, dos posiciones en el sector de perros grandes, el sector de pequeños y cada sector de entrenamiento. Son de visión nocturna y audio bidireccional, graban por movimiento y las de los sectores alejados llevan panel solar propio, lo que evita tender cable por todo el recinto.</p><p>Las cinco cerraduras corresponden a las tres esclusas y a las dos puertas del baño. Están programadas para abrir a las 6:00 y bloquear el ingreso a las 21:00, con salida siempre libre desde el interior.</p><p>Las 30 luminarias LED solares con sensor de movimiento se presupuestaron a $65.000 por unidad y no al precio de los productos de consumo, que parten en $16.990: esos equipos no resisten uso público intensivo ni el clima de la zona. Es un precio referencial que debe cotizarse en grado público.</p><p>El tótem SOS es el ítem referencial más sensible de la partida. Como referencia de mercado, Iquique aprobó $345 millones por 23 tótems con cámara e internet, unos $15 millones cada uno; el tótem de este proyecto es mucho más simple —tres botones, sin cámara propia— y se presupuestó en $3.500.000. Es una cifra que debe confirmarse con cotización antes de postular.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr><td>F.1</td><td>Sistema solar central: ≈2 kWp de paneles, batería de litio de 5 kWh, inversor/cargador de 5,5 kW y cables</td><td class="num">1</td><td>gl</td><td class="num">$2.796.402</td><td class="num">$2.796.402</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>F.2</td><td>Gabinete, protecciones y puesta a tierra</td><td class="num">1</td><td>gl</td><td class="num">$450.000</td><td class="num">$450.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>F.3</td><td>Router 4G exterior con antena</td><td class="num">1</td><td>u</td><td class="num">$250.000</td><td class="num">$250.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>F.4</td><td>Puntos de acceso wifi exterior</td><td class="num">2</td><td>u</td><td class="num">$150.000</td><td class="num">$300.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>F.5</td><td>Cámara exterior 2K con panel solar, visión nocturna y audio bidireccional</td><td class="num">7</td><td>u</td><td class="num">$91.687</td><td class="num">$641.808</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>F.6</td><td>Tarjetas microSD para grabación</td><td class="num">7</td><td>u</td><td class="num">$25.000</td><td class="num">$175.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>F.7</td><td>Parlantes exteriores con amplificador para el aviso de cierre</td><td class="num">2</td><td>u</td><td class="num">$120.000</td><td class="num">$240.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>F.8</td><td>Cerraduras electromagnéticas exteriores con temporizador y apertura interior libre</td><td class="num">5</td><td>u</td><td class="num">$180.000</td><td class="num">$900.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>F.9</td><td>Luminarias LED solares de grado exterior con sensor de movimiento</td><td class="num">30</td><td>u</td><td class="num">$65.000</td><td class="num">$1.950.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>F.10</td><td>Postes de madera para luminarias</td><td class="num">30</td><td>u</td><td class="num">$4.990</td><td class="num">$149.700</td><td>Aporte municipal</td><td>Verificado</td></tr><tr><td>F.11</td><td>Tótem SOS solar con tres botones y conexión celular</td><td class="num">1</td><td>u</td><td class="num">$3.500.000</td><td class="num">$3.500.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>F.12</td><td>Contadores automáticos de visitas</td><td class="num">3</td><td>u</td><td class="num">$120.000</td><td class="num">$360.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida F</td><td class="num">$11.712.910</td><td colspan="2">A financiar $11.563.210 · aporte $149.700</td></tr></tbody></table></div>
+  <p class="nota-tabla">3 de 12 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>F.1</td><td>Autosolar (España), kit aislada 5.500 W más batería de 5 kWh: €1.793,83 sin IVA × tipo de cambio × IVA × factor de importación</td></tr><tr><td>F.2</td><td>Cotizar con instalador autorizado SEC</td></tr><tr><td>F.3</td><td>Cotizar</td></tr><tr><td>F.4</td><td>Cotizar</td></tr><tr><td>F.5</td><td>Ezviz EB3 más panel solar: €69,99 con IVA (MediaWorld Italia, 2026) × tipo de cambio × factor de importación</td></tr><tr><td>F.6</td><td>Cotizar</td></tr><tr><td>F.7</td><td>Cotizar</td></tr><tr><td>F.8</td><td>Cotizar</td></tr><tr><td>F.9</td><td>Los productos de consumo desde $16.990 (Sodimac.cl) no son aptos para uso público intensivo; cotizar grado público</td></tr><tr><td>F.10</td><td>Valor de referencia Sodimac.cl</td></tr><tr><td>F.11</td><td>Referencia: Iquique aprobó $345 millones por 23 tótems con cámara e internet (≈$15 millones c/u); este modelo es más simple</td></tr><tr><td>F.12</td><td>Cotizar</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida G<span class="marcador">@@pg@@</span></span>Mobiliario, juegos y señalética</h2>
+  <p class="entradilla">Bancas, juegos de troncos, tótems de bolsas y todos los letreros.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$4.182.980</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$1.752.980</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$2.430.000</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Semanas 10 a 14</span><span class="glosa">Instalación de piezas fabricadas por el liceo durante los meses 3 a 9.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>Son 12 bancas: 5 en el sector de perros grandes, 3 en el de pequeños, 2 en el acceso y 1 en cada sector de entrenamiento. No hay mesas, por decisión de diseño: la comida es la principal fuente de conflictos entre perros sueltos. Tres bancas llevan techo pequeño —en pequeños y en cada sector de entrenamiento—; en grandes las bancas van bajo los árboles existentes.</p><p>Los juegos son de troncos y no de plástico, y se valorizan como aporte municipal porque se hacen con los troncos que el municipio retira: saltos, tocones escalonados, vigas de equilibrio y rampas sobre lomas naturales en el sector de grandes, y versiones bajas en el de pequeños. Lo único que se compra son los herrajes y fijaciones.</p><p>Bancas, tótems de bolsas y letreros los fabrica el liceo técnico con el diseño que entrega el municipio, siguiendo el modelo de convenio con establecimientos técnicos. Lo que se compra es lo que el taller no puede producir: herrajes, dispensadores, basureros, rotulado y las señales de ruta, que deben cumplir norma de Tránsito.</p><p>El aceite impregnante para madera se calculó en 40 litros —dos envases de 20 L con precio publicado— para la primera aplicación completa de toda la madera expuesta.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr class="aporte"><td>G.1</td><td>Bancas de madera: material y mano de obra del liceo</td><td class="num">12</td><td>u</td><td class="num">$60.000</td><td class="num">$720.000</td><td>Liceo técnico</td><td>Referencial</td></tr><tr><td>G.2</td><td>Herrajes para bancas</td><td class="num">12</td><td>u</td><td class="num">$15.000</td><td class="num">$180.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>G.3</td><td>Techos pequeños sobre bancas: estructura de madera</td><td class="num">3</td><td>u</td><td class="num">$150.000</td><td class="num">$450.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>G.4</td><td>Techos pequeños sobre bancas: techumbre</td><td class="num">3</td><td>u</td><td class="num">$80.000</td><td class="num">$240.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>G.5</td><td>Juegos de troncos del sector de grandes: saltos, tocones, vigas y rampas</td><td class="num">1</td><td>gl</td><td class="num">$600.000</td><td class="num">$600.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr class="aporte"><td>G.6</td><td>Juegos de troncos del sector de pequeños</td><td class="num">1</td><td>gl</td><td class="num">$250.000</td><td class="num">$250.000</td><td>Aporte municipal</td><td>Referencial</td></tr><tr><td>G.7</td><td>Herrajes y fijaciones de juegos</td><td class="num">1</td><td>gl</td><td class="num">$210.000</td><td class="num">$210.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>G.8</td><td>Tótems de bolsas en madera</td><td class="num">5</td><td>u</td><td class="num">$40.000</td><td class="num">$200.000</td><td>Liceo técnico</td><td>Referencial</td></tr><tr><td>G.9</td><td>Dispensadores de bolsas de a una</td><td class="num">5</td><td>u</td><td class="num">$15.000</td><td class="num">$75.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>G.10</td><td>Basureros con tapa</td><td class="num">5</td><td>u</td><td class="num">$60.000</td><td class="num">$300.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>G.11</td><td>Contenedor mayor de residuos</td><td class="num">1</td><td>u</td><td class="num">$150.000</td><td class="num">$150.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>G.12</td><td>Letreros de madera: 3 de reglas, 2 de ocupado/libre, 1 de videovigilancia y 1 de entrada</td><td class="num">7</td><td>u</td><td class="num">$30.000</td><td class="num">$210.000</td><td>Liceo técnico</td><td>Referencial</td></tr><tr><td>G.13</td><td>Rotulado de letreros</td><td class="num">7</td><td>u</td><td class="num">$20.000</td><td class="num">$140.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>G.14</td><td>Señales de ruta desde playas y costanera</td><td class="num">4</td><td>u</td><td class="num">$80.000</td><td class="num">$320.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>G.15</td><td>Aceite impregnante exterior para madera, envase de 20 L</td><td class="num">2</td><td>u</td><td class="num">$68.990</td><td class="num">$137.980</td><td>Compra/contrato</td><td>Verificado</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida G</td><td class="num">$4.182.980</td><td colspan="2">A financiar $1.752.980 · aporte $2.430.000</td></tr></tbody></table></div>
+  <p class="nota-tabla">1 de 15 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>G.1</td><td>Fabricación del liceo técnico; valor referencial</td></tr><tr><td>G.2</td><td>Cotizar</td></tr><tr><td>G.3</td><td>Madera municipal</td></tr><tr><td>G.4</td><td>Cotizar</td></tr><tr><td>G.5</td><td>Troncos municipales</td></tr><tr><td>G.6</td><td>Troncos municipales</td></tr><tr><td>G.7</td><td>Cotizar</td></tr><tr><td>G.8</td><td>Fabricación del liceo técnico; valor referencial</td></tr><tr><td>G.9</td><td>Cotizar</td></tr><tr><td>G.10</td><td>Cotizar o solicitar vía Plataforma de Economía Circular</td></tr><tr><td>G.11</td><td>Cotizar</td></tr><tr><td>G.12</td><td>Fabricación del liceo técnico; valor referencial</td></tr><tr><td>G.13</td><td>Cotizar</td></tr><tr><td>G.14</td><td>Según norma de Tránsito; cotizar</td></tr><tr><td>G.15</td><td>Sodimac.cl, pack de 20 litros $68.990</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida H<span class="marcador">@@ph@@</span></span>Paisajismo</h2>
+  <p class="entradilla">Refuerzo de las franjas de separación con especies nativas.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$1.193.605</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$80.000</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$1.113.605</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Semanas 10 a 14</span><span class="glosa">Plantación con CONAF, compost y resiembra.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>El terreno se usa tal como está, así que el paisajismo se limita a reforzar lo que ya existe: unos 300 arbustos nativos en las franjas de separación entre sectores y en la barrera visual de los sectores de entrenamiento, compost municipal para la plantación y semilla de pasto para resembrar las zonas que se pisen durante la obra.</p><p>Los arbustos se solicitan a CONAF dentro del convenio de arborización comunitaria, que en la Región de Los Lagos ya tiene precedente: junto al Servicio de Salud Osorno, CONAF aportó especies nativas, cercado, obra y asesoría por $24 millones. Por eso figuran como aporte y no como compra.</p><p>Lo único que se compra en esta partida son 10 kg de semilla de pasto: $80.000 sobre un valor valorizado de $1.193.605.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr class="aporte"><td>H.1</td><td>Arbustos nativos para franjas y barreras visuales</td><td class="num">300</td><td>u</td><td class="num">$3.000</td><td class="num">$900.000</td><td>CONAF</td><td>Referencial</td></tr><tr class="aporte"><td>H.2</td><td>Compost</td><td class="num">5</td><td>m³</td><td class="num">$42.721</td><td class="num">$213.605</td><td>Aporte municipal</td><td>Verificado</td></tr><tr><td>H.3</td><td>Semilla de pasto para resiembra</td><td class="num">10</td><td>kg</td><td class="num">$8.000</td><td class="num">$80.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida H</td><td class="num">$1.193.605</td><td colspan="2">A financiar $80.000 · aporte $1.113.605</td></tr></tbody></table></div>
+  <p class="nota-tabla">1 de 3 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>H.1</td><td>Programa de Arborización de CONAF; valor referencial</td></tr><tr><td>H.2</td><td>Valor de referencia Full Áridos 2026: $35.900 + IVA por m³</td></tr><tr><td>H.3</td><td>Cotizar</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Partida I<span class="marcador">@@pi@@</span></span>Mano de obra y servicios</h2>
+  <p class="entradilla">El equipo que construye el canil, durante cuatro meses de obra.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$35.119.660</span><span class="glosa">Costo valorizado de la partida</span></div>
+    <div class="cifra"><span class="dato">$23.539.660</span><span class="glosa">A financiar con el fondo</span></div>
+    <div class="cifra"><span class="dato">$11.580.000</span><span class="glosa">Aporte valorizado</span></div>
+    <div class="cifra"><span class="dato">Semanas 1 a 16</span><span class="glosa">Equipo permanente durante toda la obra.</span></div>
+  </div>
+
+  <h3>Qué incluye y cómo se calculó</h3>
+  <p>La obra dura cuatro meses con frentes traslapados. El equipo permanente es un jefe de obra o maestro carpintero, tres carpinteros y cuatro jornales; se suman un gasfíter y un electricista autorizado durante un mes y medio cada uno, y un prevencionista de riesgos en media jornada durante toda la obra.</p><p>Los sueldos se calcularon a partir de valores de mercado publicados para la construcción y se multiplicaron por un factor de costo empleador de 1,25, que incorpora cotizaciones y cargas: es el costo real para quien contrata, no el líquido que recibe el trabajador. Los cuatro jornales se valorizaron al ingreso mínimo de 2026 con el mismo factor.</p><p>Los cuatro jornales son <strong>cuadrilla municipal</strong>: personal que ya existe y que se destina a la obra, por lo que sus $10.780.000 son aporte valorizado y no gasto a financiar. Ese es el aporte individual más grande del proyecto.</p><p>Los servicios externos son retroexcavadora con operador —24 horas para fosa, zanjas y apoyo al pozo—, camión con chofer —10 días para troncos, grava y materiales— y la empresa de perforación, cuyo costo está en la partida E.</p><p>El aporte al liceo técnico ($1.500.000) financia los insumos de taller con los que los estudiantes fabrican bancas, juegos, tablas, tótems, bebederos, arcos y letreros. Es un monto a convenir: contra él, el liceo entrega piezas valorizadas en $2.130.000 y los estudiantes obtienen práctica real en un encargo municipal.</p>
+
+  <h3>Detalle de ítems</h3>
+  <div class="tabla-envoltura"><table class="compacta presupuesto"><thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th><th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th><th>Tipo</th></tr></thead><tbody><tr><td>I.1</td><td>Jefe de obra / maestro carpintero</td><td class="num">4</td><td>mes</td><td class="num">$1.185.000</td><td class="num">$4.740.000</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>I.2</td><td>Carpinteros (3)</td><td class="num">12</td><td>mes-persona</td><td class="num">$813.412</td><td class="num">$9.760.950</td><td>Compra/contrato</td><td>Verificado</td></tr><tr class="aporte"><td>I.3</td><td>Jornales (4): cuadrilla municipal</td><td class="num">16</td><td>mes-persona</td><td class="num">$673.750</td><td class="num">$10.780.000</td><td>Cuadrilla municipal</td><td>Verificado</td></tr><tr><td>I.4</td><td>Gasfíter</td><td class="num">1,5</td><td>mes</td><td class="num">$1.025.820</td><td class="num">$1.538.730</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>I.5</td><td>Electricista autorizado SEC</td><td class="num">1,5</td><td>mes</td><td class="num">$1.013.320</td><td class="num">$1.519.980</td><td>Compra/contrato</td><td>Verificado</td></tr><tr><td>I.6</td><td>Prevencionista de riesgos (media jornada)</td><td class="num">4</td><td>mes</td><td class="num">$400.000</td><td class="num">$1.600.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>I.7</td><td>Retroexcavadora con operador: fosa, zanjas y apoyo al pozo</td><td class="num">24</td><td>hora</td><td class="num">$45.000</td><td class="num">$1.080.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>I.8</td><td>Camión con chofer: troncos, grava y materiales</td><td class="num">10</td><td>día</td><td class="num">$180.000</td><td class="num">$1.800.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr><td>I.9</td><td>Aporte al liceo técnico para insumos de taller</td><td class="num">1</td><td>gl</td><td class="num">$1.500.000</td><td class="num">$1.500.000</td><td>Compra/contrato</td><td>Referencial</td></tr><tr class="aporte"><td>I.10</td><td>Plantación y asesoría de CONAF</td><td class="num">1</td><td>gl</td><td class="num">$800.000</td><td class="num">$800.000</td><td>CONAF</td><td>Referencial</td></tr><tr class="subtotal"><td colspan="5">Subtotal valorizado · partida I</td><td class="num">$35.119.660</td><td colspan="2">A financiar $23.539.660 · aporte $11.580.000</td></tr></tbody></table></div>
+  <p class="nota-tabla">5 de 10 ítems tienen precio verificado contra un valor
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+
+  <h3>Origen de cada precio</h3>
+  <div class="tabla-envoltura"><table class="compacta"><thead><tr><th style="width:10%">Código</th><th>Origen del precio</th></tr></thead><tbody><tr><td>I.1</td><td>Sueldo de carpintero $948.000 (Chiletrabajos vía Mega, 2025) × factor de costo empleador</td></tr><tr><td>I.2</td><td>Sueldo promedio de carpintero $650.730 (Chiletrabajos, julio de 2026) × factor de costo empleador</td></tr><tr><td>I.3</td><td>Ingreso mínimo 2026 × factor de costo empleador; personal municipal existente</td></tr><tr><td>I.4</td><td>Maestro gásfiter $820.656 (Chiletrabajos vía Mega, 2025) × factor</td></tr><tr><td>I.5</td><td>Maestro eléctrico $810.656 (Chiletrabajos vía Mega, 2025) × factor</td></tr><tr><td>I.6</td><td>Cotizar</td></tr><tr><td>I.7</td><td>Cotizar localmente</td></tr><tr><td>I.8</td><td>Cotizar localmente</td></tr><tr><td>I.9</td><td>Monto a convenir</td></tr><tr><td>I.10</td><td>Convenio de arborización; valor referencial</td></tr></tbody></table></div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 4<span class="marcador">@@c4@@</span></span>Tiempos de ejecución por partida</h2>
+
+  <p class="entradilla">La obra dura 16 semanas, repartidas en cuatro meses, con frentes de trabajo
+    traslapados. Antes de eso hay nueve meses de estudios, trámites y fabricación en el liceo técnico.</p>
+
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th class="cen" style="width:7%">Partida</th><th style="width:22%">Nombre</th>
+      <th style="width:15%">Cuándo</th><th>Detalle</th><th class="num">A financiar</th></tr></thead>
+    <tbody><tr><td class="cen"><strong>A</strong></td><td>Estudios y trámites</td><td>Meses 3 a 9</td><td>Antes de la obra: estudios, proyectos y trámites.</td><td class="num">$12.555.900</td></tr><tr><td class="cen"><strong>B</strong></td><td>Instalación de faena y herramientas</td><td>Semanas 1 a 2</td><td>Instalación de faena; el baño químico se mantiene las 16 semanas.</td><td class="num">$5.630.290</td></tr><tr><td class="cen"><strong>C</strong></td><td>Cerco, esclusas y puertas</td><td>Semanas 3 a 8</td><td>Postes, malla, barrera enterrada, esclusas y portón.</td><td class="num">$6.622.920</td></tr><tr><td class="cen"><strong>D</strong></td><td>Zona de acceso</td><td>Semanas 4 a 10</td><td>Baño, amarre, estacionamiento y senderos.</td><td class="num">$25.409.626</td></tr><tr><td class="cen"><strong>E</strong></td><td>Agua y sistemas de refresco</td><td>Semanas 4 a 12</td><td>Pozo y torre primero; redes y sistemas de refresco después.</td><td class="num">$17.570.940</td></tr><tr><td class="cen"><strong>F</strong></td><td>Energía, seguridad y automatización</td><td>Semanas 8 a 12</td><td>Sistema solar, cámaras, cerraduras, luminarias y tótem SOS.</td><td class="num">$11.563.210</td></tr><tr><td class="cen"><strong>G</strong></td><td>Mobiliario, juegos y señalética</td><td>Semanas 10 a 14</td><td>Instalación de piezas fabricadas por el liceo durante los meses 3 a 9.</td><td class="num">$1.752.980</td></tr><tr><td class="cen"><strong>H</strong></td><td>Paisajismo</td><td>Semanas 10 a 14</td><td>Plantación con CONAF, compost y resiembra.</td><td class="num">$80.000</td></tr><tr><td class="cen"><strong>I</strong></td><td>Mano de obra y servicios</td><td>Semanas 1 a 16</td><td>Equipo permanente durante toda la obra.</td><td class="num">$23.539.660</td></tr></tbody>
+  </table>
+  </div>
+
+  <h3>Las 16 semanas de obra</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th style="width:14%">Semanas</th><th style="width:28%">Frente de trabajo</th><th>Partidas involucradas</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 a 2</strong></td><td>Instalación de faena y trazado</td><td>B completa, más el aserrado de la madera municipal que alimenta las partidas C, D, E y G.</td></tr>
+      <tr><td><strong>3 a 8</strong></td><td>Cerco y esclusas</td><td>C completa.</td></tr>
+      <tr><td><strong>4 a 10</strong></td><td>Baño, amarre, torre y pozo</td><td>D, y los ítems E.1 a E.9 de pozo, torre y estanques.</td></tr>
+      <tr><td><strong>8 a 12</strong></td><td>Agua, energía y cámaras</td><td>E.10 a E.26 y F completa.</td></tr>
+      <tr><td><strong>10 a 14</strong></td><td>Mobiliario, juegos y paisajismo</td><td>G y H.</td></tr>
+      <tr><td><strong>15 a 16</strong></td><td>Pruebas y recepción</td><td>Pruebas de riego y refresco, horarios y cerraduras, cámaras y parlantes con la central municipal, y análisis del agua (A.10).</td></tr>
+    </tbody>
+  </table>
+  <p class="nota-tabla">La partida I —mano de obra y servicios— acompaña todas las semanas: el equipo
+    permanente son un jefe de obra, tres carpinteros, cuatro jornales municipales y un prevencionista en
+    media jornada, con el gasfíter y el electricista incorporados durante mes y medio cada uno.</p>
+  </div>
+
+  <div class="destacado">
+    <div class="titulo">Por qué la obra va en primavera y verano</div>
+    <p>Todo lo que se hace en el canil depende del suelo seco: plantar 280 postes, enterrar 400 metros
+      de barrera, abrir zanjas, compactar 125 m³ de grava y perforar el pozo. Ejecutar en los meses
+      lluviosos significa pagar el mismo equipo por más semanas y arriesgar terminaciones de madera mal
+      selladas. El cronograma total del plan está armado para que las 16 semanas de obra caigan en esa
+      ventana.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 5<span class="marcador">@@c5@@</span></span>Flujo de caja mensual</h2>
+
+  <p class="entradilla">En qué mes se paga cada partida, desde el inicio del trabajo hasta la marcha
+    blanca. Los meses 1 a 3 son de mesas técnicas y línea base; los meses 4 a 9, de estudios y trámites;
+    los meses 10 a 13, de obra; desde el mes 14 empieza la operación.</p>
+
+  <div class="tabla-envoltura">
+  <table class="flujo">
+    <caption>Gasto mensual a financiar, en miles de pesos</caption>
+    <thead><tr><th class="et" style="width:20%">Partida</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th><th class="num">6</th><th class="num">7</th><th class="num">8</th><th class="num">9</th><th class="num">10</th><th class="num">11</th><th class="num">12</th><th class="num">13</th><th class="num">Total</th></tr></thead>
+    <tbody><tr><td class="et"><strong>A</strong> · Estudios y trámites</td><td class="num">—</td><td class="num">300</td><td class="num">300</td><td class="num">1.900</td><td class="num">2.250</td><td class="num">4.250</td><td class="num">2.250</td><td class="num">1.156</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">150</td><td class="num">—</td><td class="num">12.556</td></tr><tr><td class="et"><strong>B</strong> · Instalación de faena y herramientas</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">5.270</td><td class="num">120</td><td class="num">120</td><td class="num">120</td><td class="num">5.630</td></tr><tr><td class="et"><strong>C</strong> · Cerco, esclusas y puertas</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">2.649</td><td class="num">3.974</td><td class="num">—</td><td class="num">—</td><td class="num">6.623</td></tr><tr><td class="et"><strong>D</strong> · Zona de acceso</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">5.082</td><td class="num">10.164</td><td class="num">10.164</td><td class="num">—</td><td class="num">25.410</td></tr><tr><td class="et"><strong>E</strong> · Agua y sistemas de refresco</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">6.348</td><td class="num">8.776</td><td class="num">2.447</td><td class="num">—</td><td class="num">17.571</td></tr><tr><td class="et"><strong>F</strong> · Energía, seguridad y automatización</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">4.625</td><td class="num">6.938</td><td class="num">—</td><td class="num">11.563</td></tr><tr><td class="et"><strong>G</strong> · Mobiliario, juegos y señalética</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">701</td><td class="num">1.052</td><td class="num">1.753</td></tr><tr><td class="et"><strong>H</strong> · Paisajismo</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">80</td><td class="num">80</td></tr><tr><td class="et"><strong>I</strong> · Mano de obra y servicios</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">1.500</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">5.123</td><td class="num">6.437</td><td class="num">6.005</td><td class="num">4.475</td><td class="num">23.540</td></tr><tr class="subtotal"><td class="et">Costo directo a financiar</td><td class="num">—</td><td class="num">300</td><td class="num">300</td><td class="num">1.900</td><td class="num">2.250</td><td class="num">5.750</td><td class="num">2.250</td><td class="num">1.156</td><td class="num">—</td><td class="num">24.472</td><td class="num">34.096</td><td class="num">26.524</td><td class="num">5.727</td><td class="num">104.726</td></tr><tr><td class="et">Gastos generales (8%)</td><td class="num">—</td><td class="num">24</td><td class="num">24</td><td class="num">152</td><td class="num">180</td><td class="num">460</td><td class="num">180</td><td class="num">92</td><td class="num">—</td><td class="num">1.958</td><td class="num">2.728</td><td class="num">2.122</td><td class="num">458</td><td class="num">8.378</td></tr><tr><td class="et">Imprevistos (10%)</td><td class="num">—</td><td class="num">32</td><td class="num">32</td><td class="num">205</td><td class="num">243</td><td class="num">621</td><td class="num">243</td><td class="num">125</td><td class="num">—</td><td class="num">2.643</td><td class="num">3.682</td><td class="num">2.865</td><td class="num">619</td><td class="num">11.310</td></tr><tr class="total"><td class="et">Gasto del mes</td><td class="num">—</td><td class="num">356</td><td class="num">356</td><td class="num">2.257</td><td class="num">2.673</td><td class="num">6.831</td><td class="num">2.673</td><td class="num">1.373</td><td class="num">—</td><td class="num">29.073</td><td class="num">40.506</td><td class="num">31.511</td><td class="num">6.804</td><td class="num">124.414</td></tr><tr><td class="et">Acumulado</td><td class="num">—</td><td class="num">356</td><td class="num">713</td><td class="num">2.970</td><td class="num">5.643</td><td class="num">12.474</td><td class="num">15.147</td><td class="num">16.520</td><td class="num">16.520</td><td class="num">45.593</td><td class="num">86.099</td><td class="num">117.610</td><td class="num">124.414</td><td class="num">124.414</td></tr><tr><td class="et">Aporte valorizado del mes</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">2.130</td><td class="num">300</td><td class="num">—</td><td class="num">7.839</td><td class="num">6.818</td><td class="num">4.370</td><td class="num">5.389</td><td class="num">26.846</td></tr></tbody>
+  </table>
+  <p class="nota-tabla">Cifras en miles de pesos. Los gastos generales y los imprevistos se prorratean
+    en proporción al gasto directo de cada mes. El aporte valorizado no es desembolso: se muestra para
+    dejar constancia de cuándo se produce el trabajo del municipio, del liceo y de CONAF.</p>
+  </div>
+
+  <h3>Resumen mes a mes</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th class="cen" style="width:8%">Mes</th><th>Etapa</th><th class="num">Gasto del mes</th><th class="num">Acumulado</th></tr></thead>
+    <tbody><tr><td class="cen"><strong>1</strong></td><td>Mesas técnicas y línea base</td><td class="num">$0</td><td class="num">$0</td></tr><tr><td class="cen"><strong>2</strong></td><td>Mesas técnicas y línea base</td><td class="num">$356.400</td><td class="num">$356.400</td></tr><tr><td class="cen"><strong>3</strong></td><td>Mesas técnicas y línea base</td><td class="num">$356.400</td><td class="num">$712.800</td></tr><tr><td class="cen"><strong>4</strong></td><td>Estudios y trámites</td><td class="num">$2.257.200</td><td class="num">$2.970.000</td></tr><tr><td class="cen"><strong>5</strong></td><td>Estudios y trámites</td><td class="num">$2.673.000</td><td class="num">$5.643.000</td></tr><tr><td class="cen"><strong>6</strong></td><td>Estudios y trámites</td><td class="num">$6.831.000</td><td class="num">$12.474.000</td></tr><tr><td class="cen"><strong>7</strong></td><td>Estudios y trámites</td><td class="num">$2.673.000</td><td class="num">$15.147.000</td></tr><tr><td class="cen"><strong>8</strong></td><td>Estudios y trámites</td><td class="num">$1.373.209</td><td class="num">$16.520.209</td></tr><tr><td class="cen"><strong>9</strong></td><td>Postulación al fondo y convenios</td><td class="num">$0</td><td class="num">$16.520.209</td></tr><tr><td class="cen"><strong>10</strong></td><td>Obra: faena, cerco y pozo</td><td class="num">$29.073.159</td><td class="num">$45.593.368</td></tr><tr><td class="cen"><strong>11</strong></td><td>Obra: cerco, baño, torre y redes</td><td class="num">$40.505.876</td><td class="num">$86.099.243</td></tr><tr><td class="cen"><strong>12</strong></td><td>Obra: agua, energía y seguridad</td><td class="num">$31.510.975</td><td class="num">$117.610.219</td></tr><tr><td class="cen"><strong>13</strong></td><td>Obra: mobiliario, paisajismo y pruebas</td><td class="num">$6.803.706</td><td class="num">$124.413.925</td></tr></tbody>
+  </table>
+  </div>
+
+  <h3>Desde el mes 14: marcha blanca</h3>
+  <div class="tabla-envoltura">
+  <table class="flujo">
+    <thead><tr><th class="et" style="width:28%">Concepto</th><th class="num">14</th><th class="num">15</th>
+      <th class="num">16</th><th class="num">17</th><th class="num">18</th><th class="num">19</th></tr></thead>
+    <tbody>
+      <tr><td class="et">Operación mensual a financiar</td><td class="num">1.957</td><td class="num">1.957</td><td class="num">1.957</td><td class="num">1.957</td><td class="num">1.957</td><td class="num">1.957</td></tr>
+    </tbody>
+  </table>
+  <p class="nota-tabla">Cifras en miles de pesos. La operación mensual a financiar es $1.956.561 e incluye
+    los dos auxiliares de aseo, insumos, datos, control de roedores, reposición y provisiones. El
+    detalle está en el capítulo 7.</p>
+  </div>
+
+  <div class="destacado">
+    <div class="titulo">Lo que muestra el flujo</div>
+    <p>El gasto es bajo y parejo durante los primeros nueve meses —estudios y trámites— y se concentra
+      casi por completo en los cuatro meses de obra. Eso es relevante para la programación presupuestaria
+      municipal: entre la postulación y el primer desembolso grande hay margen, y el peso del proyecto
+      cae en un solo ejercicio de obra.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 6<span class="marcador">@@c6@@</span></span>Qué gastos se ahorran y cuáles no</h2>
+
+  <p class="entradilla">El proyecto ahorra $26.845.853 en aportes valorizados, es decir el 17,7% del
+    valor total. Aquí está el detalle de dónde viene ese ahorro y, sobre todo, de lo que no se puede
+    ahorrar.</p>
+
+  <h3>De dónde viene el aporte</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th>Origen del aporte</th><th class="num">Monto valorizado</th><th class="num">% del aporte</th></tr></thead>
+    <tbody><tr><td>Aporte municipal</td><td class="num">$12.235.853</td><td class="num">45,6%</td></tr><tr><td>Cuadrilla municipal</td><td class="num">$10.780.000</td><td class="num">40,2%</td></tr><tr><td>Liceo técnico</td><td class="num">$2.130.000</td><td class="num">7,9%</td></tr><tr><td>CONAF</td><td class="num">$1.700.000</td><td class="num">6,3%</td></tr>
+      <tr class="total"><td>Total aportado</td><td class="num">$26.845.853</td><td class="num">100,0%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Lo que se ahorra, con monto</h3>
+  <div class="tabla-envoltura">
+  <table class="compacta">
+    <thead><tr><th style="width:30%">Concepto</th><th class="num" style="width:16%">Monto</th><th>Por qué</th></tr></thead>
+    <tbody>
+      <tr><td>Terreno</td><td class="num">Sin costo</td><td>Es fiscal y se obtiene por concesión de uso gratuito: no se compra ni se arrienda.</td></tr>
+      <tr><td>Mano de obra de cuatro jornales</td><td class="num">$10.780.000</td><td>Cuadrilla municipal existente destinada a la obra.</td></tr>
+      <tr><td>Madera de postes, listones, paneles, torre, pérgolas, amarre, juegos y techos</td><td class="num">$12.235.853</td><td>Árboles que el municipio retira por temporal, riesgo o poda, aserrados en terreno, más compost municipal y el contenedor bodega.</td></tr>
+      <tr><td>Bancas, tótems, tablas grabadas, bebederos, arcos y letreros</td><td class="num">$2.130.000</td><td>Fabricación del liceo técnico contra un aporte de insumos de $1.500.000.</td></tr>
+      <tr><td>Arbustos nativos, plantación y asesoría</td><td class="num">$1.700.000</td><td>Convenio de arborización comunitaria con CONAF.</td></tr>
+      <tr><td>Herramientas y equipos de faena</td><td class="num">$4.750.290</td><td>Se compran una vez y se reutilizan en los caniles 2 y 3: el ahorro se produce en las etapas siguientes.</td></tr>
+      <tr><td>Cuentas de luz y de agua</td><td class="num">Permanente</td><td>Energía solar y pozo propio: el recinto no tiene empalme eléctrico ni conexión a la red de agua potable.</td></tr>
+      <tr><td>Vigilancia, veterinario y retiro de residuos</td><td class="num">Servicios existentes</td><td>Central municipal de cámaras, veterinario municipal y recorrido de aseo ya operativos.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Lo que no se ahorra</h3>
+  <p>Hay una parte del proyecto que hay que pagar sí o sí, y conviene que quede dicho con claridad para
+    que nadie espere que el canil se construya solo con aportes:</p>
+  <div class="tabla-envoltura">
+  <table class="compacta">
+    <thead><tr><th style="width:34%">Concepto</th><th class="num" style="width:18%">Monto a financiar</th><th>Observación</th></tr></thead>
+    <tbody>
+      <tr><td>Baño público y su sistema sanitario</td><td class="num">$21.335.082</td><td>Es el ítem más caro del proyecto y no tiene reemplazo por aporte.</td></tr>
+      <tr><td>Pozo, bomba solar y derechos de agua</td><td class="num">$13.878.960</td><td>Incluye perforación, desarrollo, bomba, paneles y el trámite ante la DGA.</td></tr>
+      <tr><td>Estudios, proyectos y trámites</td><td class="num">$11.155.900</td><td>Exigidos por normativa; solo el diseño puede reducirse con profesionales municipales.</td></tr>
+      <tr><td>Malla, alambre y ferretería del cerco</td><td class="num">$6.622.920</td><td>No hay forma de producirlos localmente.</td></tr>
+      <tr><td>Sistema solar, cámaras, cerraduras y tótem SOS</td><td class="num">$11.563.210</td><td>Es lo que permite operar sin personal en terreno.</td></tr>
+      <tr><td>Mano de obra especializada y servicios</td><td class="num">$22.039.660</td><td>Jefe de obra, carpinteros, gasfíter, electricista, prevencionista, maquinaria y camión.</td></tr>
+      <tr><td>Operación anual</td><td class="num">$23.478.732 al año</td><td>Auxiliares de aseo, insumos, datos, análisis de agua, seguro y reposición. Se repite todos los años.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 7<span class="marcador">@@c7@@</span></span>Operación anual</h2>
+
+  <p class="entradilla">Lo que cuesta mantener el canil funcionando durante un año completo, con
+    personal de aseo, insumos, servicios y provisiones de reposición.</p>
+
+  <div class="cifras cuatro">
+    <div class="cifra"><span class="dato">$23.478.732</span><span class="glosa">Operación anual a financiar</span></div>
+    <div class="cifra"><span class="dato">$1.956.561</span><span class="glosa">Costo mensual a financiar</span></div>
+    <div class="cifra"><span class="dato">$5.800.000</span><span class="glosa">Aporte municipal anual valorizado</span></div>
+    <div class="cifra"><span class="dato">$616</span><span class="glosa">Costo de operación por visita, año 1</span></div>
+  </div>
+
+  <div class="tabla-envoltura">
+  <table class="compacta presupuesto">
+    <thead><tr><th>Código</th><th>Ítem</th><th class="num">Cant.</th><th>Unidad</th>
+      <th class="num">Precio unitario</th><th class="num">Subtotal</th><th>Origen</th></tr></thead>
+    <tbody><tr><td>O.1</td><td>Auxiliares de aseo (2), turnos que cubren 7 días</td><td class="num">24</td><td>mes-persona</td><td class="num">$673.750</td><td class="num">$16.170.000</td><td>Compra/contrato</td></tr><tr class="aporte"><td>O.2</td><td>Mantención mensual por cuadrilla municipal</td><td class="num">12</td><td>mes</td><td class="num">$300.000</td><td class="num">$3.600.000</td><td>Cuadrilla municipal</td></tr><tr><td>O.3</td><td>Plan de datos 4G del router</td><td class="num">12</td><td>mes</td><td class="num">$25.000</td><td class="num">$300.000</td><td>Compra/contrato</td></tr><tr><td>O.4</td><td>SIM del tótem SOS</td><td class="num">12</td><td>mes</td><td class="num">$8.000</td><td class="num">$96.000</td><td>Compra/contrato</td></tr><tr><td>O.5</td><td>Bolsas compostables</td><td class="num">7.622</td><td>u</td><td class="num">$40</td><td class="num">$304.860</td><td>Compra/contrato</td></tr><tr><td>O.6</td><td>Insumos de baño: papel, jabón, toallas, desinfectante y bolsas</td><td class="num">12</td><td>mes</td><td class="num">$120.000</td><td class="num">$1.440.000</td><td>Compra/contrato</td></tr><tr class="aporte"><td>O.7</td><td>Retiro de residuos por el servicio municipal existente</td><td class="num">12</td><td>mes</td><td class="num">$100.000</td><td class="num">$1.200.000</td><td>Aporte municipal</td></tr><tr><td>O.8</td><td>Vaciado de fosa séptica con camión limpiafosas</td><td class="num">1</td><td>vez</td><td class="num">$150.000</td><td class="num">$150.000</td><td>Compra/contrato</td></tr><tr><td>O.9</td><td>Análisis anual del agua</td><td class="num">1</td><td>vez</td><td class="num">$150.000</td><td class="num">$150.000</td><td>Compra/contrato</td></tr><tr><td>O.10</td><td>Control de roedores</td><td class="num">12</td><td>mes</td><td class="num">$40.000</td><td class="num">$480.000</td><td>Compra/contrato</td></tr><tr><td>O.11</td><td>Reposición de materiales: barniz, malla, madera y boquillas</td><td class="num">1</td><td>gl</td><td class="num">$2.094.511</td><td class="num">$2.094.511</td><td>Compra/contrato</td></tr><tr><td>O.12</td><td>Provisión para reposición de baterías y equipos</td><td class="num">1</td><td>gl</td><td class="num">$1.171.291</td><td class="num">$1.171.291</td><td>Compra/contrato</td></tr><tr class="aporte"><td>O.13</td><td>Operativos de chip y vacuna antirrábica del veterinario municipal</td><td class="num">4</td><td>operativo</td><td class="num">$250.000</td><td class="num">$1.000.000</td><td>Aporte municipal</td></tr><tr><td>O.14</td><td>Aporte al liceo técnico para reposición de piezas de madera</td><td class="num">1</td><td>gl</td><td class="num">$500.000</td><td class="num">$500.000</td><td>Compra/contrato</td></tr><tr><td>O.15</td><td>Seguro del recinto</td><td class="num">1</td><td>gl</td><td class="num">$622.070</td><td class="num">$622.070</td><td>Compra/contrato</td></tr>
+      <tr class="total"><td colspan="5">Total operación anual valorizada</td><td class="num">$29.278.732</td>
+        <td>A financiar $23.478.732</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Por qué cada ítem</h3>
+  <div class="tabla-envoltura">
+  <table class="compacta">
+    <thead><tr><th style="width:10%">Código</th><th>Justificación</th></tr></thead>
+    <tbody><tr><td>O.1</td><td>Ingreso mínimo 2026 × factor de costo empleador. Es el 69% de la operación a financiar.</td></tr><tr><td>O.2</td><td>Una visita mensual: cercos, juegos, madera, paneles, estanque y zanjas.</td></tr><tr><td>O.3</td><td>Una sola conexión por canil, que sirve a cámaras, cerraduras y contadores.</td></tr><tr><td>O.4</td><td>Línea independiente, para que el tótem funcione aunque falle el router.</td></tr><tr><td>O.5</td><td>20% de las 38.108 visitas proyectadas, a $40 la bolsa.</td></tr><tr><td>O.6</td><td>Consumo de dos recintos con uso diario.</td></tr><tr><td>O.7</td><td>Se suma el canil al recorrido municipal ya existente.</td></tr><tr><td>O.8</td><td>Una vez al año; la frecuencia real se ajusta según uso.</td></tr><tr><td>O.9</td><td>Laboratorio acreditado, además del análisis de línea base.</td></tr><tr><td>O.10</td><td>Medida sanitaria permanente por leptospirosis.</td></tr><tr><td>O.11</td><td>2% del costo directo financiado. Cubre el desgaste normal del primer año.</td></tr><tr><td>O.12</td><td>10% anual del valor del sistema solar y de las cámaras, para no llegar sin fondos al recambio.</td></tr><tr><td>O.13</td><td>Cuatro al año, con el veterinario municipal que ya está en funciones.</td></tr><tr><td>O.14</td><td>Mantiene vivo el convenio y resuelve el recambio de piezas en contacto con agua.</td></tr><tr><td>O.15</td><td>0,5% de la inversión financiada.</td></tr></tbody>
+  </table>
+  </div>
+
+  <h3>Costo por visita</h3>
+  <p>Con 38.108 visitas proyectadas el primer año, el costo de operación por visita es de
+    <strong>$616</strong>. Al tercer año, con 45.729 visitas, baja a <strong>$513</strong>
+    sin aumentar el gasto: la operación es prácticamente fija y el costo unitario mejora con el uso. Es
+    la razón por la que la difusión del recinto no es un gasto accesorio, sino parte de la eficiencia
+    del proyecto.</p>
+
+  <div class="destacado">
+    <div class="titulo">El 69% de la operación es aseo</div>
+    <p>Los dos auxiliares de aseo son $16.170.000 de los $23.478.732 anuales a financiar. Todo lo demás
+      —insumos, datos, control de roedores, análisis de agua, seguro y provisiones de reposición— suma
+      menos de un tercio. Cualquier mejora de eficiencia en la operación pasa por cómo se organizan esos
+      turnos, no por recortar insumos.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 8<span class="marcador">@@c8@@</span></span>Proyección de los tres caniles y tope PMU</h2>
+
+  <p class="entradilla">Cada canil se formula y se postula por separado. Los caniles 2 y 3 descuentan
+    las herramientas y el contenedor bodega, que ya se compraron para el piloto, e incorporan un reajuste
+    de 3,5% por inflación.</p>
+
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th>Canil</th><th class="num">A financiar</th><th class="num">Aporte valorizado</th>
+      <th class="num">Total valorizado</th><th class="num">UTM</th><th class="cen">¿Bajo el tope?</th></tr></thead>
+    <tbody>
+      <tr><td>Canil 1 · piloto (etapa 1)</td><td class="num">$124.413.925</td><td class="num">$26.845.853</td>
+        <td class="num">$151.259.778</td><td class="num">1.735</td><td class="cen">Sí</td></tr>
+      <tr><td>Canil 2 (etapa 2)</td><td class="num">$122.927.551</td><td class="num">$25.197.958</td>
+        <td class="num">$148.125.509</td><td class="num">1.714</td><td class="cen">Sí</td></tr>
+      <tr><td>Canil 3 (etapa 2)</td><td class="num">$122.927.551</td><td class="num">$25.197.958</td>
+        <td class="num">$148.125.509</td><td class="num">1.714</td><td class="cen">Sí</td></tr>
+      <tr class="total"><td>Total de los tres caniles</td><td class="num">$370.269.026</td><td class="num">$77.241.769</td>
+        <td class="num">$447.510.795</td><td class="num">5.163</td><td class="cen">—</td></tr>
+    </tbody>
+  </table>
+  <p class="nota-tabla">El tope del PMU es de 2.500 UTM <strong>por proyecto</strong>, equivalentes a
+    $179.302.500. Cada canil queda holgadamente bajo ese límite; la suma de los tres no compite con el tope
+    porque se postulan como proyectos independientes y en momentos distintos.</p>
+  </div>
+
+  <h3>Cómo se construyen las cifras de los caniles 2 y 3</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th>Concepto</th><th class="num" style="width:22%">Monto</th><th style="width:34%">Explicación</th></tr></thead>
+    <tbody>
+      <tr><td>Costo directo a financiar del piloto</td><td class="num">$104.725.526</td><td>Base de cálculo.</td></tr>
+      <tr><td>Herramientas y equipos que no se repiten</td><td class="num">−$4.750.290</td><td>Ítems B.4 a B.11, comprados una sola vez.</td></tr>
+      <tr><td>Reajuste por inflación (3,5%)</td><td class="num">+$3.499.133</td><td>IPC de 12 meses aplicado al costo directo.</td></tr>
+      <tr><td>Costo directo a financiar</td><td class="num">$103.474.369</td><td></td></tr>
+      <tr><td>Gastos generales e imprevistos</td><td class="num">$19.453.181</td><td>Mismos porcentajes que en el piloto.</td></tr>
+      <tr class="total"><td>Total por canil replicado</td><td class="num">$122.927.551</td><td>1.714 UTM</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Operación de los tres caniles</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th>Concepto</th><th class="num">Un canil</th><th class="num">Tres caniles</th></tr></thead>
+    <tbody>
+      <tr><td>Operación anual a financiar</td><td class="num">$23.478.732</td><td class="num">$70.436.196</td></tr>
+      <tr><td>Aporte municipal anual valorizado</td><td class="num">$5.800.000</td><td class="num">$17.400.000</td></tr>
+      <tr><td>Visitas anuales proyectadas</td><td class="num">38.108</td><td class="num">114.324</td></tr>
+      <tr><td>Costo de operación por visita</td><td class="num">$616</td><td class="num">$616</td></tr>
+    </tbody>
+  </table>
+  <p class="nota-tabla">La proyección de tres caniles supone, de forma conservadora, que cada recinto se
+    opera por separado y con su propio personal. El capítulo 11 muestra cuánto baja este costo si la
+    operación se organiza en red.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 9<span class="marcador">@@c9@@</span></span>Evaluación económica</h2>
+
+  <p class="entradilla">Qué se obtiene por lo que se invierte. Este capítulo existe porque un
+    presupuesto no se aprueba solo por estar bien sumado: hay que poder comparar el gasto con el
+    beneficio.</p>
+
+  <h3>Indicadores de inversión</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th>Indicador</th><th class="num" style="width:20%">Valor</th><th style="width:38%">Cómo se calcula</th></tr></thead>
+    <tbody>
+      <tr><td>Inversión a financiar por habitante de la comuna</td><td class="num">$2.350</td><td>$124.413.925 ÷ 52.942 habitantes (Censo 2024).</td></tr>
+      <tr><td>Inversión valorizada por perro del sector</td><td class="num">$20.698</td><td>$151.259.778 ÷ 7.308 perros estimados en el sector del canil.</td></tr>
+      <tr><td>Inversión por visita, amortizada a 10 años</td><td class="num">$277</td><td>$124.413.925 ÷ 449.669 visitas proyectadas en 10 años.</td></tr>
+      <tr><td>Costo total por visita el año 1 (operación más inversión amortizada)</td><td class="num">$893</td><td>$616 de operación más $277 de inversión.</td></tr>
+      <tr><td>Aporte valorizado sobre el total del proyecto</td><td class="num">17,7%</td><td>$26.845.853 de $151.259.778.</td></tr>
+      <tr><td>Retorno referencial de la inversión en parques</td><td class="num">$453.779.334</td><td>Criterio del Trust for Public Land: al menos US$3 por cada US$1 invertido, aplicado al valor total del proyecto.</td></tr>
+    </tbody>
+  </table>
+  <p class="nota-tabla">El retorno de 3 a 1 es un criterio internacional de referencia para inversión en
+    parques, no una estimación hecha para este proyecto: se incluye como orden de magnitud y no como
+    resultado calculado.</p>
+  </div>
+
+  <h3>Beneficios que el presupuesto no monetiza</h3>
+  <p>Hay efectos esperados que este documento <strong>no</strong> convierte en pesos, porque no existe
+    una cifra oficial local que lo permita y sería un error presentarlos como ahorro garantizado. Se
+    dejan enunciados para que la mesa técnica decida si los valoriza con datos propios:</p>
+  <ul class="marcas">
+    <li><strong>Atenciones de salud por mordeduras evitadas.</strong> La comuna tiene una base estimada
+      de 175 atenciones al año. Cada atención tiene un costo para la red asistencial que no está
+      publicado a nivel comunal.</li>
+    <li><strong>Ataques de perros a ganado y fauna.</strong> La Región de Los Lagos encabeza las
+      denuncias del SAG. El daño por animal atacado es cuantificable por el propio sector ganadero.</li>
+    <li><strong>Aseo de playas, costanera y plazas.</strong> Concentrar las fecas en un recinto con
+      bolsas y basureros reduce carga de trabajo en el resto del espacio público.</li>
+    <li><strong>Turismo.</strong> El 42% de los viajeros declara que poder llevar su mascota influye en
+      la elección del destino, en una comuna que alcanzó 81,3% de ocupación en enero.</li>
+    <li><strong>Salud de las personas.</strong> Más actividad física al aire libre en una comuna cuya
+      población de 60 años y más creció 45,9% desde 2017.</li>
+  </ul>
+
+  <h3>El costo de no hacer nada</h3>
+  <p>La alternativa actual no es gratuita: es el uso intensivo de playas, costanera y plazas por perros
+    sueltos, con los conflictos, reclamos y trabajo de aseo que eso implica, y sin ningún lugar donde
+    hacer entrenamiento, operativos de chip o cursos de obediencia. Ese costo hoy se paga distribuido en
+    varias direcciones municipales y no aparece en ninguna línea presupuestaria.</p>
+
+  <div class="destacado">
+    <div class="titulo">Comparación con el tope del fondo</div>
+    <p>El proyecto usa 69,4% del tope disponible del PMU y deja $54.888.575 de margen. Ese margen
+      es el espacio real que tiene la mesa técnica para absorber cotizaciones más altas —especialmente en
+      el pozo, el baño y el tótem SOS— sin que el proyecto quede fuera del fondo.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 10<span class="marcador">@@c10@@</span></span>Metas proyectadas</h2>
+
+  <p class="entradilla">Las metas del canil piloto y la base de cálculo con que se construyeron. Son
+    metas propuestas: la línea base local se levanta en la etapa 1 y las metas definitivas las fija la
+    mesa técnica antes de abrir.</p>
+
+  <h3>Base de cálculo</h3>
+  <div class="tabla-envoltura">
+  <table class="compacta">
+    <thead><tr><th style="width:46%">Dato</th><th class="num">Valor</th><th>Origen</th></tr></thead>
+    <tbody>
+      <tr><td>Perros estimados en la comuna (rango)</td><td class="num">20.053 a 23.797</td><td>Cálculo propio sobre población comunal y tasas nacionales</td></tr>
+      <tr><td>Promedio usado</td><td class="num">21.925</td><td>Punto medio del rango</td></tr>
+      <tr><td>Perros del sector del canil piloto</td><td class="num">7.308</td><td>Un tercio de la comuna</td></tr>
+      <tr><td>Uso proyectado</td><td class="num">10% por semana</td><td>Supuesto de demanda</td></tr>
+      <tr><td>Visitas semanales</td><td class="num">731</td><td>10% de los perros del sector</td></tr>
+      <tr><td>Visitas diarias</td><td class="num">104</td><td>Visitas semanales ÷ 7</td></tr>
+      <tr><td>Visitas mensuales</td><td class="num">3.132</td><td>Visitas diarias × 30</td></tr>
+      <tr><td>Visitas anuales</td><td class="num">38.108</td><td>Visitas diarias × 365</td></tr>
+      <tr><td>Mordeduras base en la comuna</td><td class="num">175 al año</td><td>60.986 atenciones nacionales (2023) llevadas a la población comunal</td></tr>
+      <tr><td>Nuevas inscripciones base</td><td class="num">1.066 al año</td><td>Registro Nacional de Mascotas llevado a la población comunal</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Metas e indicadores</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th>Indicador</th><th>Línea base</th><th class="cen">Meta año 1</th><th class="cen">Meta año 3</th><th>Medición</th></tr></thead>
+    <tbody>
+      <tr><td>Visitas diarias</td><td>0</td><td class="cen">104</td><td class="cen">125</td><td>Contador automático</td></tr>
+      <tr><td>Visitas anuales</td><td>0</td><td class="cen">38.108</td><td class="cen">45.729</td><td>Contador automático</td></tr>
+      <tr><td>Reclamos por perros en playas, costanera y plazas</td><td>Por levantar</td><td class="cen">−15%</td><td class="cen">−30%</td><td>OIRS y Seguridad Pública</td></tr>
+      <tr><td>Fecas en recorridos de muestra</td><td>Por levantar</td><td class="cen">−20%</td><td class="cen">−35%</td><td>5 recorridos fijos mensuales</td></tr>
+      <tr><td>Nuevas inscripciones en la comuna</td><td>1.066</td><td class="cen">1.279</td><td class="cen">1.439</td><td>Registro Nacional de Mascotas</td></tr>
+      <tr><td>Chips y antirrábicas en operativos</td><td>0</td><td class="cen">200</td><td class="cen">250</td><td>Veterinario municipal, 4 operativos</td></tr>
+      <tr><td>Mordeduras atendidas en la comuna</td><td>175</td><td class="cen">166</td><td class="cen">157</td><td>Seremi de Salud</td></tr>
+      <tr><td>Denuncias SAG en la comuna</td><td>Por levantar</td><td class="cen">−10%</td><td class="cen">−20%</td><td>SAG Los Lagos</td></tr>
+      <tr><td>Satisfacción de personas usuarias (1 a 5)</td><td>—</td><td class="cen">4,0</td><td class="cen">4,3</td><td>Encuesta por QR</td></tr>
+      <tr><td>Costo de operación por visita</td><td>—</td><td class="cen">$616</td><td class="cen">$513</td><td>Operación anual ÷ visitas</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="aviso">
+    <div class="titulo">Cómo leer estas metas</div>
+    <p>Las metas de mordeduras, inscripciones y denuncias expresan una contribución esperada, no una
+      relación de causa probada: el canil es una de varias medidas que influyen en esos indicadores. Las
+      metas de visitas y de costo por visita, en cambio, dependen directamente del recinto y son las que
+      deciden si el modelo se replica en los sectores sur y norte.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 11<span class="marcador">@@c11@@</span></span>Ahorros adicionales identificados</h2>
+
+  <p class="entradilla">El presupuesto base es deliberadamente conservador: no descuenta nada que no
+    esté confirmado. Estos son los ahorros que existen y que, al confirmarse, bajan el monto a postular
+    o el costo de operación.</p>
+
+  <h3>En la inversión del piloto</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th style="width:30%">Ahorro</th><th class="num" style="width:18%">Efecto</th><th>Condición para que se concrete</th></tr></thead>
+    <tbody>
+      <tr><td>Grava del propio terreno o de pozo de áridos municipal</td><td class="num">−$3.594.544</td><td>Que la Dirección de Obras confirme material utilizable en el terreno o excedentes de otras obras, con la calidad necesaria para senderos y bases.</td></tr>
+      <tr><td>Diseño con profesionales municipales</td><td class="num">−$6.000.000</td><td>Que Secplan y la Dirección de Obras asuman el diseño de arquitectura y especialidades en vez de contratarlo.</td></tr>
+      <tr class="total"><td>Efecto conjunto sobre el total a postular</td><td class="num">−$11.398.318</td><td>El total bajaría de $124.413.925 a $113.015.607, es decir 1.576 UTM.</td></tr>
+    </tbody>
+  </table>
+  <p class="nota-tabla">El efecto incluye el arrastre de gastos generales e imprevistos, porque ambos se
+    calculan como porcentaje del costo directo.</p>
+  </div>
+
+  <h3>En los caniles 2 y 3: el proyecto tipo</h3>
+  <p>El expediente técnico del piloto —planos, especificaciones, detalles constructivos y presupuesto—
+    queda como proyecto tipo de la municipalidad. Los caniles del sur y del norte no necesitan un diseño
+    nuevo, sino la adecuación del existente al terreno que corresponda. Si el diseño de la partida A.2
+    baja de $6.000.000 a $1.500.000 en cada réplica, el ahorro es de <strong>$5.533.110 por canil</strong>,
+    es decir $11.066.220 en las dos etapas siguientes.</p>
+
+  <h3>En la operación, cuando existan los tres caniles</h3>
+  <div class="tabla-envoltura">
+  <table>
+    <thead><tr><th>Escenario de operación de los tres caniles</th><th class="num">Costo anual a financiar</th><th class="num">Costo por visita</th></tr></thead>
+    <tbody>
+      <tr><td>Tres recintos operados por separado, con dos auxiliares cada uno</td><td class="num">$70.436.196</td><td class="num">$616</td></tr>
+      <tr><td>Operación en red: cuatro auxiliares en rutas que cubren los tres recintos</td><td class="num">$54.266.196</td><td class="num">$475</td></tr>
+      <tr class="total"><td>Diferencia anual</td><td class="num">−$16.170.000</td><td class="num">−$141</td></tr>
+    </tbody>
+  </table>
+  <p class="nota-tabla">El escenario en red supone rutas de aseo que cubren más de un recinto por turno,
+    una sola cuadrilla mensual de mantención para los tres caniles, compras de insumos consolidadas y un
+    único contrato de datos. Requiere que los tres recintos ya estén construidos y que la Dirección de
+    Aseo y Ornato valide los tiempos de traslado entre sectores.</p>
+  </div>
+
+  <h3>Otras vías de reducción</h3>
+  <ul class="marcas">
+    <li><strong>Plataforma de Economía Circular:</strong> además del contenedor bodega, pueden obtenerse
+      sin costo basureros, mobiliario y equipamiento dados de baja por otros servicios públicos. Cada
+      ítem que salga por esta vía se descuenta del presupuesto.</li>
+    <li><strong>Convenio Marco:</strong> comprar con precios ya licitados evita sobreprecios en los
+      ítems referenciales y acorta los plazos de adquisición.</li>
+    <li><strong>Aportes privados en especies</strong> de empresas del rubro mascotas y del turismo local
+      —bolsas compostables, insumos de operativos, reposición de piezas—, bajo convenio anual revocable,
+      sin publicidad dentro de los sectores y sin que ningún aporte condicione el reglamento ni el uso
+      del canil. Es una vía a evaluar con Asesoría Jurídica: el proyecto no depende de ella.</li>
+    <li><strong>Fondo Concursable de Tenencia Responsable:</strong> financia los entrenadores y cursos
+      del sector de perros complicados a través de una organización sin fines de lucro inscrita en el
+      registro correspondiente, de modo que ese costo no recae en el presupuesto municipal de
+      operación.</li>
+  </ul>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Capítulo 12<span class="marcador">@@c12@@</span></span>Fuentes de precios y advertencias</h2>
+
+  <p class="entradilla">De dónde salió cada precio verificado y qué hay que hacer antes de postular.</p>
+
+  <h3>Fuentes de precios</h3>
+  <div class="tabla-envoltura">
+  <table class="compacta">
+    <thead><tr><th style="width:28%">Fuente</th><th>Ítems</th></tr></thead>
+    <tbody>
+      <tr><td>Sodimac.cl</td><td>Mallas Inchalam 5014, polines y pino, anclajes IDAF, estanques y fosas Amerplast, aceite impregnante de 20 L, referencia de luminarias solares de consumo.</td></tr>
+      <tr><td>Easy.cl</td><td>Alambre galvanizado 2,11 mm en rollo de 25 kg.</td></tr>
+      <tr><td>Falabella.cl</td><td>Aserradero portátil para motosierra.</td></tr>
+      <tr><td>Full Áridos / CMGC</td><td>Grava y compost por metro cúbico.</td></tr>
+      <tr><td>Cruzat Ingeniería, 2026</td><td>Perforación de pozo por metro.</td></tr>
+      <tr><td>Club del Agua, 2026</td><td>Estudio hidrogeológico.</td></tr>
+      <tr><td>Obramat (España)</td><td>Bomba solar sumergible de 1,1 kW con controlador.</td></tr>
+      <tr><td>Sungold Power</td><td>Paneles solares de 550 W.</td></tr>
+      <tr><td>Autosolar (España)</td><td>Kit solar aislado con batería de 5 kWh.</td></tr>
+      <tr><td>MediaWorld (Italia)</td><td>Cámara Ezviz EB3 con panel solar.</td></tr>
+      <tr><td>Estrella de Iquique</td><td>Referencia de tótems de emergencia: $345 millones por 23 unidades.</td></tr>
+      <tr><td>hacecuentas.com, con base CChC y Minvu</td><td>Costo de construcción por metro cuadrado, 2026.</td></tr>
+      <tr><td>Chiletrabajos y Mega</td><td>Sueldos de carpintero, gásfiter y eléctrico en construcción.</td></tr>
+      <tr><td>Carey</td><td>Ingreso mínimo mensual 2026.</td></tr>
+      <tr><td>Buk y Banco Central</td><td>Valor de la UF.</td></tr>
+      <tr><td>Servicio de Impuestos Internos</td><td>Valor de la UTM.</td></tr>
+      <tr><td>Infobae y Banco Central vía finclaro</td><td>Tipos de cambio de euro y dólar.</td></tr>
+      <tr><td>Seremi de Salud</td><td>Arancel de autorización sanitaria.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Qué hacer antes de postular</h3>
+  <ol>
+    <li><strong>Cotizar los ítems referenciales</strong>, partiendo por los de mayor monto: tótem SOS,
+      luminarias de grado público, cerraduras electromagnéticas, cañerías y fittings, honorarios
+      profesionales, retroexcavadora y camión.</li>
+    <li><strong>Confirmar la profundidad real del pozo</strong> con el estudio hidrogeológico. Es la
+      variable que más mueve el total.</li>
+    <li><strong>Encargar el cálculo estructural de la torre de agua</strong>, que sostiene once
+      toneladas.</li>
+    <li><strong>Cotizar el baño llave en mano</strong> con constructoras locales y comparar con el valor
+      de 30 UF/m² usado aquí.</li>
+    <li><strong>Revisar la Plataforma de Economía Circular</strong> y el Convenio Marco antes de
+      licitar, y descontar del presupuesto todo lo que se obtenga por esas vías.</li>
+    <li><strong>Actualizar UF, UTM y tipos de cambio</strong> a la fecha de postulación.</li>
+  </ol>
+
+  <div class="aviso">
+    <div class="titulo">Advertencias</div>
+    <p>Este presupuesto es una propuesta base. Las cantidades provienen de un diseño preliminar que aún
+      no tiene topografía ni terreno definido, por lo que pueden variar: la superficie de cerco depende
+      de la forma del terreno, el volumen de grava depende de las pendientes y la profundidad del pozo
+      depende de la napa. Los precios tienen fecha —septiembre de 2026— y los equipos importados
+      dependen del tipo de cambio. Nada de lo que aquí se propone reemplaza el trabajo de los
+      profesionales municipales: el objetivo es que tengan un punto de partida completo y verificable
+      sobre el cual corregir.</p>
+  </div>
+</section>
+
+</body>
+</html>

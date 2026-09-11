@@ -1,0 +1,4 @@
+build/tmp/
+build/__pycache__/
+src/.tmp-*.html
+*.pyc
