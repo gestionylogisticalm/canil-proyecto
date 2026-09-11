@@ -83,7 +83,8 @@
     <li><span class="num">A</span><span class="txt">Mensajes de los tótems y de la cerca</span><span class="puntos"></span><span class="pag" data-ref="axa">—</span></li>
     <li><span class="num">B</span><span class="txt">Reglas para letreros</span><span class="puntos"></span><span class="pag" data-ref="axb">—</span></li>
     <li><span class="num">C</span><span class="txt">Fuentes</span><span class="puntos"></span><span class="pag" data-ref="axc">—</span></li>
-    <li><span class="num">D</span><span class="txt">Prompt de imagen 3D del canil</span><span class="puntos"></span><span class="pag" data-ref="axd">—</span></li>
+    <li><span class="num">D</span><span class="txt">Imágenes 3D del canil</span><span class="puntos"></span><span class="pag" data-ref="axd">—</span></li>
+    <li><span class="num">E</span><span class="txt">Prompt de imagen 3D del canil</span><span class="puntos"></span><span class="pag" data-ref="axe">—</span></li>
   </ol>
 </section>
 
@@ -615,6 +616,93 @@
   </table>
   </div>
 
+  <h3>Qué terrenos públicos hay disponibles en Puerto Varas</h3>
+  <p>La pregunta de fondo —cuántos terrenos públicos sin uso hay en la comuna— no tiene una respuesta
+    publicada en línea: <strong>no existe un listado abierto de «terrenos fiscales disponibles» por
+    comuna</strong>. Lo que sí existe es el inventario oficial y las vías para consultarlo, y esa
+    consulta es el primer trabajo concreto de la mesa territorial. Esto es lo que hay:</p>
+
+  <div class="tabla-envoltura">
+  <table>
+    <caption>De dónde puede salir el terreno de cada canil</caption>
+    <thead><tr><th style="width:24%">Origen</th><th style="width:24%">Quién lo administra</th><th>Cómo se obtiene y qué hay que pedir</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Inmuebles fiscales</strong></td>
+        <td>Ministerio de Bienes Nacionales, Seremi de Los Lagos</td>
+        <td>Es la vía principal. Se pide el listado de inmuebles fiscales de la comuna al Catastro de la Propiedad Fiscal y se solicita una <strong>concesión de uso gratuito</strong>: de corto plazo, de 1 a 5 años, o de largo plazo, hasta 50 años.</td>
+      </tr>
+      <tr>
+        <td><strong>Terrenos municipales</strong></td>
+        <td>Municipalidad de Puerto Varas</td>
+        <td>El municipio tiene su propio catastro de inmuebles. Si el terreno es municipal, no hay trámite ante otro servicio: basta el acuerdo del Concejo. Es la vía más rápida para el piloto.</td>
+      </tr>
+      <tr>
+        <td><strong>Bienes nacionales de uso público</strong></td>
+        <td>Municipalidad</td>
+        <td>Paños ya destinados a uso público que el municipio administra y mantiene, entre ellos áreas verdes formalizadas en el Plan Regulador Comunal.</td>
+      </tr>
+      <tr>
+        <td><strong>Terrenos de otros servicios</strong></td>
+        <td>SERVIU, Ferrocarriles, Vialidad, entre otros</td>
+        <td>Paños remanentes de proyectos de vivienda, faja ferroviaria o caminos. Se obtienen por transferencia o comodato entre organismos del Estado.</td>
+      </tr>
+      <tr>
+        <td><strong>Áreas verdes del Plan Regulador</strong></td>
+        <td>Municipalidad</td>
+        <td>Superficies ya zonificadas como área verde que aún no tienen proyecto. Es el uso de suelo que mejor calza con un canil.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>Lo que sí está documentado</h4>
+  <ul class="marcas">
+    <li>El <strong>53,69% del territorio continental de Chile es de dominio fiscal</strong> —40,59
+      millones de hectáreas—, de las cuales cerca de 10 millones están bajo administración directa del
+      Ministerio de Bienes Nacionales y 16 millones corresponden a áreas protegidas del SNASPE. Terreno
+      fiscal hay; lo que falta es identificar cuál sirve.</li>
+    <li>El Ministerio mantiene el <strong>Catastro de la Propiedad Fiscal</strong> y un sistema de
+      información geográfica con la capa «Propiedad Fiscal Administrada», consultable en línea en el
+      Geoportal del ministerio. Es la fuente que hay que cruzar con el catastro municipal.</li>
+    <li>La <strong>oficina regional de Los Lagos</strong> está en Puerto Montt, avenida Décima Región
+      480, con oficinas provinciales en Osorno, Castro y Chaitén. La solicitud se presenta ahí o por el
+      sistema de trámites en línea del ministerio, durante todo el año.</li>
+    <li>El inventario fiscal <strong>se está moviendo</strong>: a septiembre de 2026 hay una docena de
+      licitaciones vigentes de inmuebles fiscales en la Región de Los Lagos, dentro de un plan nacional
+      de venta de 234 inmuebles. Conviene pedir el listado comunal antes que después.</li>
+    <li>En el lado municipal, el servicio de mantención de áreas verdes de la comuna cubre
+      <strong>70 hectáreas</strong> entre Puerto Varas, Ensenada y Nueva Braunau. La hectárea de un
+      canil equivale al 1,4% de esa superficie, y su mantención es mucho menor por metro cuadrado,
+      porque el terreno se usa tal como está.</li>
+  </ul>
+
+  <h4>Protocolo para llegar a la lista definitiva</h4>
+  <ol>
+    <li>Oficio a la <strong>Seremi de Bienes Nacionales de Los Lagos</strong> pidiendo el listado de
+      inmuebles fiscales de la comuna de Puerto Varas, con rol, superficie, destinación actual y
+      situación jurídica.</li>
+    <li>Extracción de la capa de <strong>propiedad fiscal administrada</strong> del Geoportal del
+      ministerio, acotada a la comuna, para trabajarla en el SIG municipal.</li>
+    <li>Cruce con el <strong>catastro de inmuebles municipales</strong> y con los bienes nacionales de
+      uso público que ya mantiene el municipio.</li>
+    <li>Filtro por <strong>uso de suelo del Plan Regulador Comunal</strong> y por el límite urbano, para
+      saber cuáles requieren informe de terreno rural.</li>
+    <li>Descarte por <strong>riesgo de inundación</strong>, pendiente, fauna nativa sensible, ganado
+      colindante y distancia a viviendas, plazas de niños y playas.</li>
+    <li>Visita a terreno de los candidatos que queden y selección de <strong>uno por sector</strong>
+      —centro, sur y norte—, más la definición de cuál de los tres se construye primero.</li>
+  </ol>
+
+  <div class="aviso">
+    <div class="titulo">Qué significa esto para el proyecto</div>
+    <p>Ninguna de estas gestiones detiene el plan: son los pasos 1 y 2 del cronograma, en los meses 1 a
+      3, y se hacen con personal municipal. Lo importante es el orden: <strong>primero se busca en el
+      catastro municipal</strong>, que es lo más rápido y no requiere trámite externo, y en paralelo se
+      pide el listado fiscal para los dos terrenos restantes, cuyas concesiones de largo plazo tardan
+      más y por eso se tramitan desde el comienzo.</p>
+  </div>
+
   <p>La identificación concreta de los tres terrenos corresponde a la mesa territorial y ambiental, con
     el apoyo del profesional de geografía y su sistema de información geográfica. De los tres, se elige
     uno para el piloto.</p>
@@ -626,6 +714,15 @@
   <p class="entradilla">Una hectárea, 10.000 m², dividida en cinco zonas cercadas más las franjas de
     separación. Fuera de la hectárea quedan el estacionamiento y el sendero independiente a los
     sectores de entrenamiento.</p>
+
+  <figure class="figura">
+    <img src="img/canil-cuarto-bosque-aerea.jpg" alt="Vista aérea del canil de una hectárea">
+    <figcaption><strong>Figura 1.</strong> Vista general del canil de una hectárea, con un cuarto del
+      terreno en bosque nativo. Al frente, el estacionamiento y la zona de acceso con el baño público;
+      a la izquierda, el sector de perros pequeños; a la derecha, el de perros grandes con el sendero
+      olfativo entre los árboles; al fondo, los dos sectores de entrenamiento con su acceso
+      independiente. Las seis imágenes del modelo están en el anexo D.</figcaption>
+  </figure>
 
   <div class="tabla-envoltura">
   <table>
@@ -1427,6 +1524,7 @@
       <li>Mensajes de los tótems y de la cerca</li>
       <li>Reglas para letreros</li>
       <li>Fuentes</li>
+      <li>Imágenes 3D del canil</li>
       <li>Prompt de imagen 3D del canil</li>
     </ol>
   </div>
@@ -1627,7 +1725,79 @@
 </section>
 
 <section class="seccion">
-  <h2><span class="numero">Anexo D<span class="marcador">@@axd@@</span></span>Prompt de imagen 3D del canil</h2>
+  <h2><span class="numero">Anexo D<span class="marcador">@@axd@@</span></span>Imágenes 3D del canil</h2>
+
+  <p class="entradilla">Seis vistas del modelo tridimensional del canil, construido con las medidas
+    reales de este plan: 100 × 100 metros, cercos de 1,8 y 1,2 m, baño de 16 m², zona de amarre de
+    12 × 3 m, torre de agua de 4 m y estacionamiento para quince autos.</p>
+
+  <p>Se modelaron las tres situaciones de terreno que pueden encontrarse al elegir los paños fiscales, y
+    cada una se muestra desde dos ángulos: una vista general en altura y una vista desde el
+    estacionamiento hacia la zona de acceso, donde se aprecia el baño público con el volumen y la
+    pendiente de techo de las construcciones de Puerto Varas, la cerca de postes de madera con malla y
+    los juegos de troncos.</p>
+
+  <div class="sin-corte salto">
+  <h3>Un cuarto de bosque y el resto pradera</h3>
+  <figure class="figura">
+    <img src="img/canil-cuarto-bosque-aerea.jpg" alt="Canil con un cuarto de bosque, vista aérea">
+    <figcaption><strong>Figura D.1.</strong> Vista general. El bosque ocupa el cuarto del fondo y queda
+      dentro del sector de perros grandes, donde se traza el sendero olfativo; el resto es pradera
+      abierta para correr. Es la configuración que mejor combina sombra natural y espacio libre.</figcaption>
+  </figure>
+  <figure class="figura">
+    <img src="img/canil-cuarto-bosque-acceso.jpg" alt="Canil con un cuarto de bosque, vista desde el acceso">
+    <figcaption><strong>Figura D.2.</strong> Vista desde el estacionamiento. A la derecha, el baño
+      público de dos recintos universales, en madera, con techo de fuerte pendiente, alero y paneles
+      solares; a la izquierda, la zona de amarre techada de 12 × 3 m. Al fondo, el volcán Osorno.</figcaption>
+  </figure>
+
+  <h3>Solo pradera</h3>
+  <figure class="figura">
+    <img src="img/canil-pradera-aerea.jpg" alt="Canil solo pradera, vista aérea">
+    <figcaption><strong>Figura D.3.</strong> Vista general. Sin bosque interior, todo el recinto es
+      pradera: máximo espacio para correr y para el cerco móvil que rota el pasto en invierno, pero sin
+      techo natural. En esta configuración los árboles aislados y las franjas de arbustos nativos que
+      aporta CONAF pasan a ser la única sombra, y conviene reforzarlos.</figcaption>
+  </figure>
+  <figure class="figura">
+    <img src="img/canil-pradera-acceso.jpg" alt="Canil solo pradera, vista desde el acceso">
+    <figcaption><strong>Figura D.4.</strong> Vista desde el estacionamiento. Se ven la torre de agua de
+      madera con los dos estanques de 5.500 litros, la zona de amarre, el baño y la cerca perimetral con
+      su listón superior, que es donde se montan las veinte tablas grabadas con mensajes.</figcaption>
+  </figure>
+  </div>
+
+  <div class="sin-corte">
+  <h3>Mitad bosque y mitad pradera</h3>
+  <figure class="figura">
+    <img src="img/canil-mitad-bosque-aerea.jpg" alt="Canil mitad bosque, vista aérea">
+    <figcaption><strong>Figura D.5.</strong> Vista general. El bosque cubre la mitad norte e incluye
+      parte de los sectores de entrenamiento, que quedan naturalmente protegidos de la vista. Es la
+      configuración con más sombra y menos superficie de carrera, y la que exige más cuidado al ubicar
+      la cerca entre los árboles existentes.</figcaption>
+  </figure>
+  <figure class="figura">
+    <img src="img/canil-mitad-bosque-acceso.jpg" alt="Canil mitad bosque, vista desde el acceso">
+    <figcaption><strong>Figura D.6.</strong> Vista desde el estacionamiento. El bosque aparece
+      inmediatamente detrás de los sectores libres. La cerca se ubica entre los árboles, sin clavar
+      nada en ellos: los postes son propios y la malla se tensa entre postes.</figcaption>
+  </figure>
+  </div>
+
+  <div class="destacado">
+    <div class="titulo">Cómo se hicieron estas imágenes</div>
+    <p>No son fotografías ni montajes: son renders de un modelo tridimensional construido a partir de
+      las medidas de este plan, de modo que las proporciones entre el baño, el amarre, la torre de agua,
+      los juegos y la cancha de cada sector son las que efectivamente tendría el recinto. Sirven para
+      discutir el diseño en las mesas técnicas y para explicar el proyecto a la comunidad. El anexo E
+      contiene además el texto para generar visualizaciones fotorrealistas con una herramienta de
+      imagen.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2><span class="numero">Anexo E<span class="marcador">@@axe@@</span></span>Prompt de imagen 3D del canil</h2>
 
   <p class="entradilla">Texto para generar la visualización tridimensional del canil con una herramienta
     de imagen. Se incluye en inglés porque es el idioma en que estos modelos responden mejor.</p>

@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Canil de Puerto Varas · modelo 3D</title>
+<style>html,body{margin:0;padding:0;overflow:hidden;background:#cfe0ea}canvas{display:block}</style>
+<script src="three.min.js"></script>
+</head>
+<body>
+<script>
+/* ===========================================================================
+   Modelo 3D del canil de una hectárea de Puerto Varas.
+
+   Parámetros por URL:
+     conf  = cuarto | pradera | mitad      (proporción de bosque)
+     vista = aerea | acceso                (ángulo de cámara)
+     w, h  = tamaño del render
+
+   El terreno mide 100 × 100 m. El eje X va de poniente a oriente y el eje Z
+   de sur (acceso, z = 0) a norte (sectores de entrenamiento, z = 100).
+   =========================================================================== */
+
+const params = new URLSearchParams(location.search);
+const CONF = params.get('conf') || 'cuarto';
+const VISTA = params.get('vista') || 'aerea';
+const W = parseInt(params.get('w') || '2000', 10);
+const H = parseInt(params.get('h') || '1125', 10);
+
+/* --- azar reproducible ---------------------------------------------------- */
+let semilla = 20260911;
+function rnd() {
+  semilla = (semilla * 1664525 + 1013904223) % 4294967296;
+  return semilla / 4294967296;
+}
+function entre(a, b) { return a + rnd() * (b - a); }
+
+/* --- paleta --------------------------------------------------------------- */
+const COLOR = {
+  pasto: 0x6f8f4a,
+  pastoOscuro: 0x5c7a3d,
+  pastoClaro: 0x87a25a,
+  grava: 0x8c8578,
+  gravaOscura: 0x6f6a60,
+  maderaClara: 0xb08a55,
+  maderaMedia: 0x8d6a3f,
+  maderaOscura: 0x6b4f2c,
+  tejuela: 0x4a3b30,
+  blanco: 0xf2ece1,
+  follaje: 0x2f5233,
+  follajeClaro: 0x3f6b3e,
+  follajeOscuro: 0x24402a,
+  arbusto: 0x46703f,
+  agua: 0x7fb3c8,
+  malla: 0x9aa3a0,
+  roca: 0x7a7268,
+  nieve: 0xf3f6f8,
+  volcan: 0x5b5f66,
+};
+
+const escena = new THREE.Scene();
+
+/* --- cielo ---------------------------------------------------------------- */
+(function cielo() {
+  const c = document.createElement('canvas');
+  c.width = 8; c.height = 256;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0.00, '#7ea8c8');
+  grad.addColorStop(0.45, '#b9d2e2');
+  grad.addColorStop(0.72, '#dfe9ee');
+  grad.addColorStop(1.00, '#eef2f2');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 8, 256);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  escena.background = tex;
+})();
+escena.fog = new THREE.Fog(0xdce7ec, 420, 3200);
+
+/* --- materiales ----------------------------------------------------------- */
+function mat(color, rug = 0.9, met = 0.0) {
+  return new THREE.MeshStandardMaterial({ color: color, roughness: rug, metalness: met });
+}
+const M = {
+  pasto: mat(COLOR.pasto, 1),
+  pastoOscuro: mat(COLOR.pastoOscuro, 1),
+  pastoClaro: mat(COLOR.pastoClaro, 1),
+  grava: mat(COLOR.grava, 1),
+  gravaOscura: mat(COLOR.gravaOscura, 1),
+  maderaClara: mat(COLOR.maderaClara, 0.85),
+  maderaMedia: mat(COLOR.maderaMedia, 0.85),
+  maderaOscura: mat(COLOR.maderaOscura, 0.85),
+  tejuela: mat(COLOR.tejuela, 0.95),
+  blanco: mat(COLOR.blanco, 0.8),
+  follaje: mat(COLOR.follaje, 1),
+  follajeClaro: mat(COLOR.follajeClaro, 1),
+  follajeOscuro: mat(COLOR.follajeOscuro, 1),
+  arbusto: mat(COLOR.arbusto, 1),
+  agua: new THREE.MeshStandardMaterial({ color: COLOR.agua, roughness: 0.18, metalness: 0.15 }),
+  metal: mat(0x9099a0, 0.45, 0.6),
+  panel: new THREE.MeshStandardMaterial({ color: 0x1b2a3a, roughness: 0.25, metalness: 0.5 }),
+};
+
+/* malla galvanizada: textura de rejilla con transparencia */
+const texMalla = (function () {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, 64, 64);
+  g.strokeStyle = 'rgba(190,196,192,0.95)';
+  g.lineWidth = 5;
+  for (let i = 0; i <= 64; i += 16) {
+    g.beginPath(); g.moveTo(i, 0); g.lineTo(i, 64); g.stroke();
+    g.beginPath(); g.moveTo(0, i); g.lineTo(64, i); g.stroke();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  return t;
+})();
+
+function materialMalla(largo, alto) {
+  const t = texMalla.clone();
+  t.needsUpdate = true;
+  t.repeat.set(largo / 1.2, alto / 1.2);
+  return new THREE.MeshStandardMaterial({
+    map: t, transparent: true, alphaTest: 0.12, side: THREE.DoubleSide,
+    roughness: 0.75, metalness: 0.25, color: 0xc8cfcb,
+  });
+}
+
+/* --- utilidades geométricas ---------------------------------------------- */
+function caja(anchoX, altoY, largoZ, material, x, y, z, rotY) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(anchoX, altoY, largoZ), material);
+  m.position.set(x, y, z);
+  if (rotY) m.rotation.y = rotY;
+  m.castShadow = true; m.receiveShadow = true;
+  return m;
+}
+function cilindro(rArriba, rAbajo, alto, material, x, y, z, segs) {
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(rArriba, rAbajo, alto, segs || 10), material);
+  m.position.set(x, y, z);
+  m.castShadow = true; m.receiveShadow = true;
+  return m;
+}
+function cono(r, alto, material, x, y, z, segs) {
+  const m = new THREE.Mesh(new THREE.ConeGeometry(r, alto, segs || 9), material);
+  m.position.set(x, y, z);
+  m.castShadow = true; m.receiveShadow = true;
+  return m;
+}
+
+/* techo a dos aguas, estilo de las construcciones de Puerto Varas:
+   pendiente pronunciada y alero saliente */
+function techoDosAguas(ancho, largo, altura, material, x, y, z, rotY) {
+  const g = new THREE.BufferGeometry();
+  const a = ancho / 2, l = largo / 2, h = altura;
+  const v = new Float32Array([
+    // agua poniente
+    -a, 0, -l, 0, h, -l, 0, h, l, -a, 0, -l, 0, h, l, -a, 0, l,
+    // agua oriente
+    0, h, -l, a, 0, -l, a, 0, l, 0, h, -l, a, 0, l, 0, h, l,
+    // tímpano sur
+    -a, 0, -l, a, 0, -l, 0, h, -l,
+    // tímpano norte
+    a, 0, l, -a, 0, l, 0, h, l,
+  ]);
+  g.setAttribute('position', new THREE.BufferAttribute(v, 3));
+  g.computeVertexNormals();
+  const m = new THREE.Mesh(g, material);
+  m.position.set(x, y, z);
+  if (rotY) m.rotation.y = rotY;
+  m.castShadow = true; m.receiveShadow = true;
+  return m;
+}
+
+/* --- terreno -------------------------------------------------------------- */
+/* moteado suave del pasto, para que no se vea como un plano plano de color */
+function texturaPasto(base, veteado) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = base;
+  g.fillRect(0, 0, 256, 256);
+  g.fillStyle = veteado;
+  for (let i = 0; i < 900; i++) {
+    const x = rnd() * 256, y = rnd() * 256, r = 2 + rnd() * 9;
+    g.globalAlpha = 0.06 + rnd() * 0.12;
+    g.beginPath(); g.ellipse(x, y, r, r * 0.6, rnd() * 3.14, 0, 6.283); g.fill();
+  }
+  g.globalAlpha = 1;
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+/* al aplicar una textura, el color base se multiplica: debe quedar en blanco */
+function conTextura(material, base, veteado, repeticion) {
+  material.map = texturaPasto(base, veteado);
+  material.map.repeat.set(repeticion, repeticion);
+  material.color.setHex(0xffffff);
+}
+conTextura(M.pastoOscuro, '#6a8a46', '#5b7a3c', 120);
+conTextura(M.pasto, '#7d9c54', '#6d8c47', 16);
+conTextura(M.pastoClaro, '#8fab60', '#7e9a53', 9);
+conTextura(M.grava, '#9a9385', '#837c70', 7);
+
+const suelo = new THREE.Mesh(new THREE.PlaneGeometry(6000, 6000, 1, 1), M.pastoOscuro);
+suelo.rotation.x = -Math.PI / 2;
+suelo.position.set(50, -0.06, 50);
+suelo.receiveShadow = false;
+escena.add(suelo);
+
+const hectarea = new THREE.Mesh(new THREE.PlaneGeometry(120, 130, 1, 1), M.pasto);
+hectarea.rotation.x = -Math.PI / 2;
+hectarea.position.set(50, 0, 48);
+hectarea.receiveShadow = true;
+escena.add(hectarea);
+
+function superficie(x0, z0, x1, z1, material, y) {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(x1 - x0, z1 - z0), material);
+  m.rotation.x = -Math.PI / 2;
+  m.position.set((x0 + x1) / 2, y || 0.02, (z0 + z1) / 2);
+  m.receiveShadow = true;
+  escena.add(m);
+  return m;
+}
+
+/* sectores del canil */
+const SECTORES = {
+  acceso:   { x0: 0,  z0: 0,  x1: 100, z1: 6 },
+  pequenos: { x0: 0,  z0: 8,  x1: 28,  z1: 72 },
+  grandes:  { x0: 31, z0: 8,  x1: 100, z1: 72 },
+  entreA:   { x0: 0,  z0: 76, x1: 47,  z1: 100 },
+  entreB:   { x0: 53, z0: 76, x1: 100, z1: 100 },
+};
+
+/* zona de acceso y estacionamiento, en grava */
+superficie(-2, -20, 46, -4, M.grava);                 // estacionamiento
+superficie(0, 0, 100, 6, M.grava, 0.03);              // zona de acceso
+superficie(-10, -4, -4, 104, M.grava, 0.03);          // sendero a entrenamiento
+superficie(-10, 96, 100, 102, M.grava, 0.03);         // sendero norte
+superficie(30, 6, 34, 40, M.grava, 0.04);             // sendero accesible
+
+/* pasto de cada sector, con tonos levemente distintos */
+superficie(SECTORES.pequenos.x0, SECTORES.pequenos.z0, SECTORES.pequenos.x1, SECTORES.pequenos.z1, M.pastoClaro, 0.01);
+superficie(SECTORES.entreA.x0, SECTORES.entreA.z0, SECTORES.entreA.x1, SECTORES.entreA.z1, M.pastoClaro, 0.01);
+superficie(SECTORES.entreB.x0, SECTORES.entreB.z0, SECTORES.entreB.x1, SECTORES.entreB.z1, M.pastoClaro, 0.01);
+
+/* --- bosque --------------------------------------------------------------- */
+function esBosque(x, z) {
+  if (CONF === 'pradera') return false;
+  if (CONF === 'mitad') return z > 50;
+  return x > 55 && z > 45;           // un cuarto, al fondo a la derecha
+}
+
+function arbol(x, z, escala) {
+  const g = new THREE.Group();
+  const altoTronco = entre(3.5, 6.5) * escala;
+  const rTronco = entre(0.28, 0.5) * escala;
+  g.add(cilindro(rTronco * 0.75, rTronco, altoTronco, M.maderaOscura, 0, altoTronco / 2, 0, 7));
+
+  if (rnd() < 0.45) {
+    /* copa redondeada, tipo coigüe o tepa */
+    const r = entre(2.6, 4.2) * escala;
+    const base = altoTronco * 0.9;
+    [[0, 0, 1], [-0.55, 0.35, 0.72], [0.6, 0.2, 0.66], [0.1, -0.5, 0.6]].forEach(function (p, i) {
+      const esfera = new THREE.Mesh(new THREE.SphereGeometry(r * p[2], 9, 7),
+        i % 2 ? M.follaje : (i === 0 ? M.follajeOscuro : M.follajeClaro));
+      esfera.position.set(p[0] * r, base + r * (0.55 + p[1] * 0.4), p[1] * r * 0.6);
+      esfera.scale.y = 0.86;
+      esfera.castShadow = true; esfera.receiveShadow = true;
+      g.add(esfera);
+    });
+  } else {
+    /* copa cónica, tipo alerce o mañío */
+    let base = altoTronco * 0.72;
+    for (let i = 0; i < 3; i++) {
+      const r = (3.6 - i * 0.85) * escala * entre(0.85, 1.15);
+      const h = (5.2 - i * 0.7) * escala;
+      const material = i === 0 ? M.follajeOscuro : (i === 1 ? M.follaje : M.follajeClaro);
+      g.add(cono(r, h, material, entre(-0.3, 0.3), base + h / 2, entre(-0.3, 0.3), 8));
+      base += h * 0.42;
+    }
+  }
+  g.position.set(x, 0, z);
+  g.rotation.y = rnd() * Math.PI;
+  return g;
+}
+
+function arbusto(x, z, r) {
+  const g = new THREE.Group();
+  for (let i = 0; i < 3; i++) {
+    const rr = r * entre(0.6, 1.0);
+    const m = new THREE.Mesh(new THREE.SphereGeometry(rr, 7, 5), M.arbusto);
+    m.position.set(entre(-r, r) * 0.5, rr * 0.8, entre(-r, r) * 0.5);
+    m.castShadow = true; m.receiveShadow = true;
+    g.add(m);
+  }
+  g.position.set(x, 0, z);
+  return g;
+}
+
+/* bosque dentro del recinto */
+for (let x = 2; x < 100; x += 4.2) {
+  for (let z = 8; z < 100; z += 4.2) {
+    const px = x + entre(-1.4, 1.4), pz = z + entre(-1.4, 1.4);
+    if (!esBosque(px, pz)) continue;
+    if (px > 28 && px < 31) continue;        // franja de separación
+    if (pz > 72 && pz < 76) continue;
+    if (px > 47 && px < 53 && pz > 76) continue;
+    if (rnd() < 0.30) continue;
+    escena.add(arbol(px, pz, entre(0.8, 1.35)));
+  }
+}
+
+/* árboles aislados en la pradera, sombra natural para las bancas */
+const aislados = CONF === 'pradera'
+  ? [[40, 22], [62, 18], [80, 30], [18, 30], [22, 56], [70, 60], [12, 86], [66, 88], [88, 60]]
+  : [[40, 22], [44, 40], [18, 30], [22, 56], [12, 86], [36, 62]];
+aislados.forEach(function (p) {
+  if (esBosque(p[0], p[1])) return;
+  escena.add(arbol(p[0], p[1], entre(1.0, 1.45)));
+});
+
+/* bosque de contexto: anillo alejado, para que no tape el recinto */
+for (let i = 0; i < 190; i++) {
+  const x = entre(-420, 520), z = entre(-260, 560);
+  const dx = Math.max(0, Math.max(-18 - x, x - 118));
+  const dz = Math.max(0, Math.max(-34 - z, z - 118));
+  const d = Math.hypot(dx, dz);
+  if (d < 34) continue;                         // deja un claro alrededor del canil
+  if (z < -30 && x > -40 && x < 90) continue;   // no tapa la vista desde el acceso
+  escena.add(arbol(x, z, entre(0.9, 1.7)));
+}
+
+/* lago Llanquihue al fondo */
+(function lago() {
+  const agua = new THREE.Mesh(new THREE.PlaneGeometry(6000, 1900),
+    new THREE.MeshStandardMaterial({ color: 0x5d87a3, roughness: 0.2, metalness: 0.35 }));
+  agua.rotation.x = -Math.PI / 2;
+  agua.position.set(50, -1.2, 1500);
+  escena.add(agua);
+})();
+
+/* --- cercos --------------------------------------------------------------- */
+function tramoCerco(x0, z0, x1, z1, alto, opciones) {
+  const o = opciones || {};
+  const dx = x1 - x0, dz = z1 - z0;
+  const largo = Math.hypot(dx, dz);
+  const ang = Math.atan2(dx, dz);
+  const g = new THREE.Group();
+
+  const paso = 2.6;
+  const n = Math.max(2, Math.round(largo / paso));
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    g.add(cilindro(0.09, 0.11, alto + 0.25, M.maderaMedia, x0 + dx * t, (alto + 0.25) / 2, z0 + dz * t, 7));
+  }
+  // paño de malla
+  const pano = new THREE.Mesh(new THREE.PlaneGeometry(largo, alto), materialMalla(largo, alto));
+  pano.position.set((x0 + x1) / 2, alto / 2, (z0 + z1) / 2);
+  pano.rotation.y = ang + Math.PI / 2;
+  g.add(pano);
+  // listón superior, que sostiene las tablas grabadas
+  const liston = caja(0.12, 0.14, largo, M.maderaClara, (x0 + x1) / 2, alto + 0.16, (z0 + z1) / 2, ang);
+  g.add(liston);
+
+  if (o.opaco) {
+    const tablas = caja(0.08, alto * 0.92, largo, M.maderaClara, (x0 + x1) / 2, alto * 0.46, (z0 + z1) / 2, ang);
+    g.add(tablas);
+  }
+  if (o.mensajes) {
+    const cada = 20;
+    for (let d = cada / 2; d < largo; d += cada) {
+      const t = d / largo;
+      const tabla = caja(0.06, 0.44, 1.5, M.maderaClara, x0 + dx * t, alto + 0.45, z0 + dz * t, ang);
+      g.add(tabla);
+    }
+  }
+  escena.add(g);
+  return g;
+}
+
+function rectanguloCerco(s, alto, opciones) {
+  tramoCerco(s.x0, s.z0, s.x1, s.z0, alto, opciones);
+  tramoCerco(s.x1, s.z0, s.x1, s.z1, alto, opciones);
+  tramoCerco(s.x1, s.z1, s.x0, s.z1, alto, opciones);
+  tramoCerco(s.x0, s.z1, s.x0, s.z0, alto, opciones);
+}
+
+/* perímetro de la hectárea, con las 20 tablas grabadas */
+tramoCerco(0, 0, 100, 0, 1.8, { mensajes: true });
+tramoCerco(100, 0, 100, 100, 1.8, { mensajes: true });
+tramoCerco(100, 100, 0, 100, 1.8, { mensajes: true });
+tramoCerco(0, 100, 0, 0, 1.8, { mensajes: true });
+
+/* divisiones internas */
+tramoCerco(0, 8, 100, 8, 1.8);                       // acceso / sectores libres
+tramoCerco(29.5, 8, 29.5, 72, 1.8);                  // grandes / pequeños
+tramoCerco(0, 72, 100, 72, 1.8);                     // sectores libres / entrenamiento
+tramoCerco(50, 76, 50, 100, 1.8, { opaco: true });   // entre los dos de entrenamiento
+tramoCerco(0, 74, 100, 74, 1.8, { opaco: true });    // pantalla opaca hacia el norte
+
+/* el sector de pequeños lleva cerco perimetral más bajo */
+tramoCerco(0.4, 8.4, 0.4, 71.6, 1.2);
+
+/* --- esclusas de doble puerta --------------------------------------------- */
+function esclusa(x, z, ancho, largo) {
+  const g = new THREE.Group();
+  const alto = 1.8;
+  [[-ancho / 2, 0], [ancho / 2, 0], [-ancho / 2, largo], [ancho / 2, largo]].forEach(function (p) {
+    g.add(cilindro(0.1, 0.12, alto + 0.3, M.maderaMedia, p[0], (alto + 0.3) / 2, p[1], 7));
+  });
+  [0, largo].forEach(function (dz) {
+    const hoja = new THREE.Mesh(new THREE.PlaneGeometry(ancho * 0.92, alto), materialMalla(ancho, alto));
+    hoja.position.set(0, alto / 2, dz);
+    g.add(hoja);
+    g.add(caja(ancho * 0.94, 0.1, 0.09, M.maderaClara, 0, alto - 0.05, dz));
+  });
+  g.position.set(x, 0, z);
+  escena.add(g);
+  return g;
+}
+esclusa(36, 8, 3.2, 3.4);      // esclusa común hacia los sectores libres
+esclusa(20, 8, 3.0, 3.2);      // acceso al sector de pequeños
+esclusa(24, 76, 3.0, 3.2);     // entrenamiento A
+esclusa(76, 76, 3.0, 3.2);     // entrenamiento B
+
+/* --- baño público, estilo de las construcciones de Puerto Varas ----------- */
+function banoPublico(x, z) {
+  const g = new THREE.Group();
+  const ancho = 5.6, largo = 3.4, muro = 2.5;
+
+  g.add(caja(ancho, muro, largo, M.maderaClara, 0, muro / 2, 0));
+  // zócalo de piedra
+  g.add(caja(ancho + 0.25, 0.45, largo + 0.25, M.roca, 0, 0.22, 0));
+  // techo de fuerte pendiente con alero, revestido en tejuela
+  g.add(techoDosAguas(ancho + 0.9, largo + 0.9, 2.35, M.tejuela, 0, muro, 0));
+  // vigas del alero a la vista
+  for (let i = -2; i <= 2; i++) {
+    g.add(caja(0.1, 0.12, largo + 1.0, M.maderaOscura, i * 1.2, muro + 0.06, 0));
+  }
+  // puertas y ventanas, con marcos blancos
+  [-1.35, 1.35].forEach(function (dx) {
+    g.add(caja(1.0, 2.05, 0.12, M.blanco, dx, 1.02, largo / 2 + 0.02));
+    g.add(caja(0.86, 1.9, 0.14, M.maderaOscura, dx, 0.95, largo / 2 + 0.06));
+  });
+  [-2.2, 2.2].forEach(function (dx) {
+    g.add(caja(0.12, 0.8, 0.7, M.blanco, dx * (ancho / 2) / 2.2 + 0.001, 1.7, 0));
+  });
+  // paneles solares sobre el agua norte
+  const panel = caja(3.0, 0.07, 1.35, M.panel, 0, muro + 1.05, -0.72);
+  panel.rotation.x = -0.66;
+  g.add(panel);
+  // canaleta de captación de lluvia
+  g.add(caja(ancho + 0.9, 0.12, 0.14, M.metal, 0, muro + 0.02, largo / 2 + 0.45));
+  // letrero de entrada
+  g.add(cilindro(0.07, 0.07, 1.6, M.maderaMedia, ancho / 2 + 1.2, 0.8, largo / 2 + 0.4, 6));
+  g.add(caja(0.9, 0.6, 0.06, M.maderaClara, ancho / 2 + 1.2, 1.7, largo / 2 + 0.4));
+
+  g.position.set(x, 0, z);
+  escena.add(g);
+  return g;
+}
+banoPublico(14, 3);
+
+/* --- zona de amarre techada, 12 × 3 m ------------------------------------- */
+function amarre(x, z) {
+  const g = new THREE.Group();
+  const ancho = 12, largo = 3.2, alto = 2.4;
+  for (let i = -2; i <= 2; i++) {
+    [-largo / 2, largo / 2].forEach(function (dz) {
+      g.add(cilindro(0.1, 0.12, alto, M.maderaMedia, i * 2.8, alto / 2, dz, 7));
+    });
+  }
+  g.add(caja(ancho + 0.6, 0.16, 0.16, M.maderaClara, 0, alto + 0.05, -largo / 2));
+  g.add(caja(ancho + 0.6, 0.16, 0.16, M.maderaClara, 0, alto + 0.05, largo / 2));
+  g.add(techoDosAguas(largo + 1.2, ancho + 1.0, 1.25, M.tejuela, 0, alto + 0.12, 0, Math.PI / 2));
+  // argollas cada 3 m
+  for (let i = -2; i <= 2; i++) {
+    const anillo = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.03, 6, 10), M.metal);
+    anillo.position.set(i * 2.8, 1.0, -largo / 2 - 0.14);
+    anillo.rotation.x = Math.PI / 2;
+    g.add(anillo);
+  }
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+amarre(34, 3);
+
+/* --- torre de agua de madera ---------------------------------------------- */
+function torreAgua(x, z) {
+  const g = new THREE.Group();
+  const alto = 4.2, base = 2.6;
+  const pies = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
+  pies.forEach(function (p) {
+    const pata = cilindro(0.13, 0.17, alto, M.maderaMedia, p[0] * base / 2, alto / 2, p[1] * base / 2, 7);
+    g.add(pata);
+  });
+  [1.2, 2.6].forEach(function (h) {
+    g.add(caja(base + 0.3, 0.1, 0.1, M.maderaClara, 0, h, -base / 2));
+    g.add(caja(base + 0.3, 0.1, 0.1, M.maderaClara, 0, h, base / 2));
+    g.add(caja(0.1, 0.1, base + 0.3, M.maderaClara, -base / 2, h, 0));
+    g.add(caja(0.1, 0.1, base + 0.3, M.maderaClara, base / 2, h, 0));
+  });
+  g.add(caja(base + 0.7, 0.18, base + 0.7, M.maderaClara, 0, alto + 0.05, 0));
+  // dos estanques de 5.500 L
+  g.add(cilindro(0.72, 0.72, 1.9, M.blanco, -0.78, alto + 1.05, 0, 14));
+  g.add(cilindro(0.72, 0.72, 1.9, M.blanco, 0.78, alto + 1.05, 0, 14));
+  // escalera
+  for (let i = 0; i < 9; i++) {
+    g.add(caja(0.7, 0.06, 0.06, M.maderaOscura, 0, 0.45 + i * 0.42, base / 2 + 0.35));
+  }
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+torreAgua(48, 3.2);
+
+/* --- caseta del pozo con bomba solar -------------------------------------- */
+function pozo(x, z) {
+  const g = new THREE.Group();
+  g.add(caja(1.5, 1.2, 1.5, M.maderaClara, 0, 0.6, 0));
+  g.add(techoDosAguas(2.1, 2.1, 0.9, M.tejuela, 0, 1.2, 0));
+  const panel = caja(2.4, 0.07, 1.2, M.panel, 2.1, 1.15, 0);
+  panel.rotation.z = 0.5;
+  g.add(panel);
+  g.add(cilindro(0.07, 0.07, 1.2, M.metal, 2.1, 0.6, 0, 6));
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+pozo(56, 3.4);
+
+/* --- tótems de bolsas, basureros y tótem SOS ------------------------------ */
+function totemBolsas(x, z) {
+  const g = new THREE.Group();
+  g.add(cilindro(0.09, 0.09, 1.3, M.maderaMedia, 0, 0.65, 0, 6));
+  g.add(caja(0.5, 0.62, 0.14, M.maderaClara, 0, 1.35, 0));
+  g.add(caja(0.42, 0.62, 0.42, M.maderaOscura, 0.85, 0.31, 0));   // basurero
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+[[10, 4.6], [25, 10.5], [44, 11], [70, 12], [30, 79]].forEach(function (p) { totemBolsas(p[0], p[1]); });
+
+function totemSOS(x, z) {
+  const g = new THREE.Group();
+  g.add(cilindro(0.14, 0.16, 2.3, M.maderaMedia, 0, 1.15, 0, 8));
+  g.add(caja(0.46, 0.7, 0.2, M.blanco, 0, 1.75, 0.12));
+  const panel = caja(0.7, 0.06, 0.5, M.panel, 0, 2.36, 0);
+  panel.rotation.x = -0.35;
+  g.add(panel);
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+totemSOS(41, -2.5);
+
+/* --- bancas --------------------------------------------------------------- */
+function banca(x, z, rot) {
+  const g = new THREE.Group();
+  g.add(caja(1.8, 0.1, 0.44, M.maderaClara, 0, 0.45, 0));
+  g.add(caja(1.8, 0.44, 0.08, M.maderaClara, 0, 0.7, -0.2));
+  [-0.7, 0.7].forEach(function (dx) {
+    g.add(caja(0.12, 0.45, 0.4, M.maderaMedia, dx, 0.22, 0));
+  });
+  g.position.set(x, 0, z);
+  g.rotation.y = rot || 0;
+  escena.add(g);
+}
+[[36, 14, 0], [52, 20, 0.6], [74, 16, -0.4], [64, 40, 1.2], [88, 26, 0.3],
+ [10, 14, 0], [20, 34, 0.8], [8, 52, -0.5],
+ [20, 84, 0], [74, 84, 0], [24, 4.2, 0], [60, 4.2, 0]].forEach(function (b) {
+  banca(b[0], b[1], b[2]);
+});
+
+/* techos pequeños sobre tres bancas */
+function techoBanca(x, z) {
+  const g = new THREE.Group();
+  [[-1.3, -1.1], [1.3, -1.1], [1.3, 1.1], [-1.3, 1.1]].forEach(function (p) {
+    g.add(cilindro(0.08, 0.1, 2.2, M.maderaMedia, p[0], 1.1, p[1], 6));
+  });
+  g.add(techoDosAguas(3.2, 2.8, 1.1, M.tejuela, 0, 2.2, 0));
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+techoBanca(20, 34); techoBanca(20, 84); techoBanca(74, 84);
+
+/* --- juegos de troncos ---------------------------------------------------- */
+function salto(x, z, alto, ancho) {
+  const g = new THREE.Group();
+  [-ancho / 2, ancho / 2].forEach(function (dx) {
+    g.add(cilindro(0.11, 0.13, alto + 0.3, M.maderaMedia, dx, (alto + 0.3) / 2, 0, 7));
+  });
+  const barra = cilindro(0.1, 0.1, ancho, M.maderaClara, 0, alto, 0, 8);
+  barra.rotation.z = Math.PI / 2;
+  g.add(barra);
+  g.position.set(x, 0, z);
+  g.rotation.y = entre(0, Math.PI);
+  escena.add(g);
+}
+function tocones(x, z, n) {
+  for (let i = 0; i < n; i++) {
+    const h = 0.35 + i * 0.16;
+    escena.add(cilindro(0.34, 0.38, h, M.maderaMedia, x + i * 1.15, h / 2, z + entre(-0.5, 0.5), 10));
+  }
+}
+function viga(x, z, largo, rot) {
+  const g = new THREE.Group();
+  const tronco = cilindro(0.2, 0.22, largo, M.maderaClara, 0, 0.55, 0, 10);
+  tronco.rotation.x = Math.PI / 2;
+  g.add(tronco);
+  [-largo / 2 + 0.4, largo / 2 - 0.4].forEach(function (dz) {
+    g.add(cilindro(0.16, 0.18, 0.45, M.maderaMedia, 0, 0.22, dz, 7));
+  });
+  g.position.set(x, 0, z);
+  g.rotation.y = rot || 0;
+  escena.add(g);
+}
+function rampa(x, z, rot) {
+  const g = new THREE.Group();
+  const loma = new THREE.Mesh(new THREE.SphereGeometry(2.4, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2), M.pastoClaro);
+  loma.scale.set(1, 0.32, 1);
+  loma.receiveShadow = true;
+  g.add(loma);
+  const tabla = caja(1.5, 0.12, 3.6, M.maderaClara, 0, 0.5, 2.4);
+  tabla.rotation.x = 0.24;
+  g.add(tabla);
+  g.position.set(x, 0, z);
+  g.rotation.y = rot || 0;
+  escena.add(g);
+}
+
+/* sector de perros grandes: 4 saltos, 6 tocones, 2 vigas, 2 rampas */
+salto(44, 26, 0.75, 2.4); salto(52, 32, 0.6, 2.4); salto(60, 24, 0.85, 2.6); salto(68, 34, 0.7, 2.4);
+tocones(40, 44, 6);
+viga(56, 48, 4.5, 0.5); viga(72, 26, 4.0, -0.3);
+rampa(48, 58, 0.4); rampa(78, 42, -0.6);
+
+/* sector de pequeños: saltos bajos, tocones y una viga baja */
+salto(12, 22, 0.35, 1.6); salto(18, 44, 0.32, 1.6); salto(10, 60, 0.3, 1.6);
+tocones(14, 52, 4);
+viga(22, 64, 2.6, 0.8);
+
+/* --- sistemas de refresco -------------------------------------------------- */
+function bebedero(x, z, largo) {
+  const g = new THREE.Group();
+  g.add(caja(largo, 0.3, 0.5, M.maderaClara, 0, 0.42, 0));
+  g.add(caja(largo - 0.2, 0.06, 0.36, M.agua, 0, 0.55, 0));
+  [-largo / 2 + 0.2, largo / 2 - 0.2].forEach(function (dx) {
+    g.add(cilindro(0.09, 0.1, 0.3, M.maderaMedia, dx, 0.15, 0, 6));
+  });
+  g.add(superficieGrava(x, z, 2.4));
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+function superficieGrava(x, z, r) {
+  const m = new THREE.Mesh(new THREE.CircleGeometry(r, 14), M.grava);
+  m.rotation.x = -Math.PI / 2;
+  m.position.set(0, 0.02, 0);
+  m.receiveShadow = true;
+  return m;
+}
+function poza(x, z) {
+  const g = new THREE.Group();
+  const base = new THREE.Mesh(new THREE.CircleGeometry(3.4, 18), M.grava);
+  base.rotation.x = -Math.PI / 2; base.position.y = 0.02; base.receiveShadow = true;
+  g.add(base);
+  g.add(caja(3.2, 0.26, 2.2, M.agua, 0, 0.13, 0));
+  [[-1.6, 0], [1.6, 0]].forEach(function (p) {
+    g.add(caja(0.14, 0.34, 2.4, M.maderaClara, p[0], 0.17, 0));
+  });
+  g.add(caja(3.5, 0.34, 0.14, M.maderaClara, 0, 0.17, -1.15));
+  g.add(caja(3.5, 0.34, 0.14, M.maderaClara, 0, 0.17, 1.15));
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+function pergola(x, z) {
+  const g = new THREE.Group();
+  [[-2, -2], [2, -2], [2, 2], [-2, 2]].forEach(function (p) {
+    g.add(cilindro(0.11, 0.13, 2.6, M.maderaMedia, p[0], 1.3, p[1], 7));
+  });
+  for (let i = -2; i <= 2; i++) {
+    g.add(caja(4.6, 0.1, 0.1, M.maderaClara, 0, 2.62, i * 1.0));
+  }
+  g.add(caja(0.12, 0.12, 4.4, M.maderaClara, -2, 2.72, 0));
+  g.add(caja(0.12, 0.12, 4.4, M.maderaClara, 2, 2.72, 0));
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+function arcoRociador(x, z, rot) {
+  const g = new THREE.Group();
+  [-1.5, 1.5].forEach(function (dx) {
+    g.add(cilindro(0.1, 0.12, 2.3, M.maderaMedia, dx, 1.15, 0, 7));
+  });
+  const arco = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.1, 6, 16, Math.PI), M.maderaClara);
+  arco.position.set(0, 2.3, 0);
+  arco.castShadow = true;
+  g.add(arco);
+  g.position.set(x, 0, z);
+  g.rotation.y = rot || 0;
+  escena.add(g);
+}
+function riachuelo(x, z, largo, rot) {
+  const g = new THREE.Group();
+  g.add(caja(0.9, 0.1, largo, M.agua, 0, 0.1, 0));
+  g.add(caja(1.3, 0.16, largo, M.maderaClara, 0, 0.05, 0));
+  const base = new THREE.Mesh(new THREE.PlaneGeometry(2.6, largo + 1.5), M.grava);
+  base.rotation.x = -Math.PI / 2; base.position.y = 0.015; base.receiveShadow = true;
+  g.add(base);
+  g.position.set(x, 0, z);
+  g.rotation.y = rot || 0;
+  escena.add(g);
+}
+
+/* sector de grandes */
+bebedero(38, 18, 2.6); poza(62, 14); pergola(50, 14); arcoRociador(70, 20, 0.3); riachuelo(84, 34, 10, 0.15);
+/* sector de pequeños */
+bebedero(8, 18, 1.8); poza(16, 14); pergola(10, 30); arcoRociador(22, 24, -0.2); riachuelo(24, 46, 8, 0);
+/* sectores de entrenamiento: solo bebedero */
+bebedero(24, 90, 2.0); bebedero(76, 90, 2.0);
+
+/* letrero de ocupado / libre en cada sector de entrenamiento */
+function letreroEstado(x, z, ocupado) {
+  const g = new THREE.Group();
+  g.add(cilindro(0.08, 0.09, 1.5, M.maderaMedia, 0, 0.75, 0, 6));
+  g.add(caja(0.8, 0.55, 0.07, M.maderaClara, 0, 1.55, 0));
+  g.add(caja(0.5, 0.2, 0.1, ocupado ? mat(0xc0442f, 0.8) : mat(0x3f7a4a, 0.8), 0, 1.42, 0.03));
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+letreroEstado(27.5, 75, true);
+letreroEstado(79.5, 75, false);
+
+/* --- arbustos de las franjas de separación -------------------------------- */
+for (let z = 9; z < 72; z += 2.6) escena.add(arbusto(30 + entre(-0.5, 0.5), z, entre(0.7, 1.2)));
+for (let x = 1; x < 100; x += 2.8) {
+  if (x > 47 && x < 53) continue;
+  escena.add(arbusto(x, 73 + entre(-0.6, 0.6), entre(0.8, 1.4)));
+}
+for (let z = 77; z < 100; z += 2.7) escena.add(arbusto(50 + entre(-0.4, 0.4), z, entre(0.7, 1.2)));
+
+/* --- luminarias solares ---------------------------------------------------- */
+function luminaria(x, z) {
+  const g = new THREE.Group();
+  g.add(cilindro(0.08, 0.1, 4.0, M.maderaMedia, 0, 2.0, 0, 7));
+  const panel = caja(0.6, 0.05, 0.4, M.panel, 0, 4.05, 0);
+  panel.rotation.x = -0.3;
+  g.add(panel);
+  g.add(caja(0.3, 0.1, 0.22, M.metal, 0.25, 3.9, 0));
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+[[6, 4.5], [22, 4.5], [40, 4.5], [58, 4.5], [76, 4.5], [94, 4.5],
+ [-6, 20], [-6, 50], [-6, 80], [-6, 98], [40, 98], [70, 98],
+ [32, 20], [32, 50], [32, 70]].forEach(function (p) { luminaria(p[0], p[1]); });
+
+/* cámaras sobre postes */
+function camaraSeguridad(x, z, rot) {
+  const g = new THREE.Group();
+  g.add(cilindro(0.08, 0.1, 3.6, M.maderaMedia, 0, 1.8, 0, 7));
+  g.add(caja(0.26, 0.2, 0.34, M.blanco, 0, 3.5, 0.12));
+  const panel = caja(0.45, 0.05, 0.3, M.panel, 0, 3.75, 0);
+  panel.rotation.x = -0.35;
+  g.add(panel);
+  g.position.set(x, 0, z);
+  g.rotation.y = rot || 0;
+  escena.add(g);
+}
+camaraSeguridad(39, 5, 0); camaraSeguridad(20, 10, 0.4); camaraSeguridad(52, 12, -0.3);
+camaraSeguridad(85, 40, 2.2); camaraSeguridad(26, 78, 0); camaraSeguridad(78, 78, 0);
+
+/* --- estacionamiento: autos ------------------------------------------------ */
+function auto(x, z, color, rot) {
+  const g = new THREE.Group();
+  const m = mat(color, 0.4, 0.25);
+  g.add(caja(1.85, 0.75, 4.3, m, 0, 0.62, 0));
+  g.add(caja(1.65, 0.62, 2.2, mat(0x2d3338, 0.3, 0.3), 0, 1.25, -0.15));
+  [[-0.95, 1.4], [0.95, 1.4], [-0.95, -1.4], [0.95, -1.4]].forEach(function (p) {
+    const r = cilindro(0.33, 0.33, 0.24, mat(0x23262a, 0.9), p[0], 0.33, p[1], 10);
+    r.rotation.z = Math.PI / 2;
+    g.add(r);
+  });
+  g.position.set(x, 0, z);
+  g.rotation.y = rot || 0;
+  escena.add(g);
+}
+[[2, -8, 0x9aa3ab], [7, -8, 0x39506b], [12, -8, 0xb4b9bd], [17, -8, 0x6d7b62],
+ [22, -8, 0x8c3f3a], [27, -8, 0xcfd3d6], [32, -8, 0x44505c], [37, -8, 0x7d8a92],
+ [5, -15, 0x5a6a58], [15, -15, 0xa9aeb2]].forEach(function (a) {
+  auto(a[0], a[1], a[2], entre(-0.04, 0.04));
+});
+
+/* --- personas y perros ----------------------------------------------------- */
+function persona(x, z, colorRopa) {
+  const g = new THREE.Group();
+  g.add(cilindro(0.17, 0.2, 0.85, mat(colorRopa, 0.9), 0, 1.05, 0, 8));
+  g.add(cilindro(0.1, 0.12, 0.75, mat(0x39414b, 0.9), 0, 0.38, 0, 7));
+  const cab = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 6), mat(0xc79a76, 0.9));
+  cab.position.y = 1.62; cab.castShadow = true;
+  g.add(cab);
+  g.position.set(x, 0, z);
+  g.rotation.y = rnd() * Math.PI * 2;
+  escena.add(g);
+}
+function perro(x, z, color, escala) {
+  const e = escala || 1;
+  const g = new THREE.Group();
+  const m = mat(color, 0.9);
+  const cuerpo = cilindro(0.17 * e, 0.19 * e, 0.72 * e, m, 0, 0.5 * e, 0, 8);
+  cuerpo.rotation.x = Math.PI / 2;
+  g.add(cuerpo);
+  const cab = new THREE.Mesh(new THREE.SphereGeometry(0.17 * e, 8, 6), m);
+  cab.position.set(0, 0.62 * e, 0.42 * e); cab.castShadow = true;
+  g.add(cab);
+  g.add(caja(0.14 * e, 0.11 * e, 0.2 * e, m, 0, 0.55 * e, 0.56 * e));
+  [[-0.12, 0.26], [0.12, 0.26], [-0.12, -0.26], [0.12, -0.26]].forEach(function (p) {
+    g.add(cilindro(0.05 * e, 0.05 * e, 0.42 * e, m, p[0] * e, 0.21 * e, p[1] * e, 6));
+  });
+  const cola = cilindro(0.04 * e, 0.05 * e, 0.34 * e, m, 0, 0.66 * e, -0.42 * e, 6);
+  cola.rotation.x = -0.9;
+  g.add(cola);
+  g.position.set(x, 0, z);
+  g.rotation.y = rnd() * Math.PI * 2;
+  escena.add(g);
+}
+
+/* perros grandes en su sector */
+[[42, 20, 0x6b5136], [50, 26, 0x2f2a26], [58, 36, 0xbda37a], [66, 18, 0x8a6a4a],
+ [74, 30, 0x4a4540], [46, 46, 0xd8cbb4], [63, 52, 0x74604a], [82, 24, 0x30302e],
+ [55, 62, 0xa88a63], [88, 48, 0x5c4d3c]].forEach(function (p) { perro(p[0], p[1], p[2], 1.15); });
+/* perros pequeños, cachorros y viejitos */
+[[9, 20, 0xd9c7a5], [14, 28, 0x6e5a44], [20, 40, 0xbfb0a0], [11, 50, 0x8e7a5e],
+ [23, 58, 0x2f2b28], [17, 66, 0xd2c2a8]].forEach(function (p) { perro(p[0], p[1], p[2], 0.72); });
+/* un perro trabajando con su entrenador en el sector A */
+perro(22, 86, 0x3a352f, 1.2);
+persona(24, 87, 0x2f4858);
+/* gente */
+[[36, 15, 0x38556b], [52, 21, 0x7a4a4a], [74, 17, 0x46603f], [10, 15, 0x5a4a6b],
+ [20, 35, 0x6b5a3a], [41, 4, 0x3d5a5a], [26, 5, 0x7c5f4a], [61, 5, 0x415a6b]].forEach(function (p) {
+  persona(p[0], p[1], p[2]);
+});
+/* un perro amarrado en el refugio */
+perro(31.5, 4.6, 0x8a7458, 1.0);
+
+/* --- volcán Osorno al fondo ------------------------------------------------ */
+(function volcan() {
+  const matVolcan = new THREE.MeshStandardMaterial({ color: 0x53606b, roughness: 1, flatShading: true });
+  const matNieve = new THREE.MeshStandardMaterial({ color: 0xeef4f7, roughness: 0.85, flatShading: true });
+  const g = new THREE.Group();
+  g.add(cono(560, 900, matVolcan, 0, 450, 0, 34));
+  g.add(cono(178, 286, matNieve, 0, 760, 0, 34));
+  g.position.set(640, -12, 2750);
+  escena.add(g);
+  // cordillera de fondo, más baja
+  const matCerro = new THREE.MeshStandardMaterial({ color: 0x64727d, roughness: 1, flatShading: true });
+  [[-1700, 2500, 760, 300], [1600, 2600, 900, 260], [-600, 2800, 700, 220], [1100, 2200, 520, 190]]
+    .forEach(function (c) {
+      escena.add(cono(c[2], c[3], matCerro, c[0], c[3] / 2 - 10, c[1], 20));
+    });
+})();
+
+/* --- luces ----------------------------------------------------------------- */
+const hemi = new THREE.HemisphereLight(0xdcecf4, 0x7b8a55, 1.35);
+escena.add(hemi);
+
+const sol = new THREE.DirectionalLight(0xfff2de, 1.85);
+sol.position.set(-130, 120, -95);
+sol.target.position.set(50, 0, 50);
+sol.castShadow = true;
+sol.shadow.mapSize.set(2048, 2048);
+sol.shadow.camera.left = -130;
+sol.shadow.camera.right = 130;
+sol.shadow.camera.top = 130;
+sol.shadow.camera.bottom = -130;
+sol.shadow.camera.near = 1;
+sol.shadow.camera.far = 460;
+sol.shadow.bias = -0.0012;
+escena.add(sol);
+escena.add(sol.target);
+
+const relleno = new THREE.DirectionalLight(0xbcd4e6, 0.45);
+relleno.position.set(120, 70, 160);
+escena.add(relleno);
+
+/* --- cámara y render ------------------------------------------------------- */
+const camara = new THREE.PerspectiveCamera(VISTA === 'aerea' ? 37 : 46, W / H, 0.5, 6000);
+if (VISTA === 'aerea') {
+  /* vista de pájaro a unos 40°, con el canil completo en cuadro */
+  camara.position.set(-44, 124, -78);
+  camara.lookAt(50, 0, 52);
+} else {
+  /* vista desde el estacionamiento hacia la zona de acceso, con el volcán al fondo */
+  camara.position.set(52, 8.0, -15);
+  camara.lookAt(16, 3.4, 7);
+}
+
+const render = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+render.setSize(W, H, false);
+render.setPixelRatio(1);
+render.shadowMap.enabled = true;
+render.shadowMap.type = THREE.PCFSoftShadowMap;
+render.outputColorSpace = THREE.SRGBColorSpace;
+render.toneMapping = THREE.ACESFilmicToneMapping;
+render.toneMappingExposure = 1.02;
+document.body.appendChild(render.domElement);
+render.domElement.style.width = W + 'px';
+render.domElement.style.height = H + 'px';
+
+render.render(escena, camara);
+window.__listo = true;
+</script>
+</body>
+</html>

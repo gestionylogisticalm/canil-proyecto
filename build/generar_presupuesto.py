@@ -230,7 +230,7 @@ def seccion_partida(p, indice):
   %(tabla)s
   <p class="nota-tabla">%(verif)d de %(nitems)d ítems tienen precio verificado contra un valor
     publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
-    con fondo verde son aportes valorizados: no se pagan con el fondo.</p>
+    con fondo azul son aportes valorizados: no se pagan con el fondo.</p>
 
   <h3>Origen de cada precio</h3>
   %(fuentes)s
@@ -270,7 +270,7 @@ def construir():
 <style>
   table.presupuesto { font-size: 7.9pt; }
   table.presupuesto td { padding: 3pt 4pt; }
-  tbody tr.aporte td { background: #e4efe7 !important; }
+  tbody tr.aporte td { background: #e3eef8 !important; }
   table.flujo { font-size: 7.2pt; }
   table.flujo td, table.flujo th { padding: 2.6pt 2pt; }
   table.flujo td.et { text-align: left; }

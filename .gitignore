@@ -2,3 +2,6 @@ build/tmp/
 build/__pycache__/
 src/.tmp-*.html
 *.pyc
+node_modules/
+package-lock.json
+package.json
