@@ -295,7 +295,7 @@ def construir():
   <div class="pie">
     <div class="datos">
       <strong>Presenta:</strong> Lukas Matías Muñoz Miranda<br>
-      Gestión y Logística LM SpA<br>
+      Gestión y Logística LM SpA · Vecino de Puerto Varas<br>
       Septiembre de 2026
     </div>
     <div class="sello">

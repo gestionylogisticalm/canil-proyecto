@@ -38,7 +38,7 @@ async function main() {
     headerTemplate: '<span></span>',
     footerTemplate: cfg.pie ? pie : '<span></span>',
     margin: cfg.pie
-      ? { top: '14mm', right: '0mm', bottom: cfg.margenInferior || '14mm', left: '0mm' }
+      ? { top: '14mm', right: '0mm', bottom: cfg.margenInferior || '16mm', left: '0mm' }
       : { top: '0mm', right: '0mm', bottom: '0mm', left: '0mm' },
   });
 
