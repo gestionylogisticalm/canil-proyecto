@@ -11,14 +11,13 @@ Cada ítem lleva:
 exactamente el total; el generador verifica que la diferencia sea menor a $10.
 
 origen: "Compra/contrato" es lo que se financia con el fondo; el resto son
-aportes valorizados (municipio, cuadrilla municipal, liceo técnico, CONAF).
+aportes valorizados (municipio, cuadrilla municipal y liceo técnico).
 """
 
 COMPRA = "Compra/contrato"
 MUNI = "Aporte municipal"
 CUADRILLA = "Cuadrilla municipal"
 LICEO = "Liceo técnico"
-CONAF = "CONAF"
 
 VERIFICADO = "Verificado"
 REFERENCIAL = "Referencial"
@@ -344,24 +343,21 @@ PARTIDAS = [
     },
     {
         "codigo": "H",
-        "nombre": "Paisajismo",
-        "resumen": "Refuerzo de las franjas de separación con especies nativas.",
+        "nombre": "Recuperación del pasto",
+        "resumen": "Recuperación de las zonas pisadas durante la obra.",
         "explicacion": [
-            "El terreno se usa tal como está, así que el paisajismo se limita a reforzar lo que ya "
-            "existe: unos 300 arbustos nativos en las franjas de separación entre sectores y en la "
-            "barrera visual de los sectores de entrenamiento, compost municipal para la plantación y "
-            "semilla de pasto para resembrar las zonas que se pisen durante la obra.",
-            "Los arbustos se solicitan a CONAF dentro del convenio de arborización comunitaria, que "
-            "en la Región de Los Lagos ya tiene precedente: junto al Servicio de Salud Osorno, CONAF "
-            "aportó especies nativas, cercado, obra y asesoría por $24 millones. Por eso figuran como "
-            "aporte y no como compra.",
-            "Lo único que se compra en esta partida son 10 kg de semilla de pasto: $80.000 sobre un "
-            "valor valorizado de $1.193.605.",
+            "El terreno se usa tal como está. No se retira ningún árbol y las franjas de separación "
+            "entre sectores son la vegetación nativa que ya existe en el paño, de modo que no hay "
+            "plantación ni obra de paisajismo.",
+            "Esta partida cubre solo la recuperación de lo que se pise durante la construcción: "
+            "compost municipal y semilla de pasto para resembrar los sectores por donde circulan la "
+            "cuadrilla, la retroexcavadora y el camión.",
+            "Lo único que se compra son 10 kg de semilla de pasto: $80.000 sobre un valor valorizado "
+            "de $293.605.",
         ],
         "items": [
-            ("H.1", "Arbustos nativos para franjas y barreras visuales", 300, "u", 3000, 900000, CONAF, REFERENCIAL, "Programa de Arborización de CONAF; valor referencial"),
-            ("H.2", "Compost", 5, "m³", 42721, 213605, MUNI, VERIFICADO, "Valor de referencia Full Áridos 2026: $35.900 + IVA por m³"),
-            ("H.3", "Semilla de pasto para resiembra", 10, "kg", 8000, 80000, COMPRA, REFERENCIAL, "Cotizar"),
+            ("H.1", "Compost", 5, "m³", 42721, 213605, MUNI, VERIFICADO, "Valor de referencia Full Áridos 2026: $35.900 + IVA por m³"),
+            ("H.2", "Semilla de pasto para resiembra", 10, "kg", 8000, 80000, COMPRA, REFERENCIAL, "Cotizar"),
         ],
     },
     {
@@ -398,7 +394,6 @@ PARTIDAS = [
             ("I.7", "Retroexcavadora con operador: fosa, zanjas y apoyo al pozo", 24, "hora", 35000, 840000, COMPRA, VERIFICADO, "Jurmaq 2026: arriendo con operador $25.000 a $35.000 por hora; se usa el tope del rango por el traslado a Puerto Varas"),
             ("I.8", "Camión con chofer: troncos, grava y materiales", 10, "día", 250000, 2500000, COMPRA, VERIFICADO, "Mercado 2026: camión tolva de 15 m³ con chofer entre $200.000 y $250.000 por día; se usa el tope por incluir combustible"),
             ("I.9", "Aporte al liceo técnico para insumos de taller", 1, "gl", 1500000, 1500000, COMPRA, REFERENCIAL, "Monto a convenir"),
-            ("I.10", "Plantación y asesoría de CONAF", 1, "gl", 800000, 800000, CONAF, REFERENCIAL, "Convenio de arborización; valor referencial"),
         ],
     },
 ]
@@ -517,6 +512,6 @@ SEMANAS_PARTIDA = {
     "E": ("Semanas 4 a 12", "Pozo y torre primero; redes y sistemas de refresco después."),
     "F": ("Semanas 8 a 12", "Sistema solar, cámaras, cerraduras, luminarias y tótem SOS."),
     "G": ("Semanas 10 a 14", "Instalación de piezas fabricadas por el liceo durante los meses 3 a 9."),
-    "H": ("Semanas 10 a 14", "Plantación con CONAF, compost y resiembra."),
+    "H": ("Semanas 10 a 14", "Compost y resiembra de las zonas pisadas."),
     "I": ("Semanas 1 a 16", "Equipo permanente durante toda la obra."),
 }

@@ -14,7 +14,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from datos import (  # noqa: E402
-    COMPRA, CONAF, CUADRILLA, LICEO, MUNI,
+    COMPRA, CUADRILLA, LICEO, MUNI,
     ETAPAS_MES, MESES_MARCHA_BLANCA, OPERACION, PAGOS_ITEM, PAGOS_PARTIDA,
     PARAMETROS, PARTIDAS, SEMANAS_PARTIDA, VERIFICADO,
 )
@@ -397,7 +397,7 @@ def construir():
       <tr><td><strong>Cantidad y unidad</strong></td><td>La medida con que se compra o se contrata: rollos, unidades, metros, metros cuadrados, metros cúbicos, meses o global (gl) cuando es un encargo completo.</td></tr>
       <tr><td><strong>Precio unitario</strong></td><td>Precio con IVA incluido. En los equipos importados incorpora tipo de cambio y factor de internación.</td></tr>
       <tr><td><strong>Subtotal</strong></td><td>Cantidad por precio unitario. En los ítems calculados desde UF, euros o dólares, el subtotal se obtiene de la cifra sin redondear, por lo que puede diferir en algunos pesos del producto de las columnas anteriores.</td></tr>
-      <tr><td><strong>Origen</strong></td><td><em>Compra/contrato</em> es lo que se paga con el fondo. <em>Aporte municipal</em>, <em>Cuadrilla municipal</em>, <em>Liceo técnico</em> y <em>CONAF</em> son aportes valorizados: tienen valor de mercado, se contabilizan, pero no se desembolsan.</td></tr>
+      <tr><td><strong>Origen</strong></td><td><em>Compra/contrato</em> es lo que se paga con el fondo. <em>Aporte municipal</em>, <em>Cuadrilla municipal</em> y <em>Liceo técnico</em> son aportes valorizados: tienen valor de mercado, se contabilizan, pero no se desembolsan.</td></tr>
       <tr><td><strong>Tipo</strong></td><td><em>Verificado</em>: precio publicado en 2025 o 2026, con la fuente indicada. <em>Referencial</em>: estimación fundada que debe cotizarse antes de ejecutar.</td></tr>
     </tbody>
   </table>
@@ -410,7 +410,7 @@ def construir():
     <li><strong>Costo a financiar:</strong> lo que efectivamente hay que pagar con el fondo. Es la
       cifra que hay que conseguir.</li>
     <li><strong>Aporte valorizado:</strong> la diferencia entre ambas. Es lo que ponen el municipio, el
-      liceo técnico y CONAF en trabajo y materiales.</li>
+      liceo técnico en trabajo y materiales.</li>
   </ul>
 
   <h3>Estado de los precios</h3>
@@ -485,7 +485,7 @@ def construir():
 
   <div class="cifras cuatro">
     <div class="cifra"><span class="dato">%(total_fin)s</span><span class="glosa">Total a financiar, equivalente a %(utm)s UTM</span></div>
-    <div class="cifra"><span class="dato">%(aporte)s</span><span class="glosa">Aporte valorizado del municipio, el liceo y CONAF</span></div>
+    <div class="cifra"><span class="dato">%(aporte)s</span><span class="glosa">Aporte valorizado del municipio y el liceo técnico</span></div>
     <div class="cifra"><span class="dato">%(total_val)s</span><span class="glosa">Valor total del proyecto, incluidos aportes</span></div>
     <div class="cifra"><span class="dato">%(margen)s</span><span class="glosa">Margen disponible bajo el tope PMU</span></div>
   </div>
@@ -509,7 +509,7 @@ def construir():
     <thead><tr><th>Concepto</th><th class="num" style="width:22%%">Monto</th><th style="width:34%%">Cómo se calcula</th></tr></thead>
     <tbody>
       <tr><td>Costo directo valorizado</td><td class="num">%(directo_val)s</td><td>Suma de las nueve partidas.</td></tr>
-      <tr><td>Aportes valorizados</td><td class="num">−%(aporte)s</td><td>Municipio, cuadrilla municipal, liceo técnico y CONAF.</td></tr>
+      <tr><td>Aportes valorizados</td><td class="num">−%(aporte)s</td><td>Municipio, cuadrilla municipal y liceo técnico.</td></tr>
       <tr><td>Costo directo a financiar</td><td class="num">%(directo_fin)s</td><td>Lo que se paga con el fondo.</td></tr>
       <tr><td>Gastos generales (8%%)</td><td class="num">%(gg)s</td><td>Sobre el costo directo a financiar.</td></tr>
       <tr><td>Imprevistos (10%%)</td><td class="num">%(imp)s</td><td>Sobre costo directo más gastos generales.</td></tr>
@@ -655,7 +655,7 @@ def construir():
   </table>
   <p class="nota-tabla">Cifras en miles de pesos. Los gastos generales y los imprevistos se prorratean
     en proporción al gasto directo de cada mes. El aporte valorizado no es desembolso: se muestra para
-    dejar constancia de cuándo se produce el trabajo del municipio, del liceo y de CONAF.</p>
+    dejar constancia de cuándo se produce el trabajo del municipio y del liceo técnico.</p>
   </div>
 
   <h3>Resumen mes a mes</h3>
@@ -730,7 +730,6 @@ def construir():
       <tr><td>Mano de obra de cuatro jornales</td><td class="num">%(cuadrilla)s</td><td>Cuadrilla municipal existente destinada a la obra.</td></tr>
       <tr><td>Madera de postes, listones, paneles, torre, pérgolas, amarre, juegos y techos</td><td class="num">%(muni)s</td><td>Árboles que el municipio retira por temporal, riesgo o poda, aserrados en terreno, más compost municipal y el contenedor bodega.</td></tr>
       <tr><td>Bancas, tótems, tablas grabadas, bebederos, arcos y letreros</td><td class="num">%(liceo)s</td><td>Fabricación del liceo técnico contra un aporte de insumos de $1.500.000.</td></tr>
-      <tr><td>Arbustos nativos, plantación y asesoría</td><td class="num">%(conaf)s</td><td>Convenio de arborización comunitaria con CONAF.</td></tr>
       <tr><td>Herramientas y equipos de faena</td><td class="num">%(herr)s</td><td>Se compran una vez y se reutilizan en los caniles 2 y 3: el ahorro se produce en las etapas siguientes.</td></tr>
       <tr><td>Cuentas de luz y de agua</td><td class="num">Permanente</td><td>Energía solar y pozo propio: el recinto no tiene empalme eléctrico ni conexión a la red de agua potable.</td></tr>
       <tr><td>Vigilancia, veterinario y retiro de residuos</td><td class="num">Servicios existentes</td><td>Central municipal de cámaras, veterinario municipal y recorrido de aseo ya operativos.</td></tr>
@@ -762,7 +761,6 @@ def construir():
         "cuadrilla": pesos(aporte_por_origen.get(CUADRILLA, 0)),
         "muni": pesos(aporte_por_origen.get(MUNI, 0)),
         "liceo": pesos(aporte_por_origen.get(LICEO, 0)),
-        "conaf": pesos(aporte_por_origen.get(CONAF, 0)),
         "herr": pesos(herramientas),
         "bano": pesos(suma("D.1", "D.2", "D.3", "D.4", "D.5", "D.6", "D.7")),
         "pozo": pesos(suma("E.4", "E.5", "E.6", "E.7", "E.8", "E.9", "A.6", "A.7")),
