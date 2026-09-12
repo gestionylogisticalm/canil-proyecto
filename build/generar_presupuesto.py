@@ -22,9 +22,6 @@ from datos import (  # noqa: E402
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DESTINO = os.path.join(RAIZ, "src", "presupuesto.html")
 
-UTM = 71721
-TOPE_UTM = 2500
-TOPE_PMU = TOPE_UTM * UTM
 GG = 0.08
 IMPREVISTOS = 0.10
 IPC = 0.035
@@ -119,7 +116,6 @@ def calcular():
         "imp": imp,
         "total_fin": total_fin,
         "total_val": total_val,
-        "utm": total_fin / UTM,
         "op_val": op_val,
         "op_fin": op_fin,
         "op_aporte": op_val - op_fin,
@@ -315,8 +311,7 @@ def construir():
     <h1>Presupuesto del canil piloto</h1>
     <div class="linea"></div>
     <p class="bajada">Desglose por partida e ítem, explicación de cada cantidad, tiempos de ejecución,
-      flujo mensual de gastos, operación anual, proyección de los tres caniles y verificación del tope
-      PMU.</p>
+      flujo mensual de gastos, operación anual y proyección de los tres caniles.</p>
   </div>
   <div class="pie">
     <div class="datos">
@@ -364,7 +359,7 @@ def construir():
   <ol>
     <li><span class="num">6</span><span class="txt">Qué gastos se ahorran y cuáles no</span><span class="puntos"></span><span class="pag" data-ref="c6">—</span></li>
     <li><span class="num">7</span><span class="txt">Operación anual</span><span class="puntos"></span><span class="pag" data-ref="c7">—</span></li>
-    <li><span class="num">8</span><span class="txt">Proyección de los tres caniles y tope PMU</span><span class="puntos"></span><span class="pag" data-ref="c8">—</span></li>
+    <li><span class="num">8</span><span class="txt">Proyección de los tres caniles</span><span class="puntos"></span><span class="pag" data-ref="c8">—</span></li>
     <li><span class="num">9</span><span class="txt">Evaluación económica</span><span class="puntos"></span><span class="pag" data-ref="c9">—</span></li>
     <li><span class="num">10</span><span class="txt">Metas proyectadas</span><span class="puntos"></span><span class="pag" data-ref="c10">—</span></li>
     <li><span class="num">11</span><span class="txt">Ahorros adicionales identificados</span><span class="puntos"></span><span class="pag" data-ref="c11">—</span></li>
@@ -444,7 +439,7 @@ def construir():
   <h2><span class="numero">Capítulo 2<span class="marcador">@@c2@@</span></span>Supuestos y parámetros de cálculo</h2>
 
   <p class="entradilla">Todos los valores del presupuesto dependen de estos parámetros. Si cambia
-    alguno —el valor de la UTM, la profundidad del pozo, el plazo de obra— cambia el resultado, y por eso
+    alguno —la profundidad del pozo, el plazo de obra, el precio de la madera— cambia el resultado, y por eso
     están declarados por separado.</p>
 
   <div class="tabla-envoltura">
@@ -484,10 +479,10 @@ def construir():
   <h2><span class="numero">Capítulo 3<span class="marcador">@@c3@@</span></span>Resumen general del canil piloto</h2>
 
   <div class="cifras cuatro">
-    <div class="cifra"><span class="dato">%(total_fin)s</span><span class="glosa">Total a financiar, equivalente a %(utm)s UTM</span></div>
+    <div class="cifra"><span class="dato">%(total_fin)s</span><span class="glosa">Costo a desembolsar del canil piloto</span></div>
     <div class="cifra"><span class="dato">%(aporte)s</span><span class="glosa">Aporte valorizado del municipio y el liceo técnico</span></div>
     <div class="cifra"><span class="dato">%(total_val)s</span><span class="glosa">Valor total del proyecto, incluidos aportes</span></div>
-    <div class="cifra"><span class="dato">%(margen)s</span><span class="glosa">Margen disponible bajo el tope PMU</span></div>
+    <div class="cifra"><span class="dato">%(pct_aporte)s%%</span><span class="glosa">Del valor total lo cubren aportes del municipio y del liceo</span></div>
   </div>
 
   <h3>Costo directo por partida</h3>
@@ -510,12 +505,10 @@ def construir():
     <tbody>
       <tr><td>Costo directo valorizado</td><td class="num">%(directo_val)s</td><td>Suma de las nueve partidas.</td></tr>
       <tr><td>Aportes valorizados</td><td class="num">−%(aporte)s</td><td>Municipio, cuadrilla municipal y liceo técnico.</td></tr>
-      <tr><td>Costo directo a financiar</td><td class="num">%(directo_fin)s</td><td>Lo que se paga con el fondo.</td></tr>
+      <tr><td>Costo directo a desembolsar</td><td class="num">%(directo_fin)s</td><td>Lo que hay que pagar efectivamente.</td></tr>
       <tr><td>Gastos generales (8%%)</td><td class="num">%(gg)s</td><td>Sobre el costo directo a financiar.</td></tr>
       <tr><td>Imprevistos (10%%)</td><td class="num">%(imp)s</td><td>Sobre costo directo más gastos generales.</td></tr>
-      <tr class="total"><td>Total a financiar</td><td class="num">%(total_fin)s</td><td>%(utm)s UTM</td></tr>
-      <tr><td>Tope PMU por proyecto</td><td class="num">%(tope)s</td><td>2.500 UTM de septiembre de 2026.</td></tr>
-      <tr><td>Margen bajo el tope</td><td class="num">%(margen)s</td><td>%(margen_utm)s UTM disponibles.</td></tr>
+      <tr class="total"><td>Total a desembolsar</td><td class="num">%(total_fin)s</td><td>Es la cifra que hay que financiar.</td></tr>
       <tr><td>Valor total del proyecto</td><td class="num">%(total_val)s</td><td>Incluye los aportes valorizados, que son el %(pct_aporte)s%% del total.</td></tr>
     </tbody>
   </table>
@@ -537,10 +530,6 @@ def construir():
         "imp": pesos(d["imp"]),
         "total_fin": pesos(d["total_fin"]),
         "total_val": pesos(d["total_val"]),
-        "utm": numero(d["utm"]),
-        "tope": pesos(TOPE_PMU),
-        "margen": pesos(TOPE_PMU - d["total_fin"]),
-        "margen_utm": numero(TOPE_UTM - d["utm"]),
         "pct_aporte": numero(100.0 * d["aporte"] / d["total_val"], 1),
     })
 
@@ -854,11 +843,10 @@ def construir():
     aporte_2 = (d["aporte"] - contenedor) * (1 + IPC)
     total_3 = d["total_fin"] + 2 * total_2
     aporte_3 = d["aporte"] + 2 * aporte_2
-    utm_2 = total_2 / UTM
 
     partes.append("""
 <section class="seccion">
-  <h2><span class="numero">Capítulo 8<span class="marcador">@@c8@@</span></span>Proyección de los tres caniles y tope PMU</h2>
+  <h2><span class="numero">Capítulo 8<span class="marcador">@@c8@@</span></span>Proyección de los tres caniles</h2>
 
   <p class="entradilla">Cada canil se formula y se ejecuta por separado. Los caniles 2 y 3 descuentan
     las herramientas y el contenedor bodega, que ya se compraron para el piloto, e incorporan un reajuste
@@ -866,22 +854,21 @@ def construir():
 
   <div class="tabla-envoltura">
   <table>
-    <thead><tr><th>Canil</th><th class="num">A financiar</th><th class="num">Aporte valorizado</th>
-      <th class="num">Total valorizado</th><th class="num">UTM</th><th class="cen">¿Bajo el tope?</th></tr></thead>
+    <thead><tr><th>Canil</th><th class="num">A desembolsar</th><th class="num">Aporte valorizado</th>
+      <th class="num">Valor total</th></tr></thead>
     <tbody>
       <tr><td>Canil 1 · piloto (etapa 1)</td><td class="num">%(t1)s</td><td class="num">%(a1)s</td>
-        <td class="num">%(v1)s</td><td class="num">%(u1)s</td><td class="cen">Sí</td></tr>
+        <td class="num">%(v1)s</td></tr>
       <tr><td>Canil 2 (etapa 2)</td><td class="num">%(t2)s</td><td class="num">%(a2)s</td>
-        <td class="num">%(v2)s</td><td class="num">%(u2)s</td><td class="cen">Sí</td></tr>
+        <td class="num">%(v2)s</td></tr>
       <tr><td>Canil 3 (etapa 2)</td><td class="num">%(t2)s</td><td class="num">%(a2)s</td>
-        <td class="num">%(v2)s</td><td class="num">%(u2)s</td><td class="cen">Sí</td></tr>
+        <td class="num">%(v2)s</td></tr>
       <tr class="total"><td>Total de los tres caniles</td><td class="num">%(t3)s</td><td class="num">%(a3)s</td>
-        <td class="num">%(v3)s</td><td class="num">%(u3)s</td><td class="cen">—</td></tr>
+        <td class="num">%(v3)s</td></tr>
     </tbody>
   </table>
-  <p class="nota-tabla">El tope del PMU es de 2.500 UTM <strong>por proyecto</strong>, equivalentes a
-    %(tope)s. Cada canil queda holgadamente bajo ese límite; la suma de los tres no compite con el tope
-    porque se formulan como proyectos independientes y se ejecutan en momentos distintos.</p>
+  <p class="nota-tabla">Cada canil se formula y se ejecuta como un proyecto independiente, en momentos
+    distintos, de modo que los tres no compiten entre sí por los mismos recursos.</p>
   </div>
 
   <h3>Cómo se construyen las cifras de los caniles 2 y 3</h3>
@@ -892,9 +879,9 @@ def construir():
       <tr><td>Costo directo a financiar del piloto</td><td class="num">%(df1)s</td><td>Base de cálculo.</td></tr>
       <tr><td>Herramientas y equipos que no se repiten</td><td class="num">−%(herr)s</td><td>Ítems B.4 a B.11, comprados una sola vez.</td></tr>
       <tr><td>Reajuste por inflación (3,5%%)</td><td class="num">+%(reaj)s</td><td>IPC de 12 meses aplicado al costo directo.</td></tr>
-      <tr><td>Costo directo a financiar</td><td class="num">%(df2)s</td><td></td></tr>
+      <tr><td>Costo directo a desembolsar</td><td class="num">%(df2)s</td><td></td></tr>
       <tr><td>Gastos generales e imprevistos</td><td class="num">%(ggimp)s</td><td>Mismos porcentajes que en el piloto.</td></tr>
-      <tr class="total"><td>Total por canil replicado</td><td class="num">%(t2)s</td><td>%(u2)s UTM</td></tr>
+      <tr class="total"><td>Total por canil replicado</td><td class="num">%(t2)s</td><td></td></tr>
     </tbody>
   </table>
   </div>
@@ -915,11 +902,9 @@ def construir():
     operación se organiza en red.</p>
   </div>
 </section>""" % {
-        "t1": pesos(d["total_fin"]), "a1": pesos(d["aporte"]), "v1": pesos(d["total_val"]), "u1": numero(d["utm"]),
-        "t2": pesos(total_2), "a2": pesos(aporte_2), "v2": pesos(total_2 + aporte_2), "u2": numero(utm_2),
+        "t1": pesos(d["total_fin"]), "a1": pesos(d["aporte"]), "v1": pesos(d["total_val"]), 
+        "t2": pesos(total_2), "a2": pesos(aporte_2), "v2": pesos(total_2 + aporte_2), 
         "t3": pesos(total_3), "a3": pesos(aporte_3), "v3": pesos(total_3 + aporte_3),
-        "u3": numero(total_3 / UTM),
-        "tope": pesos(TOPE_PMU),
         "df1": pesos(d["directo_fin"]),
         "herr": pesos(descuento),
         "reaj": pesos((d["directo_fin"] - descuento) * IPC),
@@ -984,12 +969,6 @@ def construir():
     hacer entrenamiento, operativos de chip o cursos de obediencia. Ese costo hoy se paga distribuido en
     varias direcciones municipales y no aparece en ninguna línea presupuestaria.</p>
 
-  <div class="destacado">
-    <div class="titulo">Comparación con el tope del fondo</div>
-    <p>El proyecto usa %(pcttope)s%% del tope disponible del PMU y deja %(margen)s de margen. Ese margen
-      es el espacio real que tiene la mesa técnica para absorber cotizaciones más altas —especialmente en
-      el pozo, el baño y el tótem SOS— sin salirse del marco de financiamiento.</p>
-  </div>
 </section>""" % {
         "porhab": pesos(d["total_fin"] / HABITANTES),
         "total": pesos(d["total_fin"]),
@@ -1004,8 +983,6 @@ def construir():
         "pctap": numero(100.0 * d["aporte"] / d["total_val"], 1),
         "aporte": pesos(d["aporte"]),
         "retorno": pesos(d["total_val"] * 3),
-        "pcttope": numero(100.0 * d["total_fin"] / TOPE_PMU, 1),
-        "margen": pesos(TOPE_PMU - d["total_fin"]),
     })
 
     # ---------------- 10. Metas ----------------
@@ -1089,7 +1066,7 @@ def construir():
     <tbody>
       <tr><td>Grava del propio terreno o de pozo de áridos municipal</td><td class="num">−%(grava)s</td><td>Que la Dirección de Obras confirme material utilizable en el terreno o excedentes de otras obras, con la calidad necesaria para senderos y bases.</td></tr>
       <tr><td>Diseño con profesionales municipales</td><td class="num">−%(diseno)s</td><td>Que Secplan y la Dirección de Obras asuman el diseño de arquitectura y especialidades en vez de contratarlo.</td></tr>
-      <tr class="total"><td>Efecto conjunto sobre el total del proyecto</td><td class="num">−%(piloto)s</td><td>El total bajaría de %(base)s a %(nuevo)s, es decir %(nutm)s UTM.</td></tr>
+      <tr class="total"><td>Efecto conjunto sobre el total del proyecto</td><td class="num">−%(piloto)s</td><td>El total bajaría de %(base)s a %(nuevo)s.</td></tr>
     </tbody>
   </table>
   <p class="nota-tabla">El efecto incluye el arrastre de gastos generales e imprevistos, porque ambos se
@@ -1140,16 +1117,11 @@ def construir():
       —bolsas compostables, insumos de operativos, reposición de piezas—, bajo convenio anual revocable,
       sin publicidad dentro de los sectores y sin que ningún aporte condicione el reglamento ni el uso
       del canil. Es una vía a evaluar con Asesoría Jurídica: el proyecto no depende de ella.</li>
-    <li><strong>Fondo Concursable de Tenencia Responsable:</strong> financia los entrenadores y cursos
-      del sector de perros complicados a través de una organización sin fines de lucro inscrita en el
-      registro correspondiente, de modo que ese costo no recae en el presupuesto municipal de
-      operación.</li>
   </ul>
 </section>""" % {
         "grava": pesos(ahorro_grava), "diseno": pesos(ahorro_diseno),
         "piloto": pesos(ahorro_piloto), "base": pesos(d["total_fin"]),
         "nuevo": pesos(d["total_fin"] - ahorro_piloto),
-        "nutm": numero((d["total_fin"] - ahorro_piloto) / UTM),
         "tipo": pesos(ahorro_tipo), "tipo2": pesos(ahorro_tipo * 2),
         "op3": pesos(d["op_fin"] * 3), "op3red": pesos(op3_red),
         "cv": pesos(d["op_fin"] * 3 / visitas3), "cvred": pesos(op3_red / visitas3),
@@ -1186,7 +1158,6 @@ def construir():
       <tr><td>Chiletrabajos y Mega</td><td>Sueldos de carpintero, gásfiter y eléctrico en construcción.</td></tr>
       <tr><td>Carey</td><td>Ingreso mínimo mensual 2026.</td></tr>
       <tr><td>Buk y Banco Central</td><td>Valor de la UF.</td></tr>
-      <tr><td>Servicio de Impuestos Internos</td><td>Valor de la UTM.</td></tr>
       <tr><td>Infobae y Banco Central vía finclaro</td><td>Tipos de cambio de euro y dólar.</td></tr>
       <tr><td>Seremi de Salud</td><td>Arancel de autorización sanitaria.</td></tr>
       <tr><td>Natura Energy</td><td>Luminaria solar integrada de 40 W IP65 para alumbrado público.</td></tr>
@@ -1229,8 +1200,7 @@ def construir():
     </tbody>
   </table>
   <p class="nota-tabla">Corregir al alza donde el mercado es más caro es lo que evita que la obra se
-    detenga a mitad de camino por un presupuesto insuficiente. Con estos ajustes el proyecto sigue
-    holgadamente bajo el tope de 2.500 UTM del PMU.</p>
+    detenga a mitad de camino por un presupuesto insuficiente.</p>
   </div>
 
   <h3>Qué hacer antes de ejecutar</h3>
@@ -1246,7 +1216,7 @@ def construir():
       de 30 UF/m² usado aquí.</li>
     <li><strong>Revisar la Plataforma de Economía Circular</strong> y el Convenio Marco antes de
       licitar, y descontar del presupuesto todo lo que se obtenga por esas vías.</li>
-    <li><strong>Actualizar UF, UTM y tipos de cambio</strong> a la fecha de ejecución.</li>
+    <li><strong>Actualizar la UF y los tipos de cambio</strong> a la fecha de ejecución.</li>
   </ol>
 
   <h3>Alcance de este presupuesto</h3>
@@ -1270,7 +1240,7 @@ def construir():
     print("  presupuesto.html generado")
     print("  costo directo valorizado: %s" % pesos(d["directo_val"]))
     print("  costo directo a financiar: %s" % pesos(d["directo_fin"]))
-    print("  total a financiar: %s (%s UTM)" % (pesos(d["total_fin"]), numero(d["utm"])))
+    print("  total a desembolsar: %s" % pesos(d["total_fin"]))
     print("  total valorizado: %s" % pesos(d["total_val"]))
     print("  operación anual a financiar: %s" % pesos(d["op_fin"]))
     print("  suma del flujo: %s" % pesos(sum(f["total_mes"].values())))

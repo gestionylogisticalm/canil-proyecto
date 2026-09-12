@@ -17,8 +17,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from datos import COMPRA, OPERACION, PARTIDAS  # noqa: E402
 
-UTM = 71721
-TOPE_PMU = 2500 * UTM
 GG = 0.08
 IMPREVISTOS = 0.10
 IPC = 0.035
@@ -97,14 +95,6 @@ revisar("imprevistos (10%)", imp, ESPERADO["imprevistos"])
 revisar("total a financiar", total_fin, ESPERADO["total a financiar"])
 revisar("total valorizado", total_val, ESPERADO["total valorizado"])
 
-print("\n3. Tope del fondo")
-utm = total_fin / UTM
-print("  equivalente en UTM               %14.1f   tope 2.500 UTM" % utm)
-print("  uso del tope                     %13.1f%%   margen %s"
-      % (100 * total_fin / TOPE_PMU, "{:,}".format(int(TOPE_PMU - total_fin)).replace(",", ".")))
-if total_fin > TOPE_PMU:
-    problemas.append("el total supera el tope del PMU")
-
 print("\n4. Operación anual")
 from generar_presupuesto import operacion  # noqa: E402
 op = operacion(directo_fin, total_fin)
@@ -129,7 +119,6 @@ revisar("canil 2 y 3, a financiar", total2, ESPERADO["canil 2 y 3, a financiar"]
 revisar("canil 2 y 3, aporte", aporte2, ESPERADO["canil 2 y 3, aporte"])
 revisar("tres caniles, a financiar", total_fin + 2 * total2, ESPERADO["tres caniles, a financiar"])
 revisar("tres caniles, aportes", aporte + 2 * aporte2, ESPERADO["tres caniles, aportes"])
-print("  %-34s %14.1f" % ("UTM por canil replicado", total2 / UTM))
 
 print("\n6. Flujo de caja")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -165,7 +154,6 @@ citas = {
     "total a financiar": moneda(total_fin),
     "total valorizado": moneda(total_val),
     "aporte valorizado": moneda(aporte),
-    "margen bajo el tope": moneda(TOPE_PMU - total_fin),
     "canil 2 y 3": moneda(total2),
     "tres caniles": moneda(total_fin + 2 * total2),
     "operación mensual": moneda(op_fin / 12),
