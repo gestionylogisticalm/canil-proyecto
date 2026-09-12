@@ -146,6 +146,7 @@ function texturaMadera(base, veta, vertical) {
   const t = new THREE.CanvasTexture(c);
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
   t.colorSpace = THREE.SRGBColorSpace;
+  t.canvas = c;
   return t;
 }
 
@@ -174,6 +175,7 @@ function texturaTejuela() {
   const t = new THREE.CanvasTexture(c);
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
   t.colorSpace = THREE.SRGBColorSpace;
+  t.canvas = c;
   return t;
 }
 
@@ -202,6 +204,41 @@ function materialMalla(largo, alto) {
     map: t, transparent: true, alphaTest: 0.35, opacity: 0.95, side: THREE.DoubleSide,
     roughness: 0.75, metalness: 0.3, color: 0xbcc4c0,
   });
+}
+
+/* Mapa de normales derivado de una textura: da relieve real a la madera, la
+   tejuela y la grava sin necesidad de archivos externos. */
+function mapaNormales(canvasOrigen, fuerza) {
+  const f = fuerza || 2.4;
+  const w = canvasOrigen.width, h = canvasOrigen.height;
+  const src = canvasOrigen.getContext('2d').getImageData(0, 0, w, h).data;
+  const alturas = new Float32Array(w * h);
+  for (let i = 0; i < w * h; i++) {
+    alturas[i] = (src[i * 4] * 0.299 + src[i * 4 + 1] * 0.587 + src[i * 4 + 2] * 0.114) / 255;
+  }
+  const destino = document.createElement('canvas');
+  destino.width = w; destino.height = h;
+  const ctx = destino.getContext('2d');
+  const img = ctx.createImageData(w, h);
+  const en = function (x, y) {
+    return alturas[((y + h) % h) * w + ((x + w) % w)];
+  };
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const dx = (en(x - 1, y) - en(x + 1, y)) * f;
+      const dy = (en(x, y - 1) - en(x, y + 1)) * f;
+      const largo = Math.sqrt(dx * dx + dy * dy + 1);
+      const i = (y * w + x) * 4;
+      img.data[i] = ((dx / largo) * 0.5 + 0.5) * 255;
+      img.data[i + 1] = ((dy / largo) * 0.5 + 0.5) * 255;
+      img.data[i + 2] = ((1 / largo) * 0.5 + 0.5) * 255;
+      img.data[i + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(destino);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  return t;
 }
 
 /* --- utilidades geométricas ---------------------------------------------- */
@@ -275,27 +312,40 @@ function texturaPasto(base, veteado) {
   const t = new THREE.CanvasTexture(c);
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
   t.colorSpace = THREE.SRGBColorSpace;
+  t.canvas = c;
   return t;
 }
 /* al aplicar una textura, el color base se multiplica: debe quedar en blanco */
-function conTextura(material, base, veteado, repeticion) {
-  material.map = texturaPasto(base, veteado);
+function conTextura(material, base, veteado, repeticion, relieve) {
+  const t = texturaPasto(base, veteado);
+  material.map = t;
   material.map.repeat.set(repeticion, repeticion);
+  if (relieve) {
+    material.normalMap = mapaNormales(t.canvas, relieve);
+    material.normalMap.repeat.set(repeticion, repeticion);
+    material.normalScale = new THREE.Vector2(0.7, 0.7);
+  }
   material.color.setHex(0xffffff);
 }
-M.maderaClara.map = texturaMadera('#b08a55', '#7d5f35', false); M.maderaClara.map.repeat.set(3, 3);
-M.maderaClara.color.setHex(0xffffff);
-M.maderaMedia.map = texturaMadera('#8d6a3f', '#5f4526', true); M.maderaMedia.map.repeat.set(1, 4);
-M.maderaMedia.color.setHex(0xffffff);
-M.maderaOscura.map = texturaMadera('#6b4f2c', '#47331a', true); M.maderaOscura.map.repeat.set(1, 4);
-M.maderaOscura.color.setHex(0xffffff);
-M.tejuela.map = texturaTejuela(); M.tejuela.map.repeat.set(4, 3);
-M.tejuela.color.setHex(0xffffff);
+function conRelieve(material, textura, repX, repY, fuerza, escalaNormal) {
+  material.map = textura;
+  material.map.repeat.set(repX, repY);
+  material.normalMap = mapaNormales(textura.canvas, fuerza);
+  material.normalMap.repeat.set(repX, repY);
+  material.normalScale = new THREE.Vector2(escalaNormal, escalaNormal);
+  material.color.setHex(0xffffff);
+  material.roughness = 0.82;
+}
+conRelieve(M.maderaClara, texturaMadera('#b08a55', '#7d5f35', false), 3, 3, 2.2, 0.55);
+conRelieve(M.maderaMedia, texturaMadera('#8d6a3f', '#5f4526', true), 1, 4, 2.2, 0.6);
+conRelieve(M.maderaOscura, texturaMadera('#6b4f2c', '#47331a', true), 1, 4, 2.2, 0.6);
+conRelieve(M.tejuela, texturaTejuela(), 4, 3, 5.5, 1.15);
+M.tejuela.roughness = 0.95;
 
-conTextura(M.pastoOscuro, '#6a8a46', '#5b7a3c', 120);
-conTextura(M.pasto, '#6a8a46', '#5b7a3c', 18);
-conTextura(M.pastoClaro, '#8fab60', '#7e9a53', 9);
-conTextura(M.grava, '#9a9385', '#837c70', 7);
+conTextura(M.pastoOscuro, '#638444', '#55743a', 120);
+conTextura(M.pasto, '#5f7f3f', '#537237', 18, 1.6);
+conTextura(M.pastoClaro, '#78964d', '#6b8a45', 9, 1.6);
+conTextura(M.grava, '#9a9385', '#837c70', 7, 3.2);
 
 /* el terreno vecino tiene ondulaciones suaves; dentro del recinto queda plano
    para que las construcciones y los cercos apoyen bien */
@@ -359,6 +409,38 @@ superficie(SECTORES.pequenos.x0, SECTORES.pequenos.z0, SECTORES.pequenos.x1, SEC
 superficie(SECTORES.entreA.x0, SECTORES.entreA.z0, SECTORES.entreA.x1, SECTORES.entreA.z1, M.pastoClaro, 0.01);
 superficie(SECTORES.entreB.x0, SECTORES.entreB.z0, SECTORES.entreB.x1, SECTORES.entreB.z1, M.pastoClaro, 0.01);
 
+/* Textura de follaje: manchas de hoja con transparencia. Montada en planos
+   cruzados da copas mucho más creíbles que un cono sólido. */
+function texturaFollaje(tono) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, 256, 256);
+  for (let i = 0; i < 260; i++) {
+    const x = 128 + (rnd() - 0.5) * 230;
+    const y = 128 + (rnd() - 0.5) * 230;
+    const d = Math.hypot(x - 128, y - 128) / 128;
+    if (rnd() < d * d) continue;                       // copa más densa al centro
+    const r = 7 + rnd() * 17;
+    const claro = 0.55 + rnd() * 0.45;
+    const col = tono.map(function (v, k) { return Math.round(v * claro + (k === 1 ? 12 : 0)); });
+    g.fillStyle = 'rgba(' + col[0] + ',' + col[1] + ',' + col[2] + ',' + (0.75 + rnd() * 0.25).toFixed(2) + ')';
+    g.beginPath();
+    g.ellipse(x, y, r, r * (0.55 + rnd() * 0.5), rnd() * 3.14, 0, 6.283);
+    g.fill();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+const MATS_FOLLAJE = [[44, 82, 48], [58, 96, 54], [36, 68, 42], [70, 104, 58]].map(function (tono) {
+  return new THREE.MeshStandardMaterial({
+    map: texturaFollaje(tono), transparent: true, alphaTest: 0.42,
+    side: THREE.DoubleSide, roughness: 0.95, metalness: 0,
+  });
+});
+
 /* --- bosque --------------------------------------------------------------- */
 function esBosque(x, z) {
   if (CONF === 'pradera') return false;
@@ -366,34 +448,61 @@ function esBosque(x, z) {
   return x > 55 && z > 45;           // un cuarto, al fondo a la derecha
 }
 
+function grupoHojas(r, mat) {
+  /* tres planos cruzados con la textura de follaje */
+  const g = new THREE.Group();
+  for (let i = 0; i < 3; i++) {
+    const hoja = new THREE.Mesh(new THREE.PlaneGeometry(r * 2, r * 2), mat);
+    hoja.rotation.y = (i / 3) * Math.PI;
+    hoja.rotation.z = (rnd() - 0.5) * 0.3;
+    hoja.castShadow = true; hoja.receiveShadow = true;
+    g.add(hoja);
+  }
+  const tapa = new THREE.Mesh(new THREE.PlaneGeometry(r * 1.9, r * 1.9), mat);
+  tapa.rotation.x = -Math.PI / 2;
+  tapa.position.y = r * 0.35;
+  tapa.castShadow = true;
+  g.add(tapa);
+  return g;
+}
+
 function arbol(x, z, escala) {
   const g = new THREE.Group();
-  const altoTronco = entre(3.5, 6.5) * escala;
-  const rTronco = entre(0.28, 0.5) * escala;
-  g.add(cilindro(rTronco * 0.75, rTronco, altoTronco, M.maderaOscura, 0, altoTronco / 2, 0, 7));
+  const altoTronco = entre(4.0, 7.5) * escala;
+  const rTronco = entre(0.22, 0.42) * escala;
+  const tronco = cilindro(rTronco * 0.6, rTronco, altoTronco, M.maderaOscura, 0, altoTronco / 2, 0, 9);
+  g.add(tronco);
+  // un par de ramas bajas, para que el tronco no sea un poste
+  for (let i = 0; i < 2; i++) {
+    const rama = cilindro(0.05 * escala, 0.11 * escala, 1.5 * escala, M.maderaOscura,
+                          0, altoTronco * (0.62 + i * 0.16), 0, 6);
+    rama.rotation.z = (i % 2 ? 1 : -1) * 0.9;
+    rama.rotation.y = rnd() * 3.14;
+    rama.position.x = (i % 2 ? 0.5 : -0.5) * escala;
+    g.add(rama);
+  }
 
-  if (rnd() < 0.45) {
-    /* copa redondeada, tipo coigüe o tepa */
-    const r = entre(2.6, 4.2) * escala;
-    const base = altoTronco * 0.9;
-    [[0, 0, 1], [-0.55, 0.35, 0.72], [0.6, 0.2, 0.66], [0.1, -0.5, 0.6]].forEach(function (p, i) {
-      const esfera = new THREE.Mesh(new THREE.SphereGeometry(r * p[2], 9, 7),
-        i % 2 ? M.follaje : (i === 0 ? M.follajeOscuro : M.follajeClaro));
-      esfera.position.set(p[0] * r, base + r * (0.55 + p[1] * 0.4), p[1] * r * 0.6);
-      esfera.scale.y = 0.86;
-      esfera.castShadow = true; esfera.receiveShadow = true;
-      g.add(esfera);
-    });
-  } else {
-    /* copa cónica, tipo alerce o mañío */
-    let base = altoTronco * 0.72;
-    for (let i = 0; i < 3; i++) {
-      const r = (3.6 - i * 0.85) * escala * entre(0.85, 1.15);
-      const h = (5.2 - i * 0.7) * escala;
-      const material = i === 0 ? M.follajeOscuro : (i === 1 ? M.follaje : M.follajeClaro);
-      g.add(cono(r, h, material, entre(-0.3, 0.3), base + h / 2, entre(-0.3, 0.3), 8));
-      base += h * 0.42;
+  const mat = MATS_FOLLAJE[Math.floor(rnd() * MATS_FOLLAJE.length)];
+  const conica = rnd() < 0.5;
+  if (conica) {
+    /* alerce o mañío: copa alargada, varios grupos apilados */
+    let base = altoTronco * 0.55;
+    const n = 4;
+    for (let i = 0; i < n; i++) {
+      const r = (2.8 - i * 0.55) * escala * entre(0.85, 1.1);
+      const gh = grupoHojas(r, mat);
+      gh.position.set(entre(-0.25, 0.25) * escala, base, entre(-0.25, 0.25) * escala);
+      g.add(gh);
+      base += r * 0.85;
     }
+  } else {
+    /* coigüe o tepa: copa ancha y redondeada */
+    const r = entre(2.6, 3.8) * escala;
+    [[0, 1.0, 1.0], [-0.6, 0.72, 0.7], [0.62, 0.8, 0.72], [0.05, 0.55, 0.62]].forEach(function (p) {
+      const gh = grupoHojas(r * p[2], mat);
+      gh.position.set(p[0] * r, altoTronco * 0.92 + r * p[1] * 0.45, (rnd() - 0.5) * r * 0.8);
+      g.add(gh);
+    });
   }
   g.position.set(x, 0, z);
   g.rotation.y = rnd() * Math.PI;
@@ -402,12 +511,11 @@ function arbol(x, z, escala) {
 
 function arbusto(x, z, r) {
   const g = new THREE.Group();
-  for (let i = 0; i < 3; i++) {
-    const rr = r * entre(0.6, 1.0);
-    const m = new THREE.Mesh(new THREE.SphereGeometry(rr, 7, 5), M.arbusto);
-    m.position.set(entre(-r, r) * 0.5, rr * 0.8, entre(-r, r) * 0.5);
-    m.castShadow = true; m.receiveShadow = true;
-    g.add(m);
+  const mat = MATS_FOLLAJE[Math.floor(rnd() * MATS_FOLLAJE.length)];
+  for (let i = 0; i < 2; i++) {
+    const gh = grupoHojas(r * entre(0.8, 1.15), mat);
+    gh.position.set(entre(-r, r) * 0.4, r * entre(0.55, 0.8), entre(-r, r) * 0.4);
+    g.add(gh);
   }
   g.position.set(x, 0, z);
   return g;
@@ -890,67 +998,96 @@ bebedero(24, 90, 2.0); bebedero(76, 90, 2.0);
 
 /* letrero de reglas del canil, con el texto real grabado en la madera */
 function texturaReglas() {
-  const c = document.createElement('canvas');
-  c.width = 760; c.height = 1000;
-  const g = c.getContext('2d');
-  // fondo de madera clara
-  g.fillStyle = '#c9a675'; g.fillRect(0, 0, 760, 1000);
-  g.strokeStyle = '#a6844f';
-  for (let i = 0; i < 70; i++) {
-    g.globalAlpha = 0.10 + rnd() * 0.18;
-    g.lineWidth = 1 + rnd() * 3;
-    const y = rnd() * 1000;
-    g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(250, y + 9, 500, y - 9, 760, y + 3); g.stroke();
+  /* El letrero es madera tallada: las letras van en bajo relieve, rellenas
+     en color y barnizadas. Se generan dos canvas, uno de color y otro de
+     altura, para que el relieve responda a la luz. */
+  const W = 760, H = 1000;
+  const color = document.createElement('canvas');
+  color.width = W; color.height = H;
+  const altura = document.createElement('canvas');
+  altura.width = W; altura.height = H;
+  const g = color.getContext('2d');
+  const a = altura.getContext('2d');
+
+  // madera con veta
+  g.fillStyle = '#b98f5c'; g.fillRect(0, 0, W, H);
+  a.fillStyle = '#f0f0f0'; a.fillRect(0, 0, W, H);
+  for (let i = 0; i < 130; i++) {
+    const y = rnd() * H;
+    const grosor = 1 + rnd() * 4;
+    g.globalAlpha = 0.08 + rnd() * 0.16;
+    g.strokeStyle = rnd() > 0.5 ? '#8f6a3c' : '#cfa877';
+    g.lineWidth = grosor;
+    g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(240, y + 8, 500, y - 8, W, y + 3); g.stroke();
+    a.globalAlpha = 0.10;
+    a.strokeStyle = '#d8d8d8'; a.lineWidth = grosor;
+    a.beginPath(); a.moveTo(0, y); a.bezierCurveTo(240, y + 8, 500, y - 8, W, y + 3); a.stroke();
   }
-  g.globalAlpha = 1;
-  // marco
-  g.strokeStyle = '#6d4f2b'; g.lineWidth = 14;
-  g.strokeRect(16, 16, 728, 968);
-  // encabezado
-  g.fillStyle = '#123a5e';
-  g.fillRect(40, 46, 680, 108);
-  g.fillStyle = '#ffffff';
-  g.font = 'bold 40px sans-serif';
-  g.textAlign = 'center';
-  g.fillText('CANIL PÚBLICO', 380, 96);
-  g.font = 'bold 30px sans-serif';
-  g.fillText('REGLAS DE USO', 380, 136);
-  // reglas
+  g.globalAlpha = 1; a.globalAlpha = 1;
+
+  // ranura perimetral tallada
+  function ranura(ctx, col) {
+    ctx.strokeStyle = col; ctx.lineWidth = 9;
+    ctx.strokeRect(34, 34, W - 68, H - 68);
+    ctx.lineWidth = 4;
+    ctx.strokeRect(52, 52, W - 104, H - 104);
+  }
+  ranura(g, 'rgba(90,62,32,0.55)');
+  ranura(a, '#3a3a3a');
+
+  /* texto tallado: se dibuja hundido en el canvas de altura y relleno en
+     color, con un filo claro abajo que simula el borde del tallado */
+  function tallar(texto, x, y, fuente, relleno, alineacion) {
+    g.font = fuente; a.font = fuente;
+    g.textAlign = alineacion || 'left'; a.textAlign = alineacion || 'left';
+    g.fillStyle = 'rgba(228,205,170,0.55)';
+    g.fillText(texto, x + 2, y + 2);            // filo iluminado del canal
+    g.fillStyle = relleno;
+    g.fillText(texto, x, y);                    // pintura dentro del bajo relieve
+    a.fillStyle = '#1e1e1e';
+    a.fillText(texto, x, y);                    // hundido en el mapa de altura
+  }
+
+  tallar('CANIL PÚBLICO', W / 2, 128, 'bold 52px Georgia, serif', '#1b3f63', 'center');
+  tallar('DE PUERTO VARAS', W / 2, 176, 'bold 34px Georgia, serif', '#1b3f63', 'center');
+  tallar('REGLAS DE USO', W / 2, 232, 'bold 30px Georgia, serif', '#6b3b1f', 'center');
+
+  // línea tallada bajo el título
+  g.strokeStyle = 'rgba(90,62,32,0.6)'; g.lineWidth = 6;
+  g.beginPath(); g.moveTo(120, 256); g.lineTo(W - 120, 256); g.stroke();
+  a.strokeStyle = '#2a2a2a'; a.lineWidth = 6;
+  a.beginPath(); a.moveTo(120, 256); a.lineTo(W - 120, 256); a.stroke();
+
   const reglas = [
     'Perro inscrito con chip',
     'Vacuna antirrábica vigente',
     'Perro desparasitado',
     'Sin hembras en celo ni cachorros',
     'Niños siempre con un adulto',
-    'Supervise a su perro en todo momento',
-    'Recoja las fecas. Las bolsas son gratis',
+    'Supervise a su perro',
+    'Recoja las fecas de su perro',
     'Horario de 6:00 a 21:00',
     'Zona videovigilada',
     'Máximo 4 perros por paseador',
   ];
-  g.textAlign = 'left';
-  g.fillStyle = '#2a1c0e';
-  g.font = '30px sans-serif';
   reglas.forEach(function (t, i) {
-    const y = 222 + i * 62;
-    g.fillStyle = '#1d5b96';
-    g.beginPath(); g.arc(72, y - 10, 9, 0, 6.283); g.fill();
-    g.fillStyle = '#2a1c0e';
-    g.fillText(t, 98, y);
+    const y = 320 + i * 58;
+    g.fillStyle = 'rgba(228,205,170,0.5)';
+    g.beginPath(); g.arc(83, y - 9, 8, 0, 6.283); g.fill();
+    g.fillStyle = '#1b3f63';
+    g.beginPath(); g.arc(81, y - 11, 8, 0, 6.283); g.fill();
+    a.fillStyle = '#1e1e1e';
+    a.beginPath(); a.arc(81, y - 11, 8, 0, 6.283); a.fill();
+    tallar(t, 108, y, '30px Georgia, serif', '#2b2015');
   });
-  // pie con el tótem de emergencia
-  g.fillStyle = '#7a2b2b';
-  g.fillRect(40, 866, 680, 96);
-  g.fillStyle = '#ffffff';
-  g.font = 'bold 25px sans-serif';
-  g.textAlign = 'center';
-  g.fillText('EMERGENCIAS: TÓTEM SOS EN EL ACCESO', 380, 902);
-  g.font = '23px sans-serif';
-  g.fillText('1 Emergencias · 2 Seguridad · 3 Veterinario', 380, 936);
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.anisotropy = 8;
-  return t;
+
+  tallar('EMERGENCIAS · TÓTEM SOS EN EL ACCESO', W / 2, 918, 'bold 25px Georgia, serif', '#7a2b1f', 'center');
+  tallar('1 Emergencias · 2 Seguridad · 3 Veterinario', W / 2, 952, '23px Georgia, serif', '#2b2015', 'center');
+
+  const tc = new THREE.CanvasTexture(color);
+  tc.colorSpace = THREE.SRGBColorSpace;
+  tc.anisotropy = 8;
+  return { color: tc, relieve: mapaNormales(altura, 6.0) };
 }
 
 function letreroReglas(x, z, giro) {
@@ -960,8 +1097,12 @@ function letreroReglas(x, z, giro) {
     g.add(cilindro(0.09, 0.11, 2.9, M.maderaMedia, dx, 1.45, 0, 8));
   });
   g.add(caja(ancho + 0.3, alto + 0.2, 0.1, M.maderaMedia, 0, 1.75, 0));
+  const tex = texturaReglas();
   const tablero = new THREE.Mesh(new THREE.PlaneGeometry(ancho, alto),
-    new THREE.MeshStandardMaterial({ map: texturaReglas(), roughness: 0.82 }));
+    new THREE.MeshStandardMaterial({
+      map: tex.color, normalMap: tex.relieve,
+      normalScale: new THREE.Vector2(1.4, 1.4), roughness: 0.68,
+    }));
   tablero.position.set(0, 1.75, 0.058);
   tablero.castShadow = false; tablero.receiveShadow = true;
   g.add(tablero);
@@ -1028,32 +1169,106 @@ camaraSeguridad(85, 40, 2.2); camaraSeguridad(26, 78, 0); camaraSeguridad(78, 78
 /* --- estacionamiento: autos ------------------------------------------------ */
 function auto(x, z, color, rot) {
   const g = new THREE.Group();
-  const m = mat(color, 0.4, 0.25);
-  g.add(caja(1.85, 0.75, 4.3, m, 0, 0.62, 0));
-  g.add(caja(1.65, 0.62, 2.2, mat(0x2d3338, 0.3, 0.3), 0, 1.25, -0.15));
-  [[-0.95, 1.4], [0.95, 1.4], [-0.95, -1.4], [0.95, -1.4]].forEach(function (p) {
-    const r = cilindro(0.33, 0.33, 0.24, mat(0x23262a, 0.9), p[0], 0.33, p[1], 10);
-    r.rotation.z = Math.PI / 2;
-    g.add(r);
+  const carroceria = new THREE.MeshStandardMaterial({ color: color, roughness: 0.32, metalness: 0.45 });
+  const vidrio = new THREE.MeshStandardMaterial({ color: 0x1d2a33, roughness: 0.12, metalness: 0.5 });
+  const goma = new THREE.MeshStandardMaterial({ color: 0x1c1f22, roughness: 0.95 });
+  const llanta = new THREE.MeshStandardMaterial({ color: 0xb9c0c6, roughness: 0.35, metalness: 0.7 });
+
+  // cuerpo inferior, con los cantos rebajados
+  const bajo = new THREE.Mesh(new THREE.BoxGeometry(1.78, 0.62, 4.35), carroceria);
+  bajo.position.y = 0.72; bajo.castShadow = true; bajo.receiveShadow = true;
+  g.add(bajo);
+  const faldon = new THREE.Mesh(new THREE.BoxGeometry(1.62, 0.3, 4.2), carroceria);
+  faldon.position.y = 0.45; faldon.castShadow = true;
+  g.add(faldon);
+
+  // cabina, más angosta y con caída hacia atrás
+  const cabina = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.56, 2.0), carroceria);
+  cabina.position.set(0, 1.3, -0.15);
+  cabina.castShadow = true;
+  g.add(cabina);
+  const parabrisas = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.5, 0.12), vidrio);
+  parabrisas.position.set(0, 1.3, 0.87); parabrisas.rotation.x = -0.42;
+  g.add(parabrisas);
+  const luneta = new THREE.Mesh(new THREE.BoxGeometry(1.45, 0.46, 0.12), vidrio);
+  luneta.position.set(0, 1.3, -1.12); luneta.rotation.x = 0.5;
+  g.add(luneta);
+  [-1, 1].forEach(function (lado) {
+    const ventana = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.42, 1.8), vidrio);
+    ventana.position.set(lado * 0.79, 1.32, -0.15);
+    g.add(ventana);
+    // espejo
+    g.add(caja(0.16, 0.09, 0.09, carroceria, lado * 0.95, 1.12, 0.75));
   });
+
+  // focos y parrilla
+  [-1, 1].forEach(function (lado) {
+    const foco = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.14, 0.08),
+      new THREE.MeshStandardMaterial({ color: 0xf2f0e6, roughness: 0.2, metalness: 0.3 }));
+    foco.position.set(lado * 0.6, 0.82, 2.19);
+    g.add(foco);
+    const trasera = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.14, 0.07),
+      new THREE.MeshStandardMaterial({ color: 0x8e2320, roughness: 0.3 }));
+    trasera.position.set(lado * 0.62, 0.85, -2.19);
+    g.add(trasera);
+  });
+
+  // ruedas con llanta
+  [[-0.9, 1.38], [0.9, 1.38], [-0.9, -1.42], [0.9, -1.42]].forEach(function (p) {
+    const r = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.22, 18), goma);
+    r.rotation.z = Math.PI / 2;
+    r.position.set(p[0], 0.34, p[1]);
+    r.castShadow = true;
+    g.add(r);
+    const l = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.24, 12), llanta);
+    l.rotation.z = Math.PI / 2;
+    l.position.set(p[0], 0.34, p[1]);
+    g.add(l);
+  });
+
   g.position.set(x, 0, z);
   g.rotation.y = rot || 0;
   escena.add(g);
 }
+
 [[2, -8, 0x9aa3ab], [7, -8, 0x39506b], [12, -8, 0xb4b9bd], [17, -8, 0x6d7b62],
  [22, -8, 0x8c3f3a], [27, -8, 0xcfd3d6], [32, -8, 0x44505c], [37, -8, 0x7d8a92],
  [5, -15, 0x5a6a58], [15, -15, 0xa9aeb2]].forEach(function (a) {
-  auto(a[0], a[1], a[2], entre(-0.04, 0.04));
+  auto(a[0], a[1], a[2], entre(-0.05, 0.05));
 });
 
 /* --- personas y perros ----------------------------------------------------- */
 function persona(x, z, colorRopa) {
   const g = new THREE.Group();
-  g.add(cilindro(0.17, 0.2, 0.85, mat(colorRopa, 0.9), 0, 1.05, 0, 8));
-  g.add(cilindro(0.1, 0.12, 0.75, mat(0x39414b, 0.9), 0, 0.38, 0, 7));
-  const cab = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 6), mat(0xc79a76, 0.9));
+  const ropa = mat(colorRopa, 0.88);
+  const pantalon = mat(0x39414b, 0.9);
+  const piel = mat(0xc79a76, 0.8);
+  // piernas
+  [-0.09, 0.09].forEach(function (dx) {
+    g.add(cilindro(0.075, 0.085, 0.82, pantalon, dx, 0.41, 0, 8));
+  });
+  // torso
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.165, 0.2, 0.62, 10), ropa);
+  torso.position.y = 1.13; torso.castShadow = true; torso.receiveShadow = true;
+  g.add(torso);
+  // brazos, levemente separados del cuerpo
+  [-1, 1].forEach(function (lado) {
+    const brazo = cilindro(0.055, 0.065, 0.62, ropa, lado * 0.21, 1.1, 0.02, 7);
+    brazo.rotation.z = lado * 0.13;
+    g.add(brazo);
+    const mano = new THREE.Mesh(new THREE.SphereGeometry(0.055, 7, 5), piel);
+    mano.position.set(lado * 0.24, 0.79, 0.03);
+    g.add(mano);
+  });
+  // cuello y cabeza
+  g.add(cilindro(0.055, 0.06, 0.09, piel, 0, 1.48, 0, 7));
+  const cab = new THREE.Mesh(new THREE.SphereGeometry(0.115, 12, 9), piel);
   cab.position.y = 1.62; cab.castShadow = true;
+  cab.scale.z = 1.12;
   g.add(cab);
+  const pelo = new THREE.Mesh(new THREE.SphereGeometry(0.12, 10, 8, 0, 6.283, 0, 1.5), mat(0x3a2b22, 0.95));
+  pelo.position.y = 1.635; pelo.scale.z = 1.1;
+  g.add(pelo);
   g.position.set(x, 0, z);
   g.rotation.y = rnd() * Math.PI * 2;
   escena.add(g);
@@ -1176,8 +1391,95 @@ persona(26, 87, 0x2f4858);          // entrenador en el sector de entrenamiento
     });
 })();
 
+/* --- pasto en volumen ------------------------------------------------------ */
+/* Matas de pasto instanciadas alrededor del punto que mira la cámara: es lo
+   que más separa un render plano de uno creíble. En la vista aérea no se
+   usan, porque a esa distancia la textura basta. */
+function texturaBrizna() {
+  const c = document.createElement('canvas');
+  c.width = 64; c.height = 128;
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, 64, 128);
+  for (let i = 0; i < 7; i++) {
+    const x = 8 + rnd() * 48;
+    const alto = 60 + rnd() * 66;
+    const ancho = 3 + rnd() * 4;
+    const inclina = (rnd() - 0.5) * 22;
+    const verde = 96 + Math.floor(rnd() * 46);
+    g.fillStyle = 'rgb(' + Math.floor(verde * 0.62) + ',' + verde + ',' + Math.floor(verde * 0.42) + ')';
+    g.beginPath();
+    g.moveTo(x - ancho / 2, 128);
+    g.quadraticCurveTo(x + inclina * 0.5, 128 - alto * 0.6, x + inclina, 128 - alto);
+    g.quadraticCurveTo(x + inclina * 0.5 + ancho, 128 - alto * 0.6, x + ancho / 2, 128);
+    g.closePath(); g.fill();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+function sembrarPasto(centroX, centroZ, radio, cantidad) {
+  const geo = new THREE.PlaneGeometry(0.30, 0.17);
+  geo.translate(0, 0.085, 0);
+  const geos = [geo, geo.clone().rotateY(Math.PI / 2.2)];
+  const fusion = new THREE.BufferGeometry();
+  const posiciones = [], uvs = [], normales = [], indices = [];
+  let base = 0;
+  geos.forEach(function (gg) {
+    const pos = gg.attributes.position, uv = gg.attributes.uv, nor = gg.attributes.normal;
+    for (let i = 0; i < pos.count; i++) {
+      posiciones.push(pos.getX(i), pos.getY(i), pos.getZ(i));
+      uvs.push(uv.getX(i), uv.getY(i));
+      normales.push(nor.getX(i), nor.getY(i), nor.getZ(i));
+    }
+    const idx = gg.index.array;
+    for (let i = 0; i < idx.length; i++) indices.push(idx[i] + base);
+    base += pos.count;
+  });
+  fusion.setAttribute('position', new THREE.Float32BufferAttribute(posiciones, 3));
+  fusion.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  fusion.setAttribute('normal', new THREE.Float32BufferAttribute(normales, 3));
+  fusion.setIndex(indices);
+
+  const material = new THREE.MeshStandardMaterial({
+    map: texturaBrizna(), transparent: true, alphaTest: 0.45, side: THREE.DoubleSide,
+    roughness: 1, metalness: 0,
+  });
+  const matas = new THREE.InstancedMesh(fusion, material, cantidad);
+  matas.castShadow = false; matas.receiveShadow = true;
+  const m = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler();
+  const pos = new THREE.Vector3(), esc = new THREE.Vector3();
+  for (let i = 0; i < cantidad; i++) {
+    const ang = rnd() * 6.283;
+    const d = Math.sqrt(rnd()) * radio;
+    const x = centroX + Math.cos(ang) * d;
+    const z = centroZ + Math.sin(ang) * d;
+    const duras = [
+      [0, 0, 100, 6.2],        // zona de acceso
+      [-2, -20, 46, -3.8],     // estacionamiento
+      [-10.2, -4, -3.8, 104],  // sendero a entrenamiento
+      [-10.2, 95.8, 100, 102.2], // sendero norte
+      [29.8, 6, 34.2, 40],     // sendero accesible
+    ];
+    let sobreGrava = false;
+    for (let k = 0; k < duras.length; k++) {
+      const d = duras[k];
+      if (x > d[0] - 0.3 && x < d[2] + 0.3 && z > d[1] - 0.3 && z < d[3] + 0.3) { sobreGrava = true; break; }
+    }
+    pos.set(x, sobreGrava ? -0.6 : 0, z);
+    e.set(0, rnd() * 6.283, (rnd() - 0.5) * 0.25);
+    q.setFromEuler(e);
+    const t = 0.8 + rnd() * 0.55;
+    esc.set(t, t * (0.75 + rnd() * 0.5), t);
+    m.compose(pos, q, esc);
+    matas.setMatrixAt(i, m);
+  }
+  matas.instanceMatrix.needsUpdate = true;
+  escena.add(matas);
+}
+
 /* --- luces ----------------------------------------------------------------- */
-const hemi = new THREE.HemisphereLight(0xdcecf4, 0x7b8a55, 1.35);
+const hemi = new THREE.HemisphereLight(0xdcecf4, 0x7b8a55, 0.75);
 escena.add(hemi);
 
 const sol = new THREE.DirectionalLight(0xfff2de, 1.85);
@@ -1192,7 +1494,8 @@ sol.shadow.camera.top = 260;
 sol.shadow.camera.bottom = -260;
 sol.shadow.camera.near = 1;
 sol.shadow.camera.far = 700;
-sol.shadow.bias = -0.0012;
+sol.shadow.bias = -0.0006;
+sol.shadow.normalBias = 0.035;
 escena.add(sol);
 escena.add(sol.target);
 
@@ -1215,6 +1518,11 @@ const camara = new THREE.PerspectiveCamera(enc.fov, W / H, 0.3, 6000);
 camara.position.set(enc.pos[0], enc.pos[1], enc.pos[2]);
 camara.lookAt(enc.mira[0], enc.mira[1], enc.mira[2]);
 
+if (VISTA !== 'aerea') {
+  sembrarPasto(enc.mira[0], enc.mira[2], 46, 62000);
+  sembrarPasto(enc.pos[0], enc.pos[2], 20, 16000);
+}
+
 const render = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 render.setSize(W, H, false);
 render.setPixelRatio(1);
@@ -1226,6 +1534,28 @@ render.toneMappingExposure = 1.02;
 document.body.appendChild(render.domElement);
 render.domElement.style.width = W + 'px';
 render.domElement.style.height = H + 'px';
+
+/* iluminación de entorno: el cielo ilumina como en una escena real */
+(function entorno() {
+  const c = document.createElement('canvas');
+  c.width = 512; c.height = 256;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0.00, '#5b8cb8');
+  grad.addColorStop(0.42, '#9dc2dc');
+  grad.addColorStop(0.52, '#e3ecef');
+  grad.addColorStop(0.56, '#7d9159');
+  grad.addColorStop(1.00, '#4f6634');
+  g.fillStyle = grad; g.fillRect(0, 0, 512, 256);
+  const tex = new THREE.CanvasTexture(c);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const pmrem = new THREE.PMREMGenerator(render);
+  pmrem.compileEquirectangularShader();
+  escena.environment = pmrem.fromEquirectangular(tex).texture;
+  escena.environmentIntensity = 0.55;
+  pmrem.dispose();
+})();
 
 render.render(escena, camara);
 window.__listo = true;
