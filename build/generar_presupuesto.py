@@ -255,7 +255,7 @@ def seccion_partida(p, indice):
   <h3>Detalle de ítems</h3>
   %(tabla)s
   <p class="nota-tabla">%(verif)d de %(nitems)d ítems tienen precio verificado contra un valor
-    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de postular. Las filas
+    publicado en 2025 o 2026; el resto son referenciales y deben cotizarse antes de ejecutar. Las filas
     con fondo azul son aportes valorizados: no se pagan con el fondo.</p>
 
   <h3>Origen de cada precio</h3>
@@ -326,7 +326,7 @@ def construir():
     </div>
     <div class="sello">
       Valores en pesos chilenos con IVA incluido, a septiembre de 2026. Los ítems marcados como
-      referenciales deben cotizarse antes de postular.
+      referenciales deben cotizarse antes de ejecutar.
     </div>
   </div>
 </div>
@@ -398,7 +398,7 @@ def construir():
       <tr><td><strong>Precio unitario</strong></td><td>Precio con IVA incluido. En los equipos importados incorpora tipo de cambio y factor de internación.</td></tr>
       <tr><td><strong>Subtotal</strong></td><td>Cantidad por precio unitario. En los ítems calculados desde UF, euros o dólares, el subtotal se obtiene de la cifra sin redondear, por lo que puede diferir en algunos pesos del producto de las columnas anteriores.</td></tr>
       <tr><td><strong>Origen</strong></td><td><em>Compra/contrato</em> es lo que se paga con el fondo. <em>Aporte municipal</em>, <em>Cuadrilla municipal</em>, <em>Liceo técnico</em> y <em>CONAF</em> son aportes valorizados: tienen valor de mercado, se contabilizan, pero no se desembolsan.</td></tr>
-      <tr><td><strong>Tipo</strong></td><td><em>Verificado</em>: precio publicado en 2025 o 2026, con la fuente indicada. <em>Referencial</em>: estimación fundada que debe cotizarse antes de postular.</td></tr>
+      <tr><td><strong>Tipo</strong></td><td><em>Verificado</em>: precio publicado en 2025 o 2026, con la fuente indicada. <em>Referencial</em>: estimación fundada que debe cotizarse antes de ejecutar.</td></tr>
     </tbody>
   </table>
   </div>
@@ -408,7 +408,7 @@ def construir():
     <li><strong>Costo valorizado:</strong> lo que vale todo el proyecto, incluidos los aportes. Es la
       cifra que muestra el tamaño real de la obra.</li>
     <li><strong>Costo a financiar:</strong> lo que efectivamente hay que pagar con el fondo. Es la
-      cifra que se postula.</li>
+      cifra que hay que conseguir.</li>
     <li><strong>Aporte valorizado:</strong> la diferencia entre ambas. Es lo que ponen el municipio, el
       liceo técnico y CONAF en trabajo y materiales.</li>
   </ul>
@@ -417,7 +417,7 @@ def construir():
   <p>De los %(nitems)d ítems de inversión, <strong>%(nverif)d tienen precio verificado</strong> contra
     un valor publicado y el resto son referenciales. Ningún presupuesto de esta etapa puede tener el
     100%% de precios cotizados: lo que corresponde es que la mesa técnica del proyecto reemplace los
-    referenciales por cotizaciones formales antes de postular, empezando por los de mayor monto —tótem
+    referenciales por cotizaciones formales antes de licitar, empezando por los de mayor monto —tótem
     SOS, luminarias de grado público, cerraduras, cañerías, honorarios profesionales, retroexcavadora y
     camión—.</p>
 
@@ -464,7 +464,7 @@ def construir():
   <ol>
     <li><strong>Profundidad del pozo.</strong> Se presupuestaron 40 metros. Cada 10 metros adicionales
       suman $2.300.000 al costo directo, más gastos generales e imprevistos. El estudio hidrogeológico
-      de la partida A existe justamente para acotar esta incertidumbre antes de postular.</li>
+      de la partida A existe justamente para acotar esta incertidumbre antes de ejecutar.</li>
     <li><strong>Costo del baño público.</strong> Se calculó a 30 UF/m² sobre 16 m², dentro de un rango
       de mercado de 22 a 42 UF/m². En el extremo inferior del rango el baño costaría unos $14,4
       millones y en el superior unos $27,5 millones.</li>
@@ -690,7 +690,7 @@ def construir():
     <div class="titulo">Lo que muestra el flujo</div>
     <p>El gasto es bajo y parejo durante los primeros nueve meses —estudios y trámites— y se concentra
       casi por completo en los cuatro meses de obra. Eso es relevante para la programación presupuestaria
-      municipal: entre la postulación y el primer desembolso grande hay margen, y el peso del proyecto
+      municipal: entre la ejecución y el primer desembolso grande hay margen, y el peso del proyecto
       cae en un solo ejercicio de obra.</p>
   </div>
 </section>""" % {"enc": enc, "filas": filas_fl, "etapas": etapas, "mb": mb, "opm": pesos(op_mensual)})
@@ -868,7 +868,7 @@ def construir():
 <section class="seccion">
   <h2><span class="numero">Capítulo 8<span class="marcador">@@c8@@</span></span>Proyección de los tres caniles y tope PMU</h2>
 
-  <p class="entradilla">Cada canil se formula y se postula por separado. Los caniles 2 y 3 descuentan
+  <p class="entradilla">Cada canil se formula y se ejecuta por separado. Los caniles 2 y 3 descuentan
     las herramientas y el contenedor bodega, que ya se compraron para el piloto, e incorporan un reajuste
     de 3,5%% por inflación.</p>
 
@@ -889,7 +889,7 @@ def construir():
   </table>
   <p class="nota-tabla">El tope del PMU es de 2.500 UTM <strong>por proyecto</strong>, equivalentes a
     %(tope)s. Cada canil queda holgadamente bajo ese límite; la suma de los tres no compite con el tope
-    porque se postulan como proyectos independientes y en momentos distintos.</p>
+    porque se formulan como proyectos independientes y se ejecutan en momentos distintos.</p>
   </div>
 
   <h3>Cómo se construyen las cifras de los caniles 2 y 3</h3>
@@ -996,7 +996,7 @@ def construir():
     <div class="titulo">Comparación con el tope del fondo</div>
     <p>El proyecto usa %(pcttope)s%% del tope disponible del PMU y deja %(margen)s de margen. Ese margen
       es el espacio real que tiene la mesa técnica para absorber cotizaciones más altas —especialmente en
-      el pozo, el baño y el tótem SOS— sin que el proyecto quede fuera del fondo.</p>
+      el pozo, el baño y el tótem SOS— sin salirse del marco de financiamiento.</p>
   </div>
 </section>""" % {
         "porhab": pesos(d["total_fin"] / HABITANTES),
@@ -1093,7 +1093,7 @@ def construir():
   <h2><span class="numero">Capítulo 11<span class="marcador">@@c11@@</span></span>Ahorros adicionales identificados</h2>
 
   <p class="entradilla">El presupuesto base es deliberadamente conservador: no descuenta nada que no
-    esté confirmado. Estos son los ahorros que existen y que, al confirmarse, bajan el monto a postular
+    esté confirmado. Estos son los ahorros que existen y que, al confirmarse, bajan el monto del proyecto
     o el costo de operación.</p>
 
   <h3>En la inversión del piloto</h3>
@@ -1103,7 +1103,7 @@ def construir():
     <tbody>
       <tr><td>Grava del propio terreno o de pozo de áridos municipal</td><td class="num">−%(grava)s</td><td>Que la Dirección de Obras confirme material utilizable en el terreno o excedentes de otras obras, con la calidad necesaria para senderos y bases.</td></tr>
       <tr><td>Diseño con profesionales municipales</td><td class="num">−%(diseno)s</td><td>Que Secplan y la Dirección de Obras asuman el diseño de arquitectura y especialidades en vez de contratarlo.</td></tr>
-      <tr class="total"><td>Efecto conjunto sobre el total a postular</td><td class="num">−%(piloto)s</td><td>El total bajaría de %(base)s a %(nuevo)s, es decir %(nutm)s UTM.</td></tr>
+      <tr class="total"><td>Efecto conjunto sobre el total del proyecto</td><td class="num">−%(piloto)s</td><td>El total bajaría de %(base)s a %(nuevo)s, es decir %(nutm)s UTM.</td></tr>
     </tbody>
   </table>
   <p class="nota-tabla">El efecto incluye el arrastre de gastos generales e imprevistos, porque ambos se
@@ -1178,7 +1178,7 @@ def construir():
 <section class="seccion">
   <h2><span class="numero">Capítulo 12<span class="marcador">@@c12@@</span></span>Fuentes de precios y advertencias</h2>
 
-  <p class="entradilla">De dónde salió cada precio verificado y qué hay que hacer antes de postular.</p>
+  <p class="entradilla">De dónde salió cada precio verificado y qué hay que hacer antes de ejecutar.</p>
 
   <h3>Fuentes de precios</h3>
   <div class="tabla-envoltura">
@@ -1247,7 +1247,7 @@ def construir():
     holgadamente bajo el tope de 2.500 UTM del PMU.</p>
   </div>
 
-  <h3>Qué hacer antes de postular</h3>
+  <h3>Qué hacer antes de ejecutar</h3>
   <ol>
     <li><strong>Cotizar los ítems referenciales</strong>, partiendo por los de mayor monto: tótem SOS,
       luminarias de grado público, cerraduras electromagnéticas, cañerías y fittings, honorarios
@@ -1260,7 +1260,7 @@ def construir():
       de 30 UF/m² usado aquí.</li>
     <li><strong>Revisar la Plataforma de Economía Circular</strong> y el Convenio Marco antes de
       licitar, y descontar del presupuesto todo lo que se obtenga por esas vías.</li>
-    <li><strong>Actualizar UF, UTM y tipos de cambio</strong> a la fecha de postulación.</li>
+    <li><strong>Actualizar UF, UTM y tipos de cambio</strong> a la fecha de ejecución.</li>
   </ol>
 
   <div class="aviso">

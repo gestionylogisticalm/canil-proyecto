@@ -286,7 +286,7 @@ PARTIDAS = [
             "mercado, Iquique aprobó $345 millones por 23 tótems con cámara e internet, unos $15 "
             "millones cada uno; el tótem de este proyecto es mucho más simple —tres botones, sin "
             "cámara propia— y se presupuestó en $3.500.000. Es una cifra que debe confirmarse con "
-            "cotización antes de postular.",
+            "cotización antes de ejecutar.",
         ],
         "items": [
             ("F.1", "Sistema solar central: ≈2 kWp de paneles, batería de litio de 5 kWh, inversor/cargador de 5,5 kW y cables", 1, "gl", 2796402, 2796402, COMPRA, VERIFICADO, "Autosolar (España), kit aislada 5.500 W más batería de 5 kWh: €1.793,83 sin IVA × tipo de cambio × IVA × factor de importación"),
@@ -499,7 +499,7 @@ ETAPAS_MES = {
     6: "Estudios y trámites",
     7: "Estudios y trámites",
     8: "Estudios y trámites",
-    9: "Postulación al fondo y convenios",
+    9: "Financiamiento y convenios",
     10: "Obra: faena, cerco y pozo",
     11: "Obra: cerco, baño, torre y redes",
     12: "Obra: agua, energía y seguridad",
