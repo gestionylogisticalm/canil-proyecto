@@ -16,8 +16,10 @@ const { chromium } = require('playwright');
 
 const AQUI = __dirname;
 const SALIDA = path.resolve(AQUI, '..', '..', 'src', 'img');
-const ANCHO = 2000;
-const ALTO = 1125;
+/* se renderiza al doble de resolución y la imagen final se reduce:
+   el supermuestreo elimina los bordes dentados */
+const ANCHO = 3000;
+const ALTO = 1688;
 
 const COMBINACIONES = [
   { conf: 'cuarto', vista: 'aerea', archivo: 'canil-cuarto-bosque-aerea.png' },
@@ -26,6 +28,12 @@ const COMBINACIONES = [
   { conf: 'pradera', vista: 'acceso', archivo: 'canil-pradera-acceso.png' },
   { conf: 'mitad', vista: 'aerea', archivo: 'canil-mitad-bosque-aerea.png' },
   { conf: 'mitad', vista: 'acceso', archivo: 'canil-mitad-bosque-acceso.png' },
+  // vistas de detalle de los espacios del canil
+  { conf: 'cuarto', vista: 'bano', archivo: 'detalle-bano.png' },
+  { conf: 'cuarto', vista: 'amarre', archivo: 'detalle-amarre.png' },
+  { conf: 'cuarto', vista: 'juegos', archivo: 'detalle-juegos.png' },
+  { conf: 'cuarto', vista: 'agua', archivo: 'detalle-agua.png' },
+  { conf: 'cuarto', vista: 'letrero', archivo: 'detalle-letrero.png' },
 ];
 
 async function main() {

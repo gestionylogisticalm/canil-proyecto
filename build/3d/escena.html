@@ -62,20 +62,44 @@ const escena = new THREE.Scene();
 /* --- cielo ---------------------------------------------------------------- */
 (function cielo() {
   const c = document.createElement('canvas');
-  c.width = 8; c.height = 256;
+  c.width = 1024; c.height = 512;
   const g = c.getContext('2d');
-  const grad = g.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0.00, '#7ea8c8');
-  grad.addColorStop(0.45, '#b9d2e2');
-  grad.addColorStop(0.72, '#dfe9ee');
+  const grad = g.createLinearGradient(0, 0, 0, 512);
+  grad.addColorStop(0.00, '#5f92bb');
+  grad.addColorStop(0.38, '#93bcd8');
+  grad.addColorStop(0.66, '#c7dce8');
+  grad.addColorStop(0.88, '#e4edf0');
   grad.addColorStop(1.00, '#eef2f2');
   g.fillStyle = grad;
-  g.fillRect(0, 0, 8, 256);
+  g.fillRect(0, 0, 1024, 512);
+  // nubes suaves, más densas hacia el horizonte
+  /* bancos de nubes alargados y tenues, más apretados hacia el horizonte */
+  for (let i = 0; i < 26; i++) {
+    const cx = rnd() * 1024;
+    const cy = 120 + Math.pow(rnd(), 0.55) * 250;
+    const largo = 120 + rnd() * 260;
+    const alto = 10 + rnd() * 26;
+    const alfa = 0.06 + rnd() * 0.13;
+    for (let j = 0; j < 7; j++) {
+      const px = cx + (rnd() - 0.5) * largo;
+      const py = cy + (rnd() - 0.5) * alto;
+      const rr = alto * (1.1 + rnd() * 1.6);
+      const gg = g.createRadialGradient(px, py, 0, px, py, rr);
+      gg.addColorStop(0, 'rgba(255,255,255,' + alfa.toFixed(3) + ')');
+      gg.addColorStop(0.6, 'rgba(255,255,255,' + (alfa * 0.4).toFixed(3) + ')');
+      gg.addColorStop(1, 'rgba(255,255,255,0)');
+      g.save();
+      g.translate(px, py); g.scale(2.6, 1); g.translate(-px, -py);
+      g.fillStyle = gg;
+      g.beginPath(); g.arc(px, py, rr, 0, 6.283); g.fill();
+      g.restore();
+    }
+  }
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   escena.background = tex;
 })();
-escena.fog = new THREE.Fog(0xdce7ec, 420, 3200);
+escena.fog = new THREE.Fog(0xdce7ec, 600, 5200);
 
 /* --- materiales ----------------------------------------------------------- */
 function mat(color, rug = 0.9, met = 0.0) {
@@ -98,8 +122,60 @@ const M = {
   arbusto: mat(COLOR.arbusto, 1),
   agua: new THREE.MeshStandardMaterial({ color: COLOR.agua, roughness: 0.18, metalness: 0.15 }),
   metal: mat(0x9099a0, 0.45, 0.6),
+  zincalum: mat(0xb6bec4, 0.55, 0.25),
   panel: new THREE.MeshStandardMaterial({ color: 0x1b2a3a, roughness: 0.25, metalness: 0.5 }),
 };
+
+/* veta de madera, para que los volúmenes no se vean como plástico */
+function texturaMadera(base, veta, vertical) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = base; g.fillRect(0, 0, 256, 256);
+  g.strokeStyle = veta;
+  for (let i = 0; i < 90; i++) {
+    g.globalAlpha = 0.05 + rnd() * 0.16;
+    g.lineWidth = 0.6 + rnd() * 2.2;
+    const pos = rnd() * 256;
+    g.beginPath();
+    if (vertical) { g.moveTo(pos, 0); g.bezierCurveTo(pos + 6, 85, pos - 6, 170, pos + 2, 256); }
+    else { g.moveTo(0, pos); g.bezierCurveTo(85, pos + 6, 170, pos - 6, 256, pos + 2); }
+    g.stroke();
+  }
+  g.globalAlpha = 1;
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+/* tejuela: hiladas de piezas, como los techos de la zona */
+function texturaTejuela() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = '#4a3b30'; g.fillRect(0, 0, 256, 256);
+  const alto = 26, ancho = 34;
+  for (let fila = 0; fila * alto < 280; fila++) {
+    const desfase = (fila % 2) * ancho / 2;
+    for (let col = -1; col * ancho < 280; col++) {
+      const x = col * ancho + desfase, y = fila * alto;
+      const tono = 48 + Math.floor(rnd() * 34);
+      g.fillStyle = 'rgb(' + (tono + 16) + ',' + (tono + 2) + ',' + (tono - 6) + ')';
+      g.beginPath();
+      g.moveTo(x + 1, y + 1);
+      g.lineTo(x + ancho - 1, y + 1);
+      g.lineTo(x + ancho - 1, y + alto - 3);
+      g.lineTo(x + ancho / 2, y + alto - 1);
+      g.lineTo(x + 1, y + alto - 3);
+      g.closePath(); g.fill();
+    }
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
 
 /* malla galvanizada: textura de rejilla con transparencia */
 const texMalla = (function () {
@@ -107,8 +183,8 @@ const texMalla = (function () {
   c.width = c.height = 64;
   const g = c.getContext('2d');
   g.clearRect(0, 0, 64, 64);
-  g.strokeStyle = 'rgba(190,196,192,0.95)';
-  g.lineWidth = 5;
+  g.strokeStyle = 'rgba(176,183,179,0.92)';
+  g.lineWidth = 3;
   for (let i = 0; i <= 64; i += 16) {
     g.beginPath(); g.moveTo(i, 0); g.lineTo(i, 64); g.stroke();
     g.beginPath(); g.moveTo(0, i); g.lineTo(64, i); g.stroke();
@@ -121,10 +197,10 @@ const texMalla = (function () {
 function materialMalla(largo, alto) {
   const t = texMalla.clone();
   t.needsUpdate = true;
-  t.repeat.set(largo / 1.2, alto / 1.2);
+  t.repeat.set(largo / 0.5, alto / 0.5);
   return new THREE.MeshStandardMaterial({
-    map: t, transparent: true, alphaTest: 0.12, side: THREE.DoubleSide,
-    roughness: 0.75, metalness: 0.25, color: 0xc8cfcb,
+    map: t, transparent: true, alphaTest: 0.35, opacity: 0.95, side: THREE.DoubleSide,
+    roughness: 0.75, metalness: 0.3, color: 0xbcc4c0,
   });
 }
 
@@ -165,6 +241,14 @@ function techoDosAguas(ancho, largo, altura, material, x, y, z, rotY) {
     a, 0, l, -a, 0, l, 0, h, l,
   ]);
   g.setAttribute('position', new THREE.BufferAttribute(v, 3));
+  /* coordenadas de textura, para que se vea la tejuela */
+  const u = new Float32Array([
+    0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1,
+    1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1,
+    0, 0, 1, 0, 0.5, 1,
+    0, 0, 1, 0, 0.5, 1,
+  ]);
+  g.setAttribute('uv', new THREE.BufferAttribute(u, 2));
   g.computeVertexNormals();
   const m = new THREE.Mesh(g, material);
   m.position.set(x, y, z);
@@ -199,16 +283,45 @@ function conTextura(material, base, veteado, repeticion) {
   material.map.repeat.set(repeticion, repeticion);
   material.color.setHex(0xffffff);
 }
+M.maderaClara.map = texturaMadera('#b08a55', '#7d5f35', false); M.maderaClara.map.repeat.set(3, 3);
+M.maderaClara.color.setHex(0xffffff);
+M.maderaMedia.map = texturaMadera('#8d6a3f', '#5f4526', true); M.maderaMedia.map.repeat.set(1, 4);
+M.maderaMedia.color.setHex(0xffffff);
+M.maderaOscura.map = texturaMadera('#6b4f2c', '#47331a', true); M.maderaOscura.map.repeat.set(1, 4);
+M.maderaOscura.color.setHex(0xffffff);
+M.tejuela.map = texturaTejuela(); M.tejuela.map.repeat.set(4, 3);
+M.tejuela.color.setHex(0xffffff);
+
 conTextura(M.pastoOscuro, '#6a8a46', '#5b7a3c', 120);
-conTextura(M.pasto, '#7d9c54', '#6d8c47', 16);
+conTextura(M.pasto, '#6a8a46', '#5b7a3c', 18);
 conTextura(M.pastoClaro, '#8fab60', '#7e9a53', 9);
 conTextura(M.grava, '#9a9385', '#837c70', 7);
 
-const suelo = new THREE.Mesh(new THREE.PlaneGeometry(6000, 6000, 1, 1), M.pastoOscuro);
+/* el terreno vecino tiene ondulaciones suaves; dentro del recinto queda plano
+   para que las construcciones y los cercos apoyen bien */
+const geoSuelo = new THREE.PlaneGeometry(2400, 2400, 90, 90);
+const pos = geoSuelo.attributes.position;
+for (let i = 0; i < pos.count; i++) {
+  const x = pos.getX(i) + 50, z = -pos.getY(i) + 50;
+  /* plano en los primeros 150 m alrededor del recinto y ondulación muy suave
+     más allá: lomas bajas, como el entorno de la comuna, sin tapar la vista */
+  const d = Math.max(Math.abs(x - 50), Math.abs(z - 50));
+  const atenua = Math.min(1, Math.max(0, (d - 150) / 420));
+  const h = Math.sin(x * 0.005) * 1.9 + Math.cos(z * 0.004) * 2.2
+          + Math.sin((x + z) * 0.011) * 0.8;
+  pos.setZ(i, h * atenua);
+}
+geoSuelo.computeVertexNormals();
+const suelo = new THREE.Mesh(geoSuelo, M.pastoOscuro);
 suelo.rotation.x = -Math.PI / 2;
-suelo.position.set(50, -0.06, 50);
-suelo.receiveShadow = false;
+suelo.position.set(50, -0.08, 50);
+suelo.receiveShadow = true;
 escena.add(suelo);
+
+const sueloLejano = new THREE.Mesh(new THREE.PlaneGeometry(9000, 9000), M.pastoOscuro);
+sueloLejano.rotation.x = -Math.PI / 2;
+sueloLejano.position.set(50, -6, 50);
+escena.add(sueloLejano);
 
 const hectarea = new THREE.Mesh(new THREE.PlaneGeometry(120, 130, 1, 1), M.pasto);
 hectarea.rotation.x = -Math.PI / 2;
@@ -313,6 +426,52 @@ for (let x = 2; x < 100; x += 4.2) {
   }
 }
 
+/* sotobosque: helechos, troncos caídos y piedras sueltas */
+function helecho(x, z, r) {
+  const g = new THREE.Group();
+  for (let i = 0; i < 5; i++) {
+    const hoja = new THREE.Mesh(new THREE.ConeGeometry(r * 0.28, r * 1.5, 4), M.follajeClaro);
+    hoja.position.set(0, r * 0.7, 0);
+    hoja.rotation.z = (rnd() - 0.5) * 1.1;
+    hoja.rotation.y = (i / 5) * 6.283;
+    hoja.castShadow = true;
+    g.add(hoja);
+  }
+  g.position.set(x, 0, z);
+  return g;
+}
+function troncoCaido(x, z) {
+  const g = new THREE.Group();
+  const t = cilindro(0.34, 0.4, entre(3.5, 6.5), M.maderaOscura, 0, 0.36, 0, 9);
+  t.rotation.z = Math.PI / 2;
+  t.rotation.y = rnd() * 3.14;
+  g.add(t);
+  g.position.set(x, 0, z);
+  escena.add(g);
+}
+function piedra(x, z, r) {
+  const m = new THREE.Mesh(new THREE.DodecahedronGeometry(r, 0), M.roca);
+  m.position.set(x, r * 0.45, z);
+  m.rotation.set(rnd() * 3, rnd() * 3, rnd() * 3);
+  m.scale.y = 0.6;
+  m.castShadow = true; m.receiveShadow = true;
+  escena.add(m);
+}
+for (let x = 3; x < 100; x += 3.1) {
+  for (let z = 9; z < 100; z += 3.1) {
+    const px = x + entre(-1, 1), pz = z + entre(-1, 1);
+    if (!esBosque(px, pz)) continue;
+    if (px > 28 && px < 31) continue;
+    if (pz > 72 && pz < 76) continue;
+    if (rnd() < 0.62) continue;
+    escena.add(helecho(px, pz, entre(0.5, 1.0)));
+  }
+}
+for (let i = 0; i < 7; i++) {
+  const x = entre(56, 96), z = entre(46, 96);
+  if (esBosque(x, z)) troncoCaido(x, z);
+}
+
 /* árboles aislados en la pradera, sombra natural para las bancas */
 const aislados = CONF === 'pradera'
   ? [[40, 22], [62, 18], [80, 30], [18, 30], [22, 56], [70, 60], [12, 86], [66, 88], [88, 60]]
@@ -361,6 +520,15 @@ function tramoCerco(x0, z0, x1, z1, alto, opciones) {
   pano.position.set((x0 + x1) / 2, alto / 2, (z0 + z1) / 2);
   pano.rotation.y = ang + Math.PI / 2;
   g.add(pano);
+  // tres líneas de alambre tensor
+  [0.25, 0.55, 0.85].forEach(function (f) {
+    const hilo = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, largo, 5), M.metal);
+    hilo.position.set((x0 + x1) / 2, alto * f, (z0 + z1) / 2);
+    hilo.rotation.z = Math.PI / 2;
+    hilo.rotation.y = ang - Math.PI / 2;
+    hilo.castShadow = true;
+    g.add(hilo);
+  });
   // listón superior, que sostiene las tablas grabadas
   const liston = caja(0.12, 0.14, largo, M.maderaClara, (x0 + x1) / 2, alto + 0.16, (z0 + z1) / 2, ang);
   g.add(liston);
@@ -442,8 +610,11 @@ function banoPublico(x, z) {
   }
   // puertas y ventanas, con marcos blancos
   [-1.35, 1.35].forEach(function (dx) {
-    g.add(caja(1.0, 2.05, 0.12, M.blanco, dx, 1.02, largo / 2 + 0.02));
-    g.add(caja(0.86, 1.9, 0.14, M.maderaOscura, dx, 0.95, largo / 2 + 0.06));
+    g.add(caja(1.0, 2.05, 0.12, M.blanco, dx, 1.02, -largo / 2 - 0.02));
+    g.add(caja(0.86, 1.9, 0.14, M.maderaOscura, dx, 0.95, -largo / 2 - 0.06));
+    // manilla y número de recinto
+    g.add(caja(0.07, 0.07, 0.1, M.metal, dx + 0.32, 1.0, -largo / 2 - 0.13));
+    g.add(caja(0.16, 0.2, 0.03, M.blanco, dx, 1.75, -largo / 2 - 0.12));
   });
   [-2.2, 2.2].forEach(function (dx) {
     g.add(caja(0.12, 0.8, 0.7, M.blanco, dx * (ancho / 2) / 2.2 + 0.001, 1.7, 0));
@@ -453,16 +624,16 @@ function banoPublico(x, z) {
   panel.rotation.x = -0.66;
   g.add(panel);
   // canaleta de captación de lluvia
-  g.add(caja(ancho + 0.9, 0.12, 0.14, M.metal, 0, muro + 0.02, largo / 2 + 0.45));
+  g.add(caja(ancho + 0.9, 0.12, 0.14, M.metal, 0, muro + 0.02, -largo / 2 - 0.45));
   // letrero de entrada
-  g.add(cilindro(0.07, 0.07, 1.6, M.maderaMedia, ancho / 2 + 1.2, 0.8, largo / 2 + 0.4, 6));
-  g.add(caja(0.9, 0.6, 0.06, M.maderaClara, ancho / 2 + 1.2, 1.7, largo / 2 + 0.4));
+  g.add(cilindro(0.07, 0.07, 1.6, M.maderaMedia, ancho / 2 + 1.2, 0.8, -largo / 2 - 0.4, 6));
+  g.add(caja(0.9, 0.6, 0.06, M.maderaClara, ancho / 2 + 1.2, 1.7, -largo / 2 - 0.4));
 
   g.position.set(x, 0, z);
   escena.add(g);
   return g;
 }
-banoPublico(14, 3);
+banoPublico(14, 4.1);
 
 /* --- zona de amarre techada, 12 × 3 m ------------------------------------- */
 function amarre(x, z) {
@@ -475,7 +646,7 @@ function amarre(x, z) {
   }
   g.add(caja(ancho + 0.6, 0.16, 0.16, M.maderaClara, 0, alto + 0.05, -largo / 2));
   g.add(caja(ancho + 0.6, 0.16, 0.16, M.maderaClara, 0, alto + 0.05, largo / 2));
-  g.add(techoDosAguas(largo + 1.2, ancho + 1.0, 1.25, M.tejuela, 0, alto + 0.12, 0, Math.PI / 2));
+  g.add(techoDosAguas(largo + 1.2, ancho + 1.0, 1.25, M.zincalum, 0, alto + 0.12, 0, Math.PI / 2));
   // argollas cada 3 m
   for (let i = -2; i <= 2; i++) {
     const anillo = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.03, 6, 10), M.metal);
@@ -717,6 +888,93 @@ bebedero(8, 18, 1.8); poza(16, 14); pergola(10, 30); arcoRociador(22, 24, -0.2);
 /* sectores de entrenamiento: solo bebedero */
 bebedero(24, 90, 2.0); bebedero(76, 90, 2.0);
 
+/* letrero de reglas del canil, con el texto real grabado en la madera */
+function texturaReglas() {
+  const c = document.createElement('canvas');
+  c.width = 760; c.height = 1000;
+  const g = c.getContext('2d');
+  // fondo de madera clara
+  g.fillStyle = '#c9a675'; g.fillRect(0, 0, 760, 1000);
+  g.strokeStyle = '#a6844f';
+  for (let i = 0; i < 70; i++) {
+    g.globalAlpha = 0.10 + rnd() * 0.18;
+    g.lineWidth = 1 + rnd() * 3;
+    const y = rnd() * 1000;
+    g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(250, y + 9, 500, y - 9, 760, y + 3); g.stroke();
+  }
+  g.globalAlpha = 1;
+  // marco
+  g.strokeStyle = '#6d4f2b'; g.lineWidth = 14;
+  g.strokeRect(16, 16, 728, 968);
+  // encabezado
+  g.fillStyle = '#123a5e';
+  g.fillRect(40, 46, 680, 108);
+  g.fillStyle = '#ffffff';
+  g.font = 'bold 40px sans-serif';
+  g.textAlign = 'center';
+  g.fillText('CANIL PÚBLICO', 380, 96);
+  g.font = 'bold 30px sans-serif';
+  g.fillText('REGLAS DE USO', 380, 136);
+  // reglas
+  const reglas = [
+    'Perro inscrito con chip',
+    'Vacuna antirrábica vigente',
+    'Perro desparasitado',
+    'Sin hembras en celo ni cachorros',
+    'Niños siempre con un adulto',
+    'Supervise a su perro en todo momento',
+    'Recoja las fecas. Las bolsas son gratis',
+    'Horario de 6:00 a 21:00',
+    'Zona videovigilada',
+    'Máximo 4 perros por paseador',
+  ];
+  g.textAlign = 'left';
+  g.fillStyle = '#2a1c0e';
+  g.font = '30px sans-serif';
+  reglas.forEach(function (t, i) {
+    const y = 222 + i * 62;
+    g.fillStyle = '#1d5b96';
+    g.beginPath(); g.arc(72, y - 10, 9, 0, 6.283); g.fill();
+    g.fillStyle = '#2a1c0e';
+    g.fillText(t, 98, y);
+  });
+  // pie con el tótem de emergencia
+  g.fillStyle = '#7a2b2b';
+  g.fillRect(40, 866, 680, 96);
+  g.fillStyle = '#ffffff';
+  g.font = 'bold 25px sans-serif';
+  g.textAlign = 'center';
+  g.fillText('EMERGENCIAS: TÓTEM SOS EN EL ACCESO', 380, 902);
+  g.font = '23px sans-serif';
+  g.fillText('1 Emergencias · 2 Seguridad · 3 Veterinario', 380, 936);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 8;
+  return t;
+}
+
+function letreroReglas(x, z, giro) {
+  const g = new THREE.Group();
+  const ancho = 1.5, alto = 2.0;
+  [-ancho / 2 - 0.1, ancho / 2 + 0.1].forEach(function (dx) {
+    g.add(cilindro(0.09, 0.11, 2.9, M.maderaMedia, dx, 1.45, 0, 8));
+  });
+  g.add(caja(ancho + 0.3, alto + 0.2, 0.1, M.maderaMedia, 0, 1.75, 0));
+  const tablero = new THREE.Mesh(new THREE.PlaneGeometry(ancho, alto),
+    new THREE.MeshStandardMaterial({ map: texturaReglas(), roughness: 0.82 }));
+  tablero.position.set(0, 1.75, 0.058);
+  tablero.castShadow = false; tablero.receiveShadow = true;
+  g.add(tablero);
+  // pequeño alero, para que el letrero no se moje
+  g.add(caja(ancho + 0.6, 0.09, 0.42, M.maderaClara, 0, 2.92, 0.14));
+  g.position.set(x, 0, z);
+  g.rotation.y = giro || 0;
+  escena.add(g);
+}
+letreroReglas(43.5, 6.6, Math.PI);       // en el acceso, mirando a quien llega
+letreroReglas(12, 10.2, Math.PI);        // sector de pequeños
+letreroReglas(56, 10.2, Math.PI);        // sector de grandes
+
 /* letrero de ocupado / libre en cada sector de entrenamiento */
 function letreroEstado(x, z, ocupado) {
   const g = new THREE.Group();
@@ -800,45 +1058,106 @@ function persona(x, z, colorRopa) {
   g.rotation.y = rnd() * Math.PI * 2;
   escena.add(g);
 }
-function perro(x, z, color, escala) {
-  const e = escala || 1;
+/* --- perros de distintas razas ------------------------------------------- */
+const RAZAS = {
+  pastor:   { escala: 1.30, largo: 1.00, patas: 1.05, cuerpo: 0x3a2f26, manto: 0x6b4a2a, orejas: 'erguidas', cola: 'baja',      hocico: 1.15 },
+  labrador: { escala: 1.25, largo: 0.95, patas: 1.00, cuerpo: 0xc9a063, manto: 0xc9a063, orejas: 'caidas',   cola: 'recta',     hocico: 1.00 },
+  husky:    { escala: 1.22, largo: 0.92, patas: 1.00, cuerpo: 0x6e7176, manto: 0xe8e6e1, orejas: 'erguidas', cola: 'enroscada', hocico: 1.00 },
+  quiltro:  { escala: 1.00, largo: 0.95, patas: 0.95, cuerpo: 0x8a6a48, manto: 0xd8c7ac, orejas: 'caidas',   cola: 'alta',      hocico: 1.05 },
+  beagle:   { escala: 0.85, largo: 0.95, patas: 0.75, cuerpo: 0xf0ece4, manto: 0x7a4a2c, orejas: 'largas',   cola: 'alta',      hocico: 0.95 },
+  salchicha:{ escala: 0.68, largo: 1.70, patas: 0.45, cuerpo: 0x5a3620, manto: 0x5a3620, orejas: 'largas',   cola: 'recta',     hocico: 1.20 },
+  maltes:   { escala: 0.62, largo: 0.85, patas: 0.80, cuerpo: 0xf2eee6, manto: 0xf2eee6, orejas: 'caidas',   cola: 'enroscada', hocico: 0.80 },
+};
+
+function perro(x, z, raza, giro) {
+  const r = typeof raza === 'string' ? RAZAS[raza] : raza;
+  const e = r.escala;
   const g = new THREE.Group();
-  const m = mat(color, 0.9);
-  const cuerpo = cilindro(0.17 * e, 0.19 * e, 0.72 * e, m, 0, 0.5 * e, 0, 8);
+  const mc = mat(r.cuerpo, 0.92);
+  const mm = mat(r.manto, 0.92);
+  const alturaPata = 0.42 * e * r.patas;
+  const y = alturaPata;
+
+  // tronco
+  const cuerpo = cilindro(0.17 * e, 0.19 * e, 0.72 * e * r.largo, mc, 0, y + 0.16 * e, 0, 9);
   cuerpo.rotation.x = Math.PI / 2;
   g.add(cuerpo);
-  const cab = new THREE.Mesh(new THREE.SphereGeometry(0.17 * e, 8, 6), m);
-  cab.position.set(0, 0.62 * e, 0.42 * e); cab.castShadow = true;
-  g.add(cab);
-  g.add(caja(0.14 * e, 0.11 * e, 0.2 * e, m, 0, 0.55 * e, 0.56 * e));
-  [[-0.12, 0.26], [0.12, 0.26], [-0.12, -0.26], [0.12, -0.26]].forEach(function (p) {
-    g.add(cilindro(0.05 * e, 0.05 * e, 0.42 * e, m, p[0] * e, 0.21 * e, p[1] * e, 6));
+  // manto sobre el lomo, para las razas de dos colores
+  if (r.manto !== r.cuerpo) {
+    const manto = new THREE.Mesh(new THREE.SphereGeometry(0.185 * e, 10, 7,
+      0, Math.PI * 2, 0, Math.PI * 0.55), mm);
+    manto.scale.z = r.largo * 1.9;
+    manto.position.set(0, y + 0.14 * e, 0);
+    manto.castShadow = true;
+    g.add(manto);
+  }
+  // cuello y cabeza
+  const frente = 0.38 * e * r.largo;
+  const cuello = cilindro(0.12 * e, 0.14 * e, 0.22 * e, mc, 0, y + 0.30 * e, frente * 0.7, 8);
+  cuello.rotation.x = 0.7;
+  g.add(cuello);
+  const cabeza = new THREE.Mesh(new THREE.SphereGeometry(0.165 * e, 10, 8), mc);
+  cabeza.position.set(0, y + 0.40 * e, frente);
+  cabeza.castShadow = true;
+  g.add(cabeza);
+  g.add(caja(0.13 * e, 0.11 * e, 0.22 * e * r.hocico, mm, 0, y + 0.35 * e, frente + 0.17 * e));
+  // orejas
+  [-1, 1].forEach(function (lado) {
+    if (r.orejas === 'erguidas') {
+      const o = cono(0.07 * e, 0.19 * e, mm, lado * 0.09 * e, y + 0.56 * e, frente - 0.02 * e, 5);
+      o.rotation.z = lado * 0.18;
+      g.add(o);
+    } else {
+      const largoOreja = r.orejas === 'largas' ? 0.30 : 0.20;
+      const o = caja(0.05 * e, largoOreja * e, 0.11 * e, mm,
+                     lado * 0.15 * e, y + 0.36 * e, frente - 0.01 * e);
+      o.rotation.z = lado * 0.25;
+      g.add(o);
+    }
   });
-  const cola = cilindro(0.04 * e, 0.05 * e, 0.34 * e, m, 0, 0.66 * e, -0.42 * e, 6);
-  cola.rotation.x = -0.9;
+  // patas
+  [[-0.11, 0.24], [0.11, 0.24], [-0.11, -0.26], [0.11, -0.26]].forEach(function (p) {
+    g.add(cilindro(0.05 * e, 0.055 * e, alturaPata, mc,
+                   p[0] * e, alturaPata / 2, p[1] * e * r.largo, 6));
+  });
+  // cola
+  const cola = cilindro(0.035 * e, 0.05 * e, 0.34 * e, mc, 0, y + 0.30 * e, -frente * 0.95, 6);
+  if (r.cola === 'alta') cola.rotation.x = -1.15;
+  else if (r.cola === 'baja') cola.rotation.x = -0.35;
+  else if (r.cola === 'enroscada') { cola.rotation.x = -1.7; cola.position.y += 0.1 * e; }
+  else cola.rotation.x = -0.85;
   g.add(cola);
+
   g.position.set(x, 0, z);
-  g.rotation.y = rnd() * Math.PI * 2;
+  g.rotation.y = giro !== undefined ? giro : rnd() * Math.PI * 2;
   escena.add(g);
+  return g;
 }
 
-/* perros grandes en su sector */
-[[42, 20, 0x6b5136], [50, 26, 0x2f2a26], [58, 36, 0xbda37a], [66, 18, 0x8a6a4a],
- [74, 30, 0x4a4540], [46, 46, 0xd8cbb4], [63, 52, 0x74604a], [82, 24, 0x30302e],
- [55, 62, 0xa88a63], [88, 48, 0x5c4d3c]].forEach(function (p) { perro(p[0], p[1], p[2], 1.15); });
-/* perros pequeños, cachorros y viejitos */
-[[9, 20, 0xd9c7a5], [14, 28, 0x6e5a44], [20, 40, 0xbfb0a0], [11, 50, 0x8e7a5e],
- [23, 58, 0x2f2b28], [17, 66, 0xd2c2a8]].forEach(function (p) { perro(p[0], p[1], p[2], 0.72); });
-/* un perro trabajando con su entrenador en el sector A */
-perro(22, 86, 0x3a352f, 1.2);
-persona(24, 87, 0x2f4858);
+/* siete perros de razas distintas, repartidos por todo el terreno */
+perro(46, 24, 'pastor', 2.1);       // sector de grandes, corriendo al centro
+perro(63, 33, 'labrador', 0.6);     // junto a la poza de chapoteo
+perro(78, 20, 'husky', 3.4);        // extremo oriente del sector de grandes
+perro(52, 55, 'quiltro', 1.2);      // pradera alta, cerca del sendero olfativo
+perro(14, 26, 'beagle', 0.3);       // sector de pequeños
+perro(20, 52, 'salchicha', 2.6);    // sector de pequeños, junto a los tocones
+perro(24, 88, 'maltes', 1.5);       // sector de entrenamiento, con su tutor
+
+/* más perros, para que el recinto se vea en uso */
+perro(56, 18, 'labrador', 1.9);
+perro(70, 42, 'quiltro', 0.9);
+perro(42, 40, 'pastor', 4.0);
+perro(88, 30, 'quiltro', 2.2);
+perro(9, 38, 'maltes', 0.8);
+perro(22, 64, 'beagle', 3.1);
+perro(31.5, 4.6, 'labrador', 0.2);  // amarrado en el refugio
+
 /* gente */
 [[36, 15, 0x38556b], [52, 21, 0x7a4a4a], [74, 17, 0x46603f], [10, 15, 0x5a4a6b],
  [20, 35, 0x6b5a3a], [41, 4, 0x3d5a5a], [26, 5, 0x7c5f4a], [61, 5, 0x415a6b]].forEach(function (p) {
   persona(p[0], p[1], p[2]);
 });
-/* un perro amarrado en el refugio */
-perro(31.5, 4.6, 0x8a7458, 1.0);
+persona(26, 87, 0x2f4858);          // entrenador en el sector de entrenamiento
 
 /* --- volcán Osorno al fondo ------------------------------------------------ */
 (function volcan() {
@@ -847,7 +1166,7 @@ perro(31.5, 4.6, 0x8a7458, 1.0);
   const g = new THREE.Group();
   g.add(cono(560, 900, matVolcan, 0, 450, 0, 34));
   g.add(cono(178, 286, matNieve, 0, 760, 0, 34));
-  g.position.set(640, -12, 2750);
+  g.position.set(560, -12, 2150);
   escena.add(g);
   // cordillera de fondo, más baja
   const matCerro = new THREE.MeshStandardMaterial({ color: 0x64727d, roughness: 1, flatShading: true });
@@ -866,12 +1185,13 @@ sol.position.set(-130, 120, -95);
 sol.target.position.set(50, 0, 50);
 sol.castShadow = true;
 sol.shadow.mapSize.set(2048, 2048);
-sol.shadow.camera.left = -130;
-sol.shadow.camera.right = 130;
-sol.shadow.camera.top = 130;
-sol.shadow.camera.bottom = -130;
+sol.shadow.mapSize.set(4096, 4096);
+sol.shadow.camera.left = -260;
+sol.shadow.camera.right = 260;
+sol.shadow.camera.top = 260;
+sol.shadow.camera.bottom = -260;
 sol.shadow.camera.near = 1;
-sol.shadow.camera.far = 460;
+sol.shadow.camera.far = 700;
 sol.shadow.bias = -0.0012;
 escena.add(sol);
 escena.add(sol.target);
@@ -881,16 +1201,19 @@ relleno.position.set(120, 70, 160);
 escena.add(relleno);
 
 /* --- cámara y render ------------------------------------------------------- */
-const camara = new THREE.PerspectiveCamera(VISTA === 'aerea' ? 37 : 46, W / H, 0.5, 6000);
-if (VISTA === 'aerea') {
-  /* vista de pájaro a unos 40°, con el canil completo en cuadro */
-  camara.position.set(-44, 124, -78);
-  camara.lookAt(50, 0, 52);
-} else {
-  /* vista desde el estacionamiento hacia la zona de acceso, con el volcán al fondo */
-  camara.position.set(52, 8.0, -15);
-  camara.lookAt(16, 3.4, 7);
-}
+const ENCUADRES = {
+  aerea:   { fov: 37, pos: [-44, 124, -78], mira: [50, 0, 52] },
+  acceso:  { fov: 46, pos: [52, 8.0, -15], mira: [16, 3.4, 7] },
+  bano:    { fov: 48, pos: [20.8, 2.4, 0.9], mira: [13.6, 1.8, 3.4] },
+  amarre:  { fov: 48, pos: [45, 3.4, 1.0], mira: [34, 1.5, 3.4] },
+  juegos:  { fov: 52, pos: [38, 3.4, 15], mira: [60, 0.9, 32] },
+  agua:    { fov: 46, pos: [54, 2.8, 7.0], mira: [66, 0.9, 17] },
+  letrero: { fov: 40, pos: [44.9, 1.90, 2.4], mira: [43.5, 1.78, 6.6] },
+};
+const enc = ENCUADRES[VISTA] || ENCUADRES.aerea;
+const camara = new THREE.PerspectiveCamera(enc.fov, W / H, 0.3, 6000);
+camara.position.set(enc.pos[0], enc.pos[1], enc.pos[2]);
+camara.lookAt(enc.mira[0], enc.mira[1], enc.mira[2]);
 
 const render = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 render.setSize(W, H, false);
