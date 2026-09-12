@@ -31,6 +31,13 @@ San Francisco 413, Puerto Varas · Mesa central **+56 65 236 1100** · ptovaras.
 **Tomás Gárate Silva.** Segundo período, 2024–2028. Es el destinatario principal: la
 propuesta se le dirige a él y él la deriva a la unidad que corresponda.
 
+| Cargo | Nombre | Correo | Teléfono |
+|---|---|---|---|
+| Alcalde | Tomás Gárate Silva | `tomas.garate@ptovaras.cl` | |
+| Secretaria de Alcaldía | Ruby Garrido | `ruby.garrido@ptovaras.cl` | 65 236 1314 |
+| Encargada programática | Loreto Ancán | `loreto.ancan@ptovaras.cl` | 65 236 1232 |
+| Gabinete | Eduardo Andrés Carmona Jiménez | `eduardo.carmona@ptovaras.cl` | 65 236 1616 |
+
 ### Dirección de Medio Ambiente, Aseo y Ornato (DIMAO)
 
 **Alfredo Marcelo Caro Alvarado**, director. *Conviene confirmar el cargo por teléfono: una
@@ -53,21 +60,18 @@ Es la unidad que formula los proyectos de inversión y la que tomaría el presup
 documento 2 para llevarlo a expediente. El nombre del director actual no está confirmado:
 la única referencia encontrada es de 2018 (Ignacio Chávez) y no sirve.
 
-### Dirección de Desarrollo Comunitario (DIDECO)
-
-**Eduardo Carmona**, director. Es quien convoca a las juntas de vecinos y coordinaría la
-participación ciudadana y el concurso de mensajes en los colegios.
-
 ### Concejo Municipal 2024–2028
 
 Seis concejales. Aprueban ordenanzas, convenios y el uso de terrenos municipales:
 
-- Tamara Rammsy Sánchez
-- Nicolás Yunge Jürgensen
-- Juan Patricio Godoy Godoy
-- Rodrigo Schnettler Weisser
-- Antonio Horn Cruz
-- Pamela Bongain Acevedo
+| Concejal | Correo | Teléfono |
+|---|---|---|
+| Tamara Rammsy Sánchez | `concejala.rammsy@ptovaras.cl` | +56 9 8320 2246 |
+| Raúl Monsalves Carrasco | `concejal.monsalves@ptovaras.cl` | +56 9 8319 7248 |
+| Juan Patricio Godoy | `concejal.godoy@ptovaras.cl` | +56 9 8327 4747 |
+| Rodrigo Schnettler Weisser | `concejal.schnettler@ptovaras.cl` | +56 9 8327 2996 |
+| Antonio Horn Cruz | `concejal.horn@ptovaras.cl` | +56 9 8319 5026 |
+| Blanca Bongain Acevedo | `concejala.bongain@ptovaras.cl` | +56 9 8319 1158 |
 
 Dato útil: el Concejo no vota en bloque con el alcalde. En julio de 2025 rechazó el Plan de
 Acción Comunal contra el Cambio Climático. Conviene que el proyecto llegue al Concejo con
@@ -119,10 +123,10 @@ regional.
 
 ---
 
-## Cómo conseguir los correos nominales
+## Lo que falta
 
-Ninguna de las tres instituciones publica los correos individuales de sus directivos. Hay
-dos caminos y los dos funcionan:
+Siguen sin obtenerse los correos de SECPLA, Dirección de Obras, Dideco y Secretaría
+Municipal, y los de la Seremi del Medio Ambiente y la Delegación Presidencial. Dos caminos:
 
 1. **Llamar a la mesa central, +56 65 236 1100**, y pedir el correo del director de Medio
    Ambiente y del director de SECPLA. Es lo más rápido y no requiere trámite.
