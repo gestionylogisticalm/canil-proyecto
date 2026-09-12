@@ -25,19 +25,22 @@ IPC = 0.035
 VISITAS_ANO = 38108
 VISITAS_ANO3 = 45729
 
+# Cifras del proyecto después de la revisión de precios de mercado de
+# septiembre de 2026. Si cambia un precio en datos.py, estos valores deben
+# actualizarse conscientemente: para eso está esta verificación.
 ESPERADO = {
-    "costo directo valorizado": 131571379,
-    "costo directo a financiar": 104725526,
+    "costo directo valorizado": 141716079,
+    "costo directo a financiar": 114870226,
     "aporte valorizado": 26845853,
-    "gastos generales": 8378042,
-    "imprevistos": 11310357,
-    "total a financiar": 124413925,
-    "total valorizado": 151259778,
-    "operación anual valorizada": 29278732,
-    "operación anual a financiar": 23478732,
-    "canil 2 y 3, a financiar": 122927550,
+    "gastos generales": 9189618,
+    "imprevistos": 12405984,
+    "total a financiar": 136465828,
+    "total valorizado": 163311681,
+    "operación anual valorizada": 30514355,
+    "operación anual a financiar": 24714355,
+    "canil 2 y 3, a financiar": 135401271,
     "canil 2 y 3, aporte": 25197958,
-    "tres caniles, a financiar": 370269025,
+    "tres caniles, a financiar": 407268370,
     "tres caniles, aportes": 77241769,
 }
 
@@ -103,8 +106,10 @@ if total_fin > TOPE_PMU:
     problemas.append("el total supera el tope del PMU")
 
 print("\n4. Operación anual")
-op_val = sum(o[5] for o in OPERACION)
-op_fin = sum(o[5] for o in OPERACION if o[6] == COMPRA)
+from generar_presupuesto import operacion  # noqa: E402
+op = operacion(directo_fin, total_fin)
+op_val = sum(o[5] for o in op)
+op_fin = sum(o[5] for o in op if o[6] == COMPRA)
 revisar("operación anual valorizada", op_val, ESPERADO["operación anual valorizada"])
 revisar("operación anual a financiar", op_fin, ESPERADO["operación anual a financiar"])
 print("  %-34s %14s" % ("mensual a financiar", "{:,}".format(int(op_fin / 12)).replace(",", ".")))
@@ -142,6 +147,41 @@ for p in PARTIDAS:
     print("  %s · %-38s %12s  %5.1f%%"
           % (p["codigo"], p["nombre"][:38],
              "{:,}".format(fin).replace(",", "."), 100 * fin / directo_fin))
+
+print("\n8. Cotejo con las cifras citadas en el documento 1 (plan)")
+plan = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                         "src", "plan.html"), encoding="utf-8").read()
+
+
+def moneda(n):
+    return "$" + format(int(round(n)), ",d").replace(",", ".")
+
+
+citas = {
+    "costo directo valorizado": moneda(directo_val),
+    "costo directo a financiar": moneda(directo_fin),
+    "gastos generales": moneda(gg),
+    "imprevistos": moneda(imp),
+    "total a financiar": moneda(total_fin),
+    "total valorizado": moneda(total_val),
+    "aporte valorizado": moneda(aporte),
+    "margen bajo el tope": moneda(TOPE_PMU - total_fin),
+    "canil 2 y 3": moneda(total2),
+    "tres caniles": moneda(total_fin + 2 * total2),
+    "operación mensual": moneda(op_fin / 12),
+}
+for nombre, texto in citas.items():
+    presente = texto in plan
+    print("  %-28s %16s   %s" % (nombre, texto, "citada" if presente else "NO APARECE"))
+    if not presente:
+        problemas.append("el plan no cita %s (%s)" % (nombre, texto))
+
+viejas = ["$124.413.925", "$104.725.526", "$131.571.379", "$151.259.778", "$23.478.732",
+          "$1.956.561", "$122.927.550", "$370.269.025", "$8.378.042", "$11.310.357"]
+quedan = [v for v in viejas if v in plan]
+print("  cifras de la versión anterior que quedaron en el plan: %s" % (", ".join(quedan) or "ninguna"))
+if quedan:
+    problemas.append("quedan cifras antiguas en el plan: " + ", ".join(quedan))
 
 print("\n" + ("Sin problemas: todas las cifras cuadran." if not problemas
               else "PROBLEMAS DETECTADOS:\n  - " + "\n  - ".join(problemas)))

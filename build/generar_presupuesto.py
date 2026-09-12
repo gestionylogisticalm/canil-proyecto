@@ -104,10 +104,12 @@ def calcular():
     total_fin = directo_fin + gg + imp
     total_val = directo_val + gg + imp
 
-    op_val = sum(o[5] for o in OPERACION)
-    op_fin = sum(o[5] for o in OPERACION if o[6] == COMPRA)
+    op = operacion(directo_fin, total_fin)
+    op_val = sum(o[5] for o in op)
+    op_fin = sum(o[5] for o in op if o[6] == COMPRA)
 
     return {
+        "operacion": op,
         "resumen": resumen,
         "avisos": avisos,
         "directo_val": directo_val,
@@ -122,6 +124,30 @@ def calcular():
         "op_fin": op_fin,
         "op_aporte": op_val - op_fin,
     }
+
+
+def suma(*codigos):
+    """Suma los subtotales de los ítems indicados, por código."""
+    buscados = set(codigos)
+    return sum(i[5] for p in PARTIDAS for i in p["items"] if i[0] in buscados)
+
+
+def operacion(directo_fin, total_fin):
+    """La reposición, la provisión de recambio de equipos y el seguro son
+    porcentajes de la inversión: se recalculan para que sigan cuadrando cuando
+    cambia un precio."""
+    partida_f = sum(i[5] for p in PARTIDAS if p["codigo"] == "F" for i in p["items"])
+    formulas = {
+        "O.11": round(directo_fin * 0.02),
+        "O.12": round(partida_f * 0.10),
+        "O.15": round(total_fin * 0.005),
+    }
+    lista = []
+    for cod, desc, cant, un, pu, tot, origen, nota in OPERACION:
+        if cod in formulas:
+            tot = pu = formulas[cod]
+        lista.append((cod, desc, cant, un, pu, tot, origen, nota))
+    return lista
 
 
 def flujo(datos):
@@ -442,10 +468,13 @@ def construir():
     <li><strong>Costo del baño público.</strong> Se calculó a 30 UF/m² sobre 16 m², dentro de un rango
       de mercado de 22 a 42 UF/m². En el extremo inferior del rango el baño costaría unos $14,4
       millones y en el superior unos $27,5 millones.</li>
-    <li><strong>Plazo de obra.</strong> Cuatro meses. Cada mes adicional suma aproximadamente $5,2
-      millones en mano de obra y arriendos, porque el equipo permanente se mantiene.</li>
+    <li><strong>Plazo de obra.</strong> Cuatro meses. Cada mes adicional suma %(mes_obra)s en mano de
+      obra y arriendos a financiar, porque el equipo permanente se mantiene.</li>
   </ol>
-</section>""" % {"filas": filas_par})
+</section>""" % {
+        "filas": filas_par,
+        "mes_obra": pesos((suma("I.1") + suma("I.2") + suma("I.6") + suma("B.2")) / 4),
+    })
 
     # ---------------- 3. Resumen general ----------------
     filas_res = ""
@@ -741,25 +770,25 @@ def construir():
         "liceo": pesos(aporte_por_origen.get(LICEO, 0)),
         "conaf": pesos(aporte_por_origen.get(CONAF, 0)),
         "herr": pesos(herramientas),
-        "bano": pesos(19625102 + 180000 + 140000 + 150000 + 669990 + 319990 + 250000),
-        "pozo": pesos(9200000 + 1380000 + 547548 + 851412 + 350000 + 150000 + 1000000 + 400000),
-        "estudios": pesos(1500000 + 6000000 + 1200000 + 905900 + 800000 + 600000 + 150000),
-        "ferreteria": pesos(2430250 + 657810 + 440730 + 257970 + 1553160 + 168000 + 175000 + 70000 + 120000 + 600000 + 150000),
-        "energia": pesos(2796402 + 450000 + 250000 + 300000 + 641808 + 175000 + 240000 + 900000 + 1950000 + 3500000 + 360000),
-        "mano": pesos(4740000 + 9760950 + 1538730 + 1519980 + 1600000 + 1080000 + 1800000),
+        "bano": pesos(suma("D.1", "D.2", "D.3", "D.4", "D.5", "D.6", "D.7")),
+        "pozo": pesos(suma("E.4", "E.5", "E.6", "E.7", "E.8", "E.9", "A.6", "A.7")),
+        "estudios": pesos(suma("A.1", "A.2", "A.3", "A.4", "A.5", "A.9", "A.10")),
+        "ferreteria": pesos(suma("C.1", "C.2", "C.3", "C.4", "C.9", "C.11", "C.12", "C.13", "C.14", "C.15", "C.17")),
+        "energia": pesos(suma("F.1", "F.2", "F.3", "F.4", "F.5", "F.6", "F.7", "F.8", "F.9", "F.11", "F.12")),
+        "mano": pesos(suma("I.1", "I.2", "I.4", "I.5", "I.6", "I.7", "I.8")),
         "op": pesos(d["op_fin"]) + " al año",
     })
 
     # ---------------- 7. Operación anual ----------------
     filas_op = ""
-    for cod, desc, cant, un, pu, tot, origen, nota in OPERACION:
+    for cod, desc, cant, un, pu, tot, origen, nota in d["operacion"]:
         clase = "" if origen == COMPRA else ' class="aporte"'
         filas_op += (
             "<tr%s><td>%s</td><td>%s</td><td class=\"num\">%s</td><td>%s</td>"
             "<td class=\"num\">%s</td><td class=\"num\">%s</td><td>%s</td></tr>"
             % (clase, cod, desc, cantidad(cant), un, pesos(pu), pesos(tot), origen)
         )
-    notas_op = "".join("<tr><td>%s</td><td>%s</td></tr>" % (o[0], o[7]) for o in OPERACION)
+    notas_op = "".join("<tr><td>%s</td><td>%s</td></tr>" % (o[0], o[7]) for o in d["operacion"])
     costo_visita = d["op_fin"] / VISITAS_ANO
     costo_visita3 = d["op_fin"] / VISITAS_ANO3
 
@@ -804,7 +833,7 @@ def construir():
     del proyecto.</p>
 
   <div class="destacado">
-    <div class="titulo">El 69%% de la operación es aseo</div>
+    <div class="titulo">El %(pct_aseo)s%% de la operación es aseo</div>
     <p>Los dos auxiliares de aseo son %(aseo)s de los %(fin)s anuales a financiar. Todo lo demás
       —insumos, datos, control de roedores, análisis de agua, seguro y provisiones de reposición— suma
       menos de un tercio. Cualquier mejora de eficiencia en la operación pasa por cómo se organizan esos
@@ -820,6 +849,7 @@ def construir():
         "visita": pesos(costo_visita),
         "visita3": pesos(costo_visita3),
         "aseo": pesos(16170000),
+        "pct_aseo": numero(100.0 * 16170000 / d["op_fin"]),
     })
 
     # ---------------- 8. Proyección 3 caniles ----------------
@@ -1103,6 +1133,16 @@ def construir():
     Aseo y Ornato valide los tiempos de traslado entre sectores.</p>
   </div>
 
+  <h3>La palanca más grande: los puntos de luz</h3>
+  <p>Las treinta luminarias solares suman %(luminarias)s, el %(pctlum)s%% del costo directo a
+    financiar, después de corregir su precio a valor de mercado. El recinto cierra a las 21:00 y los
+    sectores libres no necesitan iluminación: la luz hace falta en la zona de acceso, en las esclusas,
+    en el sendero accesible y en el sendero a los sectores de entrenamiento.
+    <strong>Reducir de 30 a 16 puntos de luz ahorra %(ahorrolum)s</strong> de costo directo, sin
+    afectar la seguridad dentro del horario de funcionamiento. Es una decisión de diseño que
+    corresponde tomar con la Dirección de Obras y con Seguridad Pública; el presupuesto base mantiene
+    los treinta puntos.</p>
+
   <h3>Otras vías de reducción</h3>
   <ul class="marcas">
     <li><strong>Plataforma de Economía Circular:</strong> además del contenedor bodega, pueden obtenerse
@@ -1128,6 +1168,9 @@ def construir():
         "op3": pesos(d["op_fin"] * 3), "op3red": pesos(op3_red),
         "cv": pesos(d["op_fin"] * 3 / visitas3), "cvred": pesos(op3_red / visitas3),
         "dif": pesos(aseo_red), "difcv": pesos(aseo_red / visitas3),
+        "luminarias": pesos(suma("F.9")),
+        "pctlum": numero(100.0 * suma("F.9") / d["directo_fin"], 1),
+        "ahorrolum": pesos(14 * 389990),
     })
 
     # ---------------- 12. Fuentes ----------------
@@ -1160,8 +1203,48 @@ def construir():
       <tr><td>Servicio de Impuestos Internos</td><td>Valor de la UTM.</td></tr>
       <tr><td>Infobae y Banco Central vía finclaro</td><td>Tipos de cambio de euro y dólar.</td></tr>
       <tr><td>Seremi de Salud</td><td>Arancel de autorización sanitaria.</td></tr>
+      <tr><td>Natura Energy</td><td>Luminaria solar integrada de 40 W IP65 para alumbrado público.</td></tr>
+      <tr><td>Scanavini</td><td>Cerradura electromagnética para puerta de abatir.</td></tr>
+      <tr><td>Jurmaq, 2026</td><td>Arriendo de retroexcavadora con operador, por hora.</td></tr>
+      <tr><td>2x3.cl, 2026</td><td>Arriendo mensual de baño químico con lavamanos.</td></tr>
+      <tr><td>Computrabajo, 2026</td><td>Sueldo promedio de prevencionista de riesgos.</td></tr>
+      <tr><td>Colegio de Arquitectos</td><td>Arancel referencial de honorarios de proyecto.</td></tr>
     </tbody>
   </table>
+  </div>
+
+  <h3>Ajustes por revisión de mercado</h3>
+  <p>Los precios referenciales de la primera versión de este presupuesto se contrastaron uno a uno
+    contra precios publicados de proveedores chilenos en 2026. Siete ítems cambiaron, en los dos
+    sentidos: cuatro estaban por sobre el mercado y tres por debajo. El más importante es el de las
+    luminarias solares: el valor anterior correspondía a productos de consumo que no resisten uso
+    público intensivo, y una luminaria integrada de grado público cuesta seis veces más.</p>
+  <div class="tabla-envoltura">
+  <table class="compacta">
+    <thead><tr><th style="width:24%">Ítem</th><th class="num">Antes</th><th class="num">Corregido</th>
+      <th class="num">Efecto</th><th style="width:30%">Fuente del precio</th></tr></thead>
+    <tbody>
+      <tr><td>A.1 Levantamiento topográfico</td><td class="num">$1.500.000</td><td class="num">$800.000</td>
+        <td class="num">−$700.000</td><td>Rango de mercado de $150.000 a $800.000</td></tr>
+      <tr><td>B.2 Baño químico, 4 meses</td><td class="num">$120.000/mes</td><td class="num">$119.000/mes</td>
+        <td class="num">−$4.000</td><td>2x3.cl: $100.000 + IVA con lavamanos</td></tr>
+      <tr><td>F.8 Cerraduras, 5 unidades</td><td class="num">$180.000</td><td class="num">$175.000</td>
+        <td class="num">−$25.000</td><td>Scanavini: $155.530 más temporizador</td></tr>
+      <tr><td>F.9 Luminarias solares, 30 unidades</td><td class="num">$65.000</td><td class="num">$389.990</td>
+        <td class="num">+$9.749.700</td><td>Natura Energy: integrada 40 W IP65</td></tr>
+      <tr><td>I.6 Prevencionista, 4 meses</td><td class="num">$400.000/mes</td><td class="num">$566.000/mes</td>
+        <td class="num">+$664.000</td><td>Computrabajo 2026: promedio $905.427</td></tr>
+      <tr><td>I.7 Retroexcavadora, 24 horas</td><td class="num">$45.000/hora</td><td class="num">$35.000/hora</td>
+        <td class="num">−$240.000</td><td>Jurmaq 2026: $25.000 a $35.000 con operador</td></tr>
+      <tr><td>I.8 Camión con chofer, 10 días</td><td class="num">$180.000/día</td><td class="num">$250.000/día</td>
+        <td class="num">+$700.000</td><td>Tolva de 15 m³ con chofer y combustible</td></tr>
+      <tr class="total"><td>Efecto neto en el costo directo</td><td class="num">—</td><td class="num">—</td>
+        <td class="num">+$10.144.700</td><td>+$12.051.903 con gastos generales e imprevistos</td></tr>
+    </tbody>
+  </table>
+  <p class="nota-tabla">Corregir al alza donde el mercado es más caro es lo que evita que la obra se
+    detenga a mitad de camino por un presupuesto insuficiente. Con estos ajustes el proyecto sigue
+    holgadamente bajo el tope de 2.500 UTM del PMU.</p>
   </div>
 
   <h3>Qué hacer antes de postular</h3>

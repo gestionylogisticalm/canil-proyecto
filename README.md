@@ -11,9 +11,11 @@ Miranda — Gestión y Logística LM SpA.
 | [`pdf/01-Plan-de-Caniles-Publicos-Puerto-Varas.pdf`](pdf/01-Plan-de-Caniles-Publicos-Puerto-Varas.pdf) | Plan completo: 20 secciones en cinco partes más cuatro anexos. |
 | [`pdf/02-Presupuesto-Canil-Piloto-Puerto-Varas.pdf`](pdf/02-Presupuesto-Canil-Piloto-Puerto-Varas.pdf) | Presupuesto: desglose por partida e ítem, explicación de cada cantidad, tiempos de ejecución, flujo de caja mensual, ahorros, operación anual, proyección de los tres caniles, evaluación económica y metas. |
 
-Cifras principales del canil piloto: **$124.413.925 a financiar** (1.735 UTM, dentro del tope PMU de
+Cifras principales del canil piloto: **$136.465.828 a financiar** (1.903 UTM, dentro del tope PMU de
 2.500 UTM), **$26.845.853 de aporte valorizado** del municipio, el liceo técnico y CONAF, y
-**$23.478.732 anuales** de operación a financiar.
+**$24.714.355 anuales** de operación a financiar. Los precios se revisaron uno a uno contra precios
+publicados de proveedores chilenos en septiembre de 2026; el detalle de los ajustes está en el
+capítulo 12 del presupuesto.
 
 ## Estructura del repositorio
 
@@ -81,8 +83,10 @@ cuerpo.
 
 ## Pendientes del proyecto
 
-1. Cotizar los ítems marcados como **referenciales**, partiendo por tótem SOS, luminarias de grado
-   público, cerraduras, cañerías, honorarios profesionales, retroexcavadora y camión.
+1. Cotizar formalmente los ítems que siguen marcados como **referenciales**, partiendo por el tótem
+   SOS, las cañerías y fittings, el proyecto sanitario y el proyecto eléctrico. Los precios de
+   topografía, baño químico, cerraduras, luminarias solares, prevencionista, retroexcavadora y camión
+   ya fueron contrastados con precios publicados de mercado.
 2. Confirmar la profundidad real del pozo con el estudio hidrogeológico.
 3. Encargar el cálculo estructural de la torre del estanque (11 toneladas).
 4. Elegir los tres terrenos fiscales y definir el sector del canil piloto. El protocolo está en la
