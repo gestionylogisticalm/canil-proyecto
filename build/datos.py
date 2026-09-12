@@ -41,7 +41,6 @@ PARAMETROS = [
     ("Superficie del baño", "16 m² a 30 UF/m²", "Terminación media; rango de mercado 22 a 42 UF/m²"),
     ("Profundidad del pozo", "40 m a $230.000/m", "Más 15% por desarrollo y prueba de bombeo"),
     ("Plazo de obra", "4 meses", "16 semanas con frentes de trabajo traslapados"),
-    ("Tope PMU", "2.500 UTM = $179.302.500", "Máximo por proyecto del Programa de Mejoramiento Urbano"),
     ("IPC 12 meses", "3,5%", "Reajuste aplicado a los caniles 2 y 3"),
     ("Población de Chile", "18.480.432", "Base para llevar cifras nacionales a la comuna"),
     ("Uso proyectado", "10% de los perros del sector por semana", "Supuesto de demanda del canil piloto"),

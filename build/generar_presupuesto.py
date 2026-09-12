@@ -581,12 +581,11 @@ def construir():
   </div>
 
   <div class="destacado">
-    <div class="titulo">Por qué la obra va en primavera y verano</div>
-    <p>Todo lo que se hace en el canil depende del suelo seco: plantar 280 postes, enterrar 400 metros
-      de barrera, abrir zanjas, compactar 125 m³ de grava y perforar el pozo. Ejecutar en los meses
-      lluviosos significa pagar el mismo equipo por más semanas y arriesgar terminaciones de madera mal
-      selladas. El cronograma total del plan está armado para que las 16 semanas de obra caigan en esa
-      ventana.</p>
+    <div class="titulo">El suelo seco es lo que define el rendimiento</div>
+    <p>Todo lo que se hace en el canil depende del suelo: plantar 280 postes, enterrar 400 metros de
+      barrera, abrir zanjas, compactar 125 m³ de grava y perforar el pozo. Sobre terreno saturado el
+      mismo equipo rinde menos y las terminaciones de madera quedan peor selladas, de modo que las 16
+      semanas estimadas suponen condiciones de suelo razonables.</p>
   </div>
 </section>""" % filas_t)
 
