@@ -1,5 +1,7 @@
 build/tmp/
 build/__pycache__/
+.env
+*.key
 src/.tmp-*.html
 *.pyc
 node_modules/
