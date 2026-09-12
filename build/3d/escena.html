@@ -120,7 +120,8 @@ const M = {
   follajeClaro: mat(COLOR.follajeClaro, 1),
   follajeOscuro: mat(COLOR.follajeOscuro, 1),
   arbusto: mat(COLOR.arbusto, 1),
-  agua: new THREE.MeshStandardMaterial({ color: COLOR.agua, roughness: 0.18, metalness: 0.15 }),
+  agua: new THREE.MeshStandardMaterial({ color: 0x6ea8c4, roughness: 0.14, metalness: 0.12,
+    envMapIntensity: 0.85 }),
   metal: mat(0x9099a0, 0.45, 0.6),
   zincalum: mat(0xb6bec4, 0.55, 0.25),
   panel: new THREE.MeshStandardMaterial({ color: 0x1b2a3a, roughness: 0.25, metalness: 0.5 }),
@@ -373,12 +374,6 @@ sueloLejano.rotation.x = -Math.PI / 2;
 sueloLejano.position.set(50, -6, 50);
 escena.add(sueloLejano);
 
-const hectarea = new THREE.Mesh(new THREE.PlaneGeometry(120, 130, 1, 1), M.pasto);
-hectarea.rotation.x = -Math.PI / 2;
-hectarea.position.set(50, 0, 48);
-hectarea.receiveShadow = true;
-escena.add(hectarea);
-
 function superficie(x0, z0, x1, z1, material, y) {
   const m = new THREE.Mesh(new THREE.PlaneGeometry(x1 - x0, z1 - z0), material);
   m.rotation.x = -Math.PI / 2;
@@ -404,10 +399,6 @@ superficie(-10, -4, -4, 104, M.grava, 0.03);          // sendero a entrenamiento
 superficie(-10, 96, 100, 102, M.grava, 0.03);         // sendero norte
 superficie(30, 6, 34, 40, M.grava, 0.04);             // sendero accesible
 
-/* pasto de cada sector, con tonos levemente distintos */
-superficie(SECTORES.pequenos.x0, SECTORES.pequenos.z0, SECTORES.pequenos.x1, SECTORES.pequenos.z1, M.pastoClaro, 0.01);
-superficie(SECTORES.entreA.x0, SECTORES.entreA.z0, SECTORES.entreA.x1, SECTORES.entreA.z1, M.pastoClaro, 0.01);
-superficie(SECTORES.entreB.x0, SECTORES.entreB.z0, SECTORES.entreB.x1, SECTORES.entreB.z1, M.pastoClaro, 0.01);
 
 /* Textura de follaje: manchas de hoja con transparencia. Montada en planos
    cruzados da copas mucho más creíbles que un cono sólido. */
@@ -434,7 +425,8 @@ function texturaFollaje(tono) {
   return t;
 }
 
-const MATS_FOLLAJE = [[44, 82, 48], [58, 96, 54], [36, 68, 42], [70, 104, 58]].map(function (tono) {
+const MATS_FOLLAJE = [[44, 82, 48], [58, 96, 54], [36, 68, 42], [70, 104, 58],
+                     [86, 112, 52], [30, 60, 38]].map(function (tono) {
   return new THREE.MeshStandardMaterial({
     map: texturaFollaje(tono), transparent: true, alphaTest: 0.42,
     side: THREE.DoubleSide, roughness: 0.95, metalness: 0,
@@ -466,15 +458,19 @@ function grupoHojas(r, mat) {
   return g;
 }
 
+const M_corteza = mat(0x4a3a2c, 0.98);
+conRelieve(M_corteza, texturaMadera('#59473a', '#33261c', true), 1, 3, 3.2, 0.9);
+M_corteza.roughness = 1;
+
 function arbol(x, z, escala) {
   const g = new THREE.Group();
   const altoTronco = entre(4.0, 7.5) * escala;
   const rTronco = entre(0.22, 0.42) * escala;
-  const tronco = cilindro(rTronco * 0.6, rTronco, altoTronco, M.maderaOscura, 0, altoTronco / 2, 0, 9);
+  const tronco = cilindro(rTronco * 0.6, rTronco, altoTronco, M_corteza, 0, altoTronco / 2, 0, 11);
   g.add(tronco);
   // un par de ramas bajas, para que el tronco no sea un poste
   for (let i = 0; i < 2; i++) {
-    const rama = cilindro(0.05 * escala, 0.11 * escala, 1.5 * escala, M.maderaOscura,
+    const rama = cilindro(0.05 * escala, 0.11 * escala, 1.5 * escala, M_corteza,
                           0, altoTronco * (0.62 + i * 0.16), 0, 6);
     rama.rotation.z = (i % 2 ? 1 : -1) * 0.9;
     rama.rotation.y = rnd() * 3.14;
@@ -608,6 +604,18 @@ for (let i = 0; i < 190; i++) {
   agua.position.set(50, -1.2, 1500);
   escena.add(agua);
 })();
+
+/* huellas de uso: el pasto se gasta en las entradas y en los puntos de reunión */
+const M_desgaste = mat(0x8a7f63, 1);
+conTextura(M_desgaste, '#8d8266', '#776d55', 3, 2.2);
+[[36, 11, 5], [20, 11, 4], [24, 79, 4], [76, 79, 4], [62, 14, 4.2], [16, 14, 3.2],
+ [50, 14, 3.6], [70, 20, 3], [22, 24, 2.6]].forEach(function (p) {
+  const m = new THREE.Mesh(new THREE.CircleGeometry(p[2], 18), M_desgaste);
+  m.rotation.x = -Math.PI / 2;
+  m.position.set(p[0], 0.012, p[1]);
+  m.receiveShadow = true;
+  escena.add(m);
+});
 
 /* --- cercos --------------------------------------------------------------- */
 function tramoCerco(x0, z0, x1, z1, alto, opciones) {
@@ -1114,7 +1122,7 @@ function letreroReglas(x, z, giro) {
 }
 letreroReglas(43.5, 6.6, Math.PI);       // en el acceso, mirando a quien llega
 letreroReglas(12, 10.2, Math.PI);        // sector de pequeños
-letreroReglas(56, 10.2, Math.PI);        // sector de grandes
+letreroReglas(46, 10.2, Math.PI);        // sector de grandes
 
 /* letrero de ocupado / libre en cada sector de entrenamiento */
 function letreroEstado(x, z, ocupado) {
@@ -1294,12 +1302,12 @@ function perro(x, z, raza, giro) {
   const y = alturaPata;
 
   // tronco
-  const cuerpo = cilindro(0.17 * e, 0.19 * e, 0.72 * e * r.largo, mc, 0, y + 0.16 * e, 0, 9);
+  const cuerpo = cilindro(0.17 * e, 0.19 * e, 0.72 * e * r.largo, mc, 0, y + 0.16 * e, 0, 16);
   cuerpo.rotation.x = Math.PI / 2;
   g.add(cuerpo);
   // manto sobre el lomo, para las razas de dos colores
   if (r.manto !== r.cuerpo) {
-    const manto = new THREE.Mesh(new THREE.SphereGeometry(0.185 * e, 10, 7,
+    const manto = new THREE.Mesh(new THREE.SphereGeometry(0.185 * e, 16, 11,
       0, Math.PI * 2, 0, Math.PI * 0.55), mm);
     manto.scale.z = r.largo * 1.9;
     manto.position.set(0, y + 0.14 * e, 0);
@@ -1308,10 +1316,10 @@ function perro(x, z, raza, giro) {
   }
   // cuello y cabeza
   const frente = 0.38 * e * r.largo;
-  const cuello = cilindro(0.12 * e, 0.14 * e, 0.22 * e, mc, 0, y + 0.30 * e, frente * 0.7, 8);
+  const cuello = cilindro(0.12 * e, 0.14 * e, 0.22 * e, mc, 0, y + 0.30 * e, frente * 0.7, 14);
   cuello.rotation.x = 0.7;
   g.add(cuello);
-  const cabeza = new THREE.Mesh(new THREE.SphereGeometry(0.165 * e, 10, 8), mc);
+  const cabeza = new THREE.Mesh(new THREE.SphereGeometry(0.165 * e, 16, 12), mc);
   cabeza.position.set(0, y + 0.40 * e, frente);
   cabeza.castShadow = true;
   g.add(cabeza);
@@ -1333,10 +1341,10 @@ function perro(x, z, raza, giro) {
   // patas
   [[-0.11, 0.24], [0.11, 0.24], [-0.11, -0.26], [0.11, -0.26]].forEach(function (p) {
     g.add(cilindro(0.05 * e, 0.055 * e, alturaPata, mc,
-                   p[0] * e, alturaPata / 2, p[1] * e * r.largo, 6));
+                   p[0] * e, alturaPata / 2, p[1] * e * r.largo, 10));
   });
   // cola
-  const cola = cilindro(0.035 * e, 0.05 * e, 0.34 * e, mc, 0, y + 0.30 * e, -frente * 0.95, 6);
+  const cola = cilindro(0.035 * e, 0.05 * e, 0.34 * e, mc, 0, y + 0.30 * e, -frente * 0.95, 10);
   if (r.cola === 'alta') cola.rotation.x = -1.15;
   else if (r.cola === 'baja') cola.rotation.x = -0.35;
   else if (r.cola === 'enroscada') { cola.rotation.x = -1.7; cola.position.y += 0.1 * e; }
@@ -1461,8 +1469,14 @@ function sembrarPasto(centroX, centroZ, radio, cantidad) {
       [-10.2, 95.8, 100, 102.2], // sendero norte
       [29.8, 6, 34.2, 40],     // sendero accesible
     ];
+    const circulos = [[62, 14, 3.6], [16, 14, 3.6], [38, 18, 2.5], [8, 18, 2.5],
+                      [24, 90, 2.5], [76, 90, 2.5]];
     let sobreGrava = false;
-    for (let k = 0; k < duras.length; k++) {
+    for (let k = 0; k < circulos.length; k++) {
+      const c2 = circulos[k];
+      if (Math.hypot(x - c2[0], z - c2[1]) < c2[2]) { sobreGrava = true; break; }
+    }
+    for (let k = 0; !sobreGrava && k < duras.length; k++) {
       const d = duras[k];
       if (x > d[0] - 0.3 && x < d[2] + 0.3 && z > d[1] - 0.3 && z < d[3] + 0.3) { sobreGrava = true; break; }
     }
@@ -1510,7 +1524,7 @@ const ENCUADRES = {
   bano:    { fov: 48, pos: [20.8, 2.4, 0.9], mira: [13.6, 1.8, 3.4] },
   amarre:  { fov: 48, pos: [45, 3.4, 1.0], mira: [34, 1.5, 3.4] },
   juegos:  { fov: 52, pos: [38, 3.4, 15], mira: [60, 0.9, 32] },
-  agua:    { fov: 46, pos: [54, 2.8, 7.0], mira: [66, 0.9, 17] },
+  agua:    { fov: 60, pos: [60, 3.2, 3.5], mira: [60, 1.0, 16] },
   letrero: { fov: 40, pos: [44.9, 1.90, 2.4], mira: [43.5, 1.78, 6.6] },
 };
 const enc = ENCUADRES[VISTA] || ENCUADRES.aerea;
@@ -1518,7 +1532,9 @@ const camara = new THREE.PerspectiveCamera(enc.fov, W / H, 0.3, 6000);
 camara.position.set(enc.pos[0], enc.pos[1], enc.pos[2]);
 camara.lookAt(enc.mira[0], enc.mira[1], enc.mira[2]);
 
-if (VISTA !== 'aerea') {
+if (VISTA === 'aerea') {
+  sembrarPasto(50, 50, 95, 120000);
+} else {
   sembrarPasto(enc.mira[0], enc.mira[2], 46, 62000);
   sembrarPasto(enc.pos[0], enc.pos[2], 20, 16000);
 }
