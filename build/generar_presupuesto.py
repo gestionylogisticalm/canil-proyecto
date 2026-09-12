@@ -390,7 +390,7 @@ def construir():
     <tbody>
       <tr><td><strong>Código</strong></td><td>Identificador del ítem dentro de su partida, por ejemplo C.9. Se usa igual en el flujo de caja y en el cronograma.</td></tr>
       <tr><td><strong>Cantidad y unidad</strong></td><td>La medida con que se compra o se contrata: rollos, unidades, metros, metros cuadrados, metros cúbicos, meses o global (gl) cuando es un encargo completo.</td></tr>
-      <tr><td><strong>Precio unitario</strong></td><td>Precio con IVA incluido. En los equipos importados incorpora tipo de cambio y factor de internación.</td></tr>
+      <tr><td><strong>Precio unitario</strong></td><td>Precio con IVA incluido, de proveedores del mercado chileno.</td></tr>
       <tr><td><strong>Subtotal</strong></td><td>Cantidad por precio unitario. En los ítems calculados desde UF, euros o dólares, el subtotal se obtiene de la cifra sin redondear, por lo que puede diferir en algunos pesos del producto de las columnas anteriores.</td></tr>
       <tr><td><strong>Origen</strong></td><td><em>Compra/contrato</em> es lo que se paga con el fondo. <em>Aporte municipal</em>, <em>Cuadrilla municipal</em> y <em>Liceo técnico</em> son aportes valorizados: tienen valor de mercado, se contabilizan, pero no se desembolsan.</td></tr>
       <tr><td><strong>Tipo</strong></td><td><em>Verificado</em>: precio publicado en 2025 o 2026, con la fuente indicada. <em>Referencial</em>: estimación fundada que debe cotizarse antes de ejecutar.</td></tr>
@@ -1138,33 +1138,32 @@ def construir():
   <p class="entradilla">De dónde salió cada precio verificado y qué hay que hacer antes de ejecutar.</p>
 
   <h3>Fuentes de precios</h3>
+  <p>Las fuentes con sitio publicado llevan enlace. Los precios corresponden a los valores vigentes a
+    la fecha de este documento y deben revalidarse con cotización formal antes de licitar.</p>
   <div class="tabla-envoltura">
   <table class="compacta">
     <thead><tr><th style="width:28%">Fuente</th><th>Ítems</th></tr></thead>
     <tbody>
-      <tr><td>Sodimac.cl</td><td>Mallas Inchalam 5014, polines y pino, anclajes IDAF, estanques y fosas Amerplast, aceite impregnante de 20 L, referencia de luminarias solares de consumo.</td></tr>
-      <tr><td>Easy.cl</td><td>Alambre galvanizado 2,11 mm en rollo de 25 kg.</td></tr>
-      <tr><td>Falabella.cl</td><td>Aserradero portátil para motosierra.</td></tr>
+      <tr><td><a href="https://www.sodimac.cl/">Sodimac.cl</a></td><td>Mallas Inchalam 5014, polines y pino, anclajes IDAF, estanques y fosas Amerplast, aceite impregnante de 20 L, referencia de luminarias solares de consumo.</td></tr>
+      <tr><td><a href="https://www.easy.cl/">Easy.cl</a></td><td>Alambre galvanizado 2,11 mm en rollo de 25 kg.</td></tr>
+      <tr><td><a href="https://www.falabella.com/falabella-cl">Falabella.cl</a></td><td>Aserradero portátil para motosierra.</td></tr>
       <tr><td>Full Áridos / CMGC</td><td>Grava y compost por metro cúbico.</td></tr>
       <tr><td>Cruzat Ingeniería, 2026</td><td>Perforación de pozo por metro.</td></tr>
       <tr><td>Club del Agua, 2026</td><td>Estudio hidrogeológico.</td></tr>
-      <tr><td>Obramat (España)</td><td>Bomba solar sumergible de 1,1 kW con controlador.</td></tr>
-      <tr><td>Sungold Power</td><td>Paneles solares de 550 W.</td></tr>
-      <tr><td>Autosolar (España)</td><td>Kit solar aislado con batería de 5 kWh.</td></tr>
-      <tr><td>MediaWorld (Italia)</td><td>Cámara Ezviz EB3 con panel solar.</td></tr>
+      <tr><td><a href="https://www.naturaenergy.cl/">Natura Energy, 2026</a></td><td>Bomba solar sumergible para pozo profundo de 1 HP con controlador integrado, y luminaria solar integrada de 40 W IP65.</td></tr>
+      <tr><td><a href="https://www.rayssa.cl/pages/precio-paneles-solares-chile">Rayssa, 2026</a></td><td>Panel solar monocristalino por unidad y rango de precio de kits solares aislados en Chile.</td></tr>
       <tr><td>Estrella de Iquique</td><td>Referencia de tótems de emergencia: $345 millones por 23 unidades.</td></tr>
-      <tr><td>hacecuentas.com, con base CChC y Minvu</td><td>Costo de construcción por metro cuadrado, 2026.</td></tr>
+      <tr><td><a href="https://cchc.cl/">hacecuentas.com, con base CChC y Minvu</a></td><td>Costo de construcción por metro cuadrado, 2026.</td></tr>
       <tr><td>Chiletrabajos y Mega</td><td>Sueldos de carpintero, gásfiter y eléctrico en construcción.</td></tr>
       <tr><td>Carey</td><td>Ingreso mínimo mensual 2026.</td></tr>
-      <tr><td>Buk y Banco Central</td><td>Valor de la UF.</td></tr>
-      <tr><td>Infobae y Banco Central vía finclaro</td><td>Tipos de cambio de euro y dólar.</td></tr>
-      <tr><td>Seremi de Salud</td><td>Arancel de autorización sanitaria.</td></tr>
-      <tr><td>Natura Energy</td><td>Luminaria solar integrada de 40 W IP65 para alumbrado público.</td></tr>
+      <tr><td><a href="https://www.bcentral.cl/">Buk y Banco Central</a></td><td>Valor de la UF.</td></tr>
+      <tr><td><a href="https://www.bcentral.cl/">Infobae y Banco Central vía finclaro</a></td><td>Tipos de cambio de euro y dólar.</td></tr>
+      <tr><td><a href="https://www.minsal.cl/">Seremi de Salud</a></td><td>Arancel de autorización sanitaria.</td></tr>
       <tr><td>Scanavini</td><td>Cerradura electromagnética para puerta de abatir.</td></tr>
       <tr><td>Jurmaq, 2026</td><td>Arriendo de retroexcavadora con operador, por hora.</td></tr>
       <tr><td>2x3.cl, 2026</td><td>Arriendo mensual de baño químico con lavamanos.</td></tr>
-      <tr><td>Computrabajo, 2026</td><td>Sueldo promedio de prevencionista de riesgos.</td></tr>
-      <tr><td>Colegio de Arquitectos</td><td>Arancel referencial de honorarios de proyecto.</td></tr>
+      <tr><td><a href="https://cl.computrabajo.com/">Computrabajo, 2026</a></td><td>Sueldo promedio de prevencionista de riesgos.</td></tr>
+      <tr><td><a href="https://www.colegioarquitectos.com/">Colegio de Arquitectos</a></td><td>Arancel referencial de honorarios de proyecto.</td></tr>
     </tbody>
   </table>
   </div>
@@ -1222,8 +1221,7 @@ def construir():
   <p>Este presupuesto es una propuesta base. Las cantidades provienen de un diseño preliminar que aún
       no tiene topografía ni terreno definido, por lo que pueden variar: la superficie de cerco depende
       de la forma del terreno, el volumen de grava depende de las pendientes y la profundidad del pozo
-      depende de la napa. Los precios tienen fecha —septiembre de 2026— y los equipos importados
-      dependen del tipo de cambio. Nada de lo que aquí se propone reemplaza el trabajo de los
+      depende de la napa. Los precios tienen fecha, septiembre de 2026. Nada de lo que aquí se propone reemplaza el trabajo de los
       profesionales municipales: el objetivo es que tengan un punto de partida completo y verificable
       sobre el cual corregir.</p>
 </section>

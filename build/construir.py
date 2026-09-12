@@ -134,6 +134,14 @@ def construir(nombre):
 if __name__ == "__main__":
     objetivo = sys.argv[1] if len(sys.argv) > 1 else "todo"
     nombres = list(DOCUMENTOS) if objetivo == "todo" else [objetivo]
+    # el presupuesto se genera desde datos.py: regenerarlo siempre, para que un
+    # cambio de precios o de texto no se quede en el HTML de la corrida anterior
+    if "presupuesto" in nombres:
+        print("Generando presupuesto.html desde datos.py…")
+        subprocess.run(
+            [sys.executable, os.path.join(RAIZ, "build", "generar_presupuesto.py")],
+            check=True,
+        )
     for n in nombres:
         print("Construyendo %s…" % n)
         construir(n)

@@ -27,18 +27,18 @@ VISITAS_ANO3 = 45729
 # retiro del convenio con CONAF. Si cambia un precio en datos.py, estos valores deben
 # actualizarse conscientemente: para eso está esta verificación.
 ESPERADO = {
-    "costo directo valorizado": 140016079,
-    "costo directo a financiar": 114870226,
+    "costo directo valorizado": 139937109,
+    "costo directo a financiar": 114791256,
     "aporte valorizado": 25145853,
-    "gastos generales": 9189618,
-    "imprevistos": 12405984,
-    "total a financiar": 136465828,
-    "total valorizado": 161611681,
-    "operación anual valorizada": 30514355,
-    "operación anual a financiar": 24714355,
-    "canil 2 y 3, a financiar": 135401271,
+    "gastos generales": 9183300,
+    "imprevistos": 12397456,
+    "total a financiar": 136372012,
+    "total valorizado": 161517865,
+    "operación anual valorizada": 30512306,
+    "operación anual a financiar": 24712306,
+    "canil 2 y 3, a financiar": 135304171,
     "canil 2 y 3, aporte": 23438458,
-    "tres caniles, a financiar": 407268370,
+    "tres caniles, a financiar": 406980354,
     "tres caniles, aportes": 72022769,
 }
 
@@ -164,7 +164,8 @@ for nombre, texto in citas.items():
     if not presente:
         problemas.append("el plan no cita %s (%s)" % (nombre, texto))
 
-viejas = ["$141.716.079", "$26.845.853", "$163.311.681", "$25.197.958", "$77.241.769",
+viejas = ["$140.016.079", "$114.870.226", "$9.189.618", "$12.405.984", "$136.465.828", "$161.611.681", "$135.401.271", "$407.268.370", "$72.022.769"
+          "$141.716.079", "$26.845.853", "$163.311.681", "$25.197.958", "$77.241.769",
           "$124.413.925", "$104.725.526", "$131.571.379", "$151.259.778", "$23.478.732",
           "$1.956.561", "$122.927.550", "$370.269.025", "$8.378.042", "$11.310.357"]
 quedan = [v for v in viejas if v in plan]

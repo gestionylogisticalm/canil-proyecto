@@ -7,7 +7,7 @@ Todos los montos están en pesos chilenos con IVA incluido, a septiembre de 2026
 Cada ítem lleva:
   cod, desc, cant, unidad, pu (precio unitario), total, origen, tipo, fuente
 `total` se guarda explícito porque varios precios provienen de conversiones
-(UF, euros, dólares) y el redondeo del precio unitario no siempre reproduce
+(UF) y el redondeo del precio unitario no siempre reproduce
 exactamente el total; el generador verifica que la diferencia sea menor a $10.
 
 origen: "Compra/contrato" es lo que se financia con el fondo; el resto son
@@ -28,12 +28,8 @@ REFERENCIAL = "Referencial"
 
 PARAMETROS = [
     ("UF", "$40.885,63", "Valor al 9 de septiembre de 2026"),
-    ("UTM", "$71.721", "Valor de septiembre de 2026 (SII)"),
     ("IVA", "19%", "Todos los montos se presentan con IVA incluido"),
     ("Ingreso mínimo mensual", "$539.000", "Vigente en 2026"),
-    ("Euro", "$1.048", "Tipo de cambio usado para equipos importados"),
-    ("Dólar", "$922", "Tipo de cambio usado para equipos importados"),
-    ("Factor de importación", "1,25", "Flete, seguro e internación sobre el precio de origen"),
     ("Factor de flete de áridos", "1,35", "Sobrecosto de traslado de áridos a Puerto Varas"),
     ("Factor de costo empleador", "1,25", "Cotizaciones y cargas sobre el sueldo líquido"),
     ("Gastos generales", "8%", "Sobre el costo directo a financiar"),
@@ -216,10 +212,9 @@ PARTIDAS = [
             "<strong>Esta es la variable que más mueve el total</strong>: cada 10 metros adicionales "
             "de profundidad significan $2,3 millones más. Por eso el estudio hidrogeológico de la "
             "partida A se hace antes y no después.",
-            "La bomba es solar sumergible de 1,1 kW con cuatro paneles propios de 550 W, "
-            "independientes del sistema solar central, dimensionados para la demanda de verano. Ambos "
-            "precios se calcularon desde catálogos internacionales con tipo de cambio, IVA y factor de "
-            "importación de 1,25.",
+            "La bomba es solar sumergible para pozo profundo, de 1 HP con controlador integrado, con "
+            "cuatro paneles propios de 550 W independientes del sistema solar central, dimensionados "
+            "para la demanda de verano. Ambos precios son de proveedores chilenos.",
             "Los cinco sistemas de refresco —bebedero de canoa, poza para chapotear, pérgola con "
             "aspersores, arco rociador y canaleta tipo riachuelo— se instalan en los sectores de "
             "perros grandes y de pequeños. Los dos sectores de entrenamiento llevan solo bebedero de "
@@ -237,8 +232,8 @@ PARTIDAS = [
             ("E.3", "Torre: pernos, placas y herrajes estructurales", 1, "gl", 400000, 400000, COMPRA, REFERENCIAL, "Cotizar"),
             ("E.4", "Perforación de pozo de 6\" entubado", 40, "m", 230000, 9200000, COMPRA, VERIFICADO, "Cruzat Ingeniería 2026; profundidad por confirmar con el estudio hidrogeológico"),
             ("E.5", "Desarrollo del pozo y prueba de bombeo (15% de la perforación)", 1, "gl", 1380000, 1380000, COMPRA, REFERENCIAL, "Supuesto de 15% sobre el valor de la perforación"),
-            ("E.6", "Bomba solar sumergible 1,1 kW con controlador", 1, "u", 547548, 547548, COMPRA, VERIFICADO, "Obramat (España) €351,24 sin IVA × tipo de cambio × IVA × factor de importación"),
-            ("E.7", "Paneles solares de 550 W para la bomba (independientes del sistema central)", 4, "u", 212853, 851412, COMPRA, VERIFICADO, "Sungold Power: pallet de 32 paneles de 550 W a US$6.210 (≈US$194 c/u) × tipo de cambio × IVA"),
+            ("E.6", "Bomba solar sumergible para pozo profundo, 1 HP, con controlador integrado", 1, "u", 859990, 859990, COMPRA, VERIFICADO, "Natura Energy 2026: bomba solar pozo profundo 4\" Samking, 5,4 m³/h, 95 mca, 1 HP, con controlador"),
+            ("E.7", "Paneles solares de 550 W para la bomba (independientes del sistema central)", 4, "u", 115000, 460000, COMPRA, VERIFICADO, "Mercado chileno 2026: panel monocristalino entre $93.000 y $115.000 por unidad; se usa el tope del rango por exigir certificación SEC"),
             ("E.8", "Estructura de paneles, protecciones y cable de bomba", 1, "gl", 350000, 350000, COMPRA, REFERENCIAL, "Cotizar"),
             ("E.9", "Caseta de protección del pozo: herrajes", 1, "gl", 150000, 150000, COMPRA, REFERENCIAL, "Madera municipal más herrajes"),
             ("E.10", "Captación de lluvia: ≈40 m de canaleta, 4 bajadas y filtro de primeras aguas", 1, "gl", 400000, 400000, COMPRA, REFERENCIAL, "Cotizar"),
@@ -287,11 +282,11 @@ PARTIDAS = [
             "cotización antes de ejecutar.",
         ],
         "items": [
-            ("F.1", "Sistema solar central: ≈2 kWp de paneles, batería de litio de 5 kWh, inversor/cargador de 5,5 kW y cables", 1, "gl", 2796402, 2796402, COMPRA, VERIFICADO, "Autosolar (España), kit aislada 5.500 W más batería de 5 kWh: €1.793,83 sin IVA × tipo de cambio × IVA × factor de importación"),
+            ("F.1", "Sistema solar central: ≈2 kWp de paneles, batería de litio de 5 kWh, inversor/cargador de 5,5 kW y cables", 1, "gl", 2796402, 2796402, COMPRA, VERIFICADO, "Mercado chileno 2026: kits off-grid entre $1.900.000 y $4.700.000, desde $1.932.000 los de 5 kW; se usa un valor intermedio por incluir batería de litio de 5 kWh e inversor/cargador híbrido"),
             ("F.2", "Gabinete, protecciones y puesta a tierra", 1, "gl", 450000, 450000, COMPRA, REFERENCIAL, "Cotizar con instalador autorizado SEC"),
             ("F.3", "Router 4G exterior con antena", 1, "u", 250000, 250000, COMPRA, REFERENCIAL, "Cotizar"),
             ("F.4", "Puntos de acceso wifi exterior", 2, "u", 150000, 300000, COMPRA, REFERENCIAL, "Cotizar"),
-            ("F.5", "Cámara exterior 2K con panel solar, visión nocturna y audio bidireccional", 7, "u", 91687, 641808, COMPRA, VERIFICADO, "Ezviz EB3 más panel solar: €69,99 con IVA (MediaWorld Italia, 2026) × tipo de cambio × factor de importación"),
+            ("F.5", "Cámara exterior 2K con panel solar, visión nocturna y audio bidireccional", 7, "u", 91687, 641808, COMPRA, REFERENCIAL, "Mercado chileno 2026: cámara solar 2K de exterior con visión nocturna y audio bidireccional; cotizar el modelo definitivo"),
             ("F.6", "Tarjetas microSD para grabación", 7, "u", 25000, 175000, COMPRA, REFERENCIAL, "Cotizar"),
             ("F.7", "Parlantes exteriores con amplificador para el aviso de cierre", 2, "u", 120000, 240000, COMPRA, REFERENCIAL, "Cotizar"),
             ("F.8", "Cerraduras electromagnéticas exteriores con temporizador y apertura interior libre", 5, "u", 175000, 875000, COMPRA, VERIFICADO, "Scanavini 2026: cerradura electromagnética para puerta de abatir $155.530, más temporizador de relé"),
